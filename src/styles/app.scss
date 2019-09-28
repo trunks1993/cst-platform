@@ -1,0 +1,94 @@
+$fullHeight: 100vh;
+$headerHight: 110px;
+$antdMenuSelectedColor: #0acbee;
+$customizeBlack: #131c2e;
+$customizeWhite: #fff;
+// common style
+.common-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.common-imgurl-1 {
+  background: url(../assets/images/loginBg.png);
+}
+
+// layout
+.layout {
+  height: $fullHeight;
+}
+
+// login page style
+.login-container {
+  height: $fullHeight;
+  @extend .common-imgurl-1;
+  @extend .common-flex;
+  .login-form {
+    max-width: 300px;
+  }
+  .login-form-forgot {
+    float: right;
+  }
+  .login-form-button {
+    width: 100%;
+  }
+}
+
+// head of layout page style
+.header-container {
+  background: url(.././assets/images/bg-head.png);
+  background-size: 100% 100%;
+  padding: 0;
+  height: $headerHight;
+  position: relative;
+  .user-dropdown {
+    @extend .user-dropdown;
+    font-size: 24px;
+    color: rgba(72, 88, 119, 1);
+  }
+}
+
+// main of layout component style
+.main-container {
+  padding: 0 20px 20px;
+  overflow-y: hidden;
+  height: calc(#{$fullHeight} - #{$headerHight});
+}
+
+// components style
+.user-dropdown {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-family: ArialMT;
+}
+
+// app container
+.app-container {
+  background: url(../assets/images/bg-body.png);
+}
+
+.dashboard-container {
+  height: 100%;
+  display: flex;
+  background: url(../assets/images/bg-dashboard.png);
+  background-size: 100% 100%;
+  &-panel {
+    padding: 45px 20px;
+    width: 170px;
+  }
+  &-content {
+    width: calc(100% - 170px);
+    padding: 15px;
+    .tag-views {
+      height: 20px;
+    }
+    .grid-box {
+      // padding: 15px;
+      height: calc(100% - 20px);
+      overflow: auto;
+      overflow-x: hidden;
+    }
+  }
+}
