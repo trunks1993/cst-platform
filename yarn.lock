@@ -6399,7 +6399,7 @@ lodash.isarray@^3.0.0:
 
 lodash.isequal@^4.0.0:
   version "4.5.0"
-  resolved "https://registry.npm.taobao.org/lodash.isequal/download/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
 
 lodash.keys@^3.1.2:
@@ -9141,8 +9141,8 @@ react-dom@^16.8.6:
 
 react-draggable@3.x, react-draggable@^3.0.3:
   version "3.3.2"
-  resolved "https://registry.npm.taobao.org/react-draggable/download/react-draggable-3.3.2.tgz#966ef1d90f2387af3c2d8bd3516f601ea42ca359"
-  integrity sha1-lm7x2Q8jh688LYvTUW9gHqQso1k=
+  resolved "https://registry.npmjs.org/react-draggable/-/react-draggable-3.3.2.tgz#966ef1d90f2387af3c2d8bd3516f601ea42ca359"
+  integrity sha512-oaz8a6enjbPtx5qb0oDWxtDNuybOylvto1QLydsXgKmwT7e3GXC2eMVDwEMIUYJIFqVG72XpOv673UuuAq6LhA==
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
@@ -9203,8 +9203,8 @@ react-redux@^7.1.0:
 
 react-resizable@1.x:
   version "1.8.0"
-  resolved "https://registry.npm.taobao.org/react-resizable/download/react-resizable-1.8.0.tgz#a6dd8c90826f1e54244141b770318e0320663a43"
-  integrity sha1-pt2MkIJvHlQkQUG3cDGOAyBmOkM=
+  resolved "https://registry.npmjs.org/react-resizable/-/react-resizable-1.8.0.tgz#a6dd8c90826f1e54244141b770318e0320663a43"
+  integrity sha512-lfYlCelPyUL8GLYd4SgFtZOrFY8XpxpDwXjgGHLiLM2aMv7mEkBT8Jn5MUV1TCinF5mIro4CMezfnniAZEkGvg==
   dependencies:
     prop-types "15.x"
     react-draggable "^3.0.3"

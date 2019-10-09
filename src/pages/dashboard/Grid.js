@@ -9,20 +9,7 @@ export default class ShowcaseLayout extends React.Component {
     rowHeight: 30,
     onLayoutChange: function() { },
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    widgets: [
-      { x: 0, y: 1, h: 1, w: 1 },
-      { x: 0, y: 2, h: 1, w: 1 },
-      { x: 0, y: 3, h: 1, w: 1 },
-      { x: 0, y: 4, h: 1, w: 1 },
-      { x: 0, y: 5, h: 1, w: 1 },
-      { x: 0, y: 6, h: 1, w: 1 },
-      { x: 0, y: 7, h: 1, w: 1 },
-      { x: 0, y: 8, h: 1, w: 1 },
-      { x: 0, y: 9, h: 1, w: 1 },
-      { x: 0, y: 10, h: 1, w: 1 },
-      { x: 0, y: 11, h: 1, w: 1 },
-      { x: 0, y: 12, h: 1, w: 1 },
-    ]
+    widgets: []
   };
 
   state = {
@@ -67,6 +54,10 @@ export default class ShowcaseLayout extends React.Component {
 
   onDrop = elemParams => {
     elemParams.i = new Date().getTime().toString();
+    elemParams.minW = 2;
+    elemParams.minH = 4;
+    elemParams.w = 4;
+    elemParams.h = 8;
     // eslint-disable-next-line no-alert
     this.addItem(elemParams);
   };
