@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { Input } from 'antd';
 import { Icon } from 'antd';
@@ -5,7 +6,7 @@ import { Icon } from 'antd';
 const { Search } = Input;
 
 // eslint-disable-next-line complexity
-export default () => {
+export default ({ setTempData }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
@@ -52,30 +53,30 @@ export default () => {
             </span>
           </div>
           <ul className="temp-list" style={{ maxHeight: visible5 ? 0 : '1000px' }}>
-            <li>
+            <li draggable onDragStart={() => setTempData({ type: 'bar', title: '罪犯文化程度', minW: 2, minH: 4, w: 4, h: 8 }) } unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯文化程度...</div>
             </li>
-            <li>
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
+            <li draggable onDragStart={() => setTempData({ type: 'line', title: '罪犯婚姻状况', minW: 2, minH: 4, w: 4, h: 8 }) } unselectable="on" >
+              <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯婚姻状况...</div>
             </li>
-            <li>
+            <li draggable onDragStart={() => setTempData({ type: 'pie', title: '三类罪犯统计', minW: 2, minH: 2, w: 3, h: 8 }) } unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">三类罪犯统计</div>
             </li>
             <li>
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">四涉罪犯统计</div>
+              {/* <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
+              <div className="title">四涉罪犯统计</div> */}
             </li>
-            <li>
+            {/* <li>
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯危险性分...</div>
             </li>
             <li>
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">监狱安全指数</div>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

@@ -21,7 +21,7 @@ const UserDropdown = ({ user, handleLoginOut }) => {
       </Menu>
     } trigger={['click']}>
       <a className="ant-dropdown-link" href="#">
-        hello, {user.name} <Icon type="down" />
+        hello, {user.name} <Icon type="caret-down" />
       </a>
     </Dropdown>
   );

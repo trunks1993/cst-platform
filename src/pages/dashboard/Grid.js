@@ -1,6 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import { Responsive, WidthProvider } from '@/components/Draggler';
+import ReactEcharts from 'echarts-for-react';
+import { getBarChart, getLineChart, getPieChart } from '@/utils/echarts';
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default class ShowcaseLayout extends React.Component {
@@ -23,24 +26,62 @@ export default class ShowcaseLayout extends React.Component {
     this.setState({ mounted: true });
   }
 
-  generateDOM() {
-    return _.map(this.state.widgets, function(l, i) {
+  // generateDOM() {
+  //   return _.map(this.state.widgets, function(l, i) {
+  //     return (
+  //       <div key={i} className={l.static ? 'static' : ''} data-grid={l}>
+  //         {l.static ? (
+  //           <span
+  //             className="text"
+  //             title="This item is static and cannot be removed or resized."
+  //           >
+  //             Static - {i}
+  //           </span>
+  //         ) : (
+  //           <span className="text">{i}</span>
+  //         )}
+  //       </div>
+  //     );
+  //   });
+  // }
+  generateDOM = () => {
+    // eslint-disable-next-line complexity
+    return _.map(this.state.widgets, (l, i) => {
+      console.log(l);
+      let option;
+      if (l.type === 'bar') {
+        option = getBarChart();
+      } else if (l.type === 'line') {
+        option = getLineChart();
+      } else if (l.type === 'pie') {
+        option = getPieChart();
+      }
+
+      const component = (
+        <ReactEcharts
+          option={option}
+          notMerge
+          lazyUpdate
+          style={{ width: '100%',height: '100%' }}
+        />
+      );
+
       return (
         <div key={i} className={l.static ? 'static' : ''} data-grid={l}>
-          {l.static ? (
-            <span
-              className="text"
-              title="This item is static and cannot be removed or resized."
-            >
-              Static - {i}
-            </span>
-          ) : (
-            <span className="text">{i}</span>
-          )}
+          {/* <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>x</span> */}
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+          <div className="title-box">{l.title }</div>
+          {component}
         </div>
       );
     });
-  }
+  };
+
 
   onBreakpointChange = breakpoint => {
     this.setState({
@@ -53,13 +94,18 @@ export default class ShowcaseLayout extends React.Component {
   };
 
   onDrop = elemParams => {
-    elemParams.i = new Date().getTime().toString();
-    elemParams.minW = 2;
-    elemParams.minH = 4;
-    elemParams.w = 4;
-    elemParams.h = 8;
+    const { tempData } = this.props;
+    // const { minW, minH, w, h } = tempData;
+    // console.log(elemParams, tempData);
+    // console.log(_.assign(elemParams, tempData));
+    // tempData.i = new Date().getTime().toString();
+    // elemParams.minW = 2;
+    // elemParams.minH = 4;
+    // elemParams.w = 4;
+    // elemParams.h = 8;
     // eslint-disable-next-line no-alert
-    this.addItem(elemParams);
+    ;
+    this.addItem(_.assign(elemParams, tempData));
   };
 
   addItem(elemParams) {

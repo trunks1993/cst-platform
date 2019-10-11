@@ -25,7 +25,7 @@ const LoginPage = ({ handleLogin }) => (
         <Checkbox>Remember me</Checkbox>
 
         <Button type="primary" onClick={handleLogin} className="login-form-button">
-					Log in
+					登陆
         </Button>
       </Form.Item>
     </Form>

@@ -41,6 +41,13 @@ $customizeWhite: #fff;
   padding: 0;
   height: $headerHight;
   position: relative;
+  text-align: center;
+  &-title {
+    font-size: 42px;
+    font-weight: bold;
+    color: #fff;
+    line-height: $headerHight;
+  }
   .user-dropdown {
     @extend .user-dropdown;
     font-size: 24px;
@@ -62,6 +69,8 @@ $customizeWhite: #fff;
   top: 50%;
   transform: translate(0, -50%);
   font-family: ArialMT;
+  font-size: 14px;
+  color: #fff;
 }
 
 // app container
@@ -79,6 +88,7 @@ $customizeWhite: #fff;
       height: 100%;
       display: inline-block;
       position: relative;
+      vertical-align: top;
       .label {
         font-size: 24px;
         color: #00CCFF;
@@ -89,11 +99,34 @@ $customizeWhite: #fff;
         transform: translate(-50%, -50%);
       }
     }
-    .btn {
+    &-btn {
       display: inline-block;
       width: calc(100% - 303px);
       height: 100%;
       position: relative;
+      ul {
+        position: absolute;
+        display: flex;
+        top: 50%;
+        left: 80px;
+        transform: translate(0, -50%);
+        .btn-item {
+          & + .btn-item {
+            margin-left: 20px;
+          }
+          width: 110px;
+          height: 42px;
+          color: #fff;
+          @extend .common-flex;
+          transition: all .3s;
+          cursor: pointer;
+          background: url(../assets/images/temp/bg-btn.png);
+          &:hover {
+            background: url(../assets/images/temp/bg-btn-active.png);
+          }
+        }
+      }
+      
     }
     img {
       width: 100%;
@@ -236,16 +269,34 @@ $customizeWhite: #fff;
 
     &-content {
       width: calc(100% - 268px);
-      padding: 15px 30px 15px 0;
+      padding: 0 30px 15px 0;
       background: url(../assets/images/bd-dashboard-content.png);
       background-size: 100% 100%;
       .tag-views {
-        height: 20px;
+        height: 28px;
+        ul {
+          display: flex;
+          height: 100%;
+          padding-left: 10px;
+        }
+        &-item {
+          & + .tag-views-item {
+            margin-left: 10px;
+          }
+          color: #fff;
+          font-size: 12px;
+          background: url(../assets/images/temp/bd-btn.png);
+          background-size: 100% 100%;
+          height: 100%;
+          width: 160px;
+          text-align: center;
+          line-height: 28px;
+        }
       }
       .grid-box {
         background: url(../assets/images/bd-gridbox.png);
         background-size: 100% 100%; 
-        height: calc(100% - 20px);
+        height: calc(100% - 28px);
         overflow: auto;
         overflow-x: hidden;
       }
