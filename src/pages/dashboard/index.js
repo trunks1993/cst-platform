@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
-import TagViews from './TagViews';
+import TagViews from '@/components/TagViews';
 
 export default () => {
   const [tempData, setTempData] = useState({});
+
+  const [tags, setTags] = useState([]);
+
   return (
     <div className="dashboard-container" >
       <div className="dashboard-container-header">
@@ -30,10 +33,10 @@ export default () => {
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setTempData={setTempData} />
+          <Panel setTempData={setTempData} tags={tags} setTags={setTags} />
         </div>
         <div className="dashboard-container-body-content">
-          <TagViews />
+          <TagViews tags={tags} setTags={setTags} />
           <Grid tempData={tempData} />
         </div>
       </div>

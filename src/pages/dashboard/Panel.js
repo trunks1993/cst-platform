@@ -2,16 +2,33 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
 import { Icon } from 'antd';
-
+import _ from 'lodash';
 const { Search } = Input;
 
+
+
+const tempData = [
+  { name: '分析研判岗-通用模板一', id: '1', groupId: '01' },
+  { name: '分析研判岗-通用模板二', id: '2', groupId: '01' },
+  { name: '分析研判岗-通用模板三', id: '3', groupId: '01' }
+];
+
 // eslint-disable-next-line complexity
-export default ({ setTempData }) => {
+export default ({ setTempData, setTags, tags }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
+
+  const addTag = tag => {
+    const fi = _.findIndex(tags, o => o.id === tag.id);
+    if (fi < 0) {
+      const t = _.clone(tags);
+      t.push(tag);
+      setTags(t);
+    }
+  };
 
   return (
     <div className="panel-box" >
@@ -24,15 +41,19 @@ export default ({ setTempData }) => {
           <Search placeholder="请输入模板名称" onSearch={value => console.log(value)} />
 
           <div className="group-btn" onClick={() => setVisible2(!visible2)}>
-          公共模板
+            公共模板
             <span className="group-btn-iconbox">
               <Icon type="caret-down" />
             </span>
           </div>
           <ul className="group-list" style={{ paddingBottom: visible2 ? 0 : '10px', maxHeight: visible2 ? 0 : '1000px' }}>
-            <li>分析研判岗-通用模板一</li>
-            <li>分析研判岗-通用模板二</li>
-            <li>分析研判岗-通用模板三</li>
+            {
+              tempData.map((tag, index) => (
+                <li key={index} onClick={
+                  () => addTag(tag)
+                }>{tag.name}</li>
+              ))
+            }
           </ul>
 
           <div className="group-btn" onClick={() => setVisible3(!visible3)}>个人模板<span className="group-btn-iconbox"><Icon type="caret-down" /></span></div>
@@ -53,15 +74,15 @@ export default ({ setTempData }) => {
             </span>
           </div>
           <ul className="temp-list" style={{ maxHeight: visible5 ? 0 : '1000px' }}>
-            <li draggable onDragStart={() => setTempData({ type: 'bar', title: '罪犯文化程度', minW: 2, minH: 4, w: 4, h: 8 }) } unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ type: 'bar', title: '罪犯文化程度', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯文化程度...</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ type: 'line', title: '罪犯婚姻状况', minW: 2, minH: 4, w: 4, h: 8 }) } unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ type: 'line', title: '罪犯婚姻状况', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
               <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯婚姻状况...</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ type: 'pie', title: '三类罪犯统计', minW: 2, minH: 2, w: 3, h: 8 }) } unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ type: 'pie', title: '三类罪犯统计', minW: 2, minH: 2, w: 3, h: 8 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">三类罪犯统计</div>
             </li>
