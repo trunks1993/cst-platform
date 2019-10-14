@@ -6,7 +6,8 @@ import { UserContext } from '@/utils/contexts';
 import LoginPage from '@/pages/loginPage';
 import Layout from '@/pages/layout';
 import Page404 from '@/pages/page404';
-import Dashboard from '@/pages/dashboard';
+// import Dashboard from '@/pages/dashboard';
+import Manufacturer from '@/pages/manufacturer';
 
 import componentObj, { flatTree } from '@/utils';
 
@@ -14,8 +15,8 @@ export default () => (
   <HashRouter>
     <Switch>
       <AuthRoute exact path="/login" authTo="/" component={LoginPage} />
-      <AuthRoute path="/jd" authTo="/login" component={Layout} />
-      <Redirect from="/" to="/jd" />
+      <AuthRoute exact path="/jd" authTo="/login" component={Layout} />
+      <Redirect exact from="/" to="/jd" />
       <Route component={Page404} />
     </Switch>
   </HashRouter>
@@ -23,14 +24,20 @@ export default () => (
 
 export const RouteList = ({ match }) => {
   const user = useContext(UserContext);
+  console.log('match :', match);
   return (
     <Switch>
-      {
-        flatTree(user.menu).filter(item => item.component).map((item, index) => (
-          <Route path={`${match.path + item.path}`} key={index} component={componentObj[item.component]} />
-        ))
-      }
-      <Route exact path={match.path} component={Dashboard} />
+      {flatTree(user.menu)
+        .filter(item => item.component)
+        .map((item, index) => (
+          <Route
+            path={`${match.path + item.path}`}
+            key={index}
+            component={componentObj[item.component]}
+          />
+        ))}
+      {/* <Route exact path={match.path} component={Dashboard} /> */}
+      <Route exact path={match.path} component={Manufacturer} />
       <Route component={Page404} />
     </Switch>
   );

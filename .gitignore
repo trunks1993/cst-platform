@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# prettier config
+/.prettierrc
+
 # production
 /build
 

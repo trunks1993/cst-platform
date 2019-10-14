@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from './TagViews';
+import PropertyPanel from './PropertyPanel';
 
 export default () => {
   const [tempData, setTempData] = useState({});
@@ -38,9 +39,13 @@ export default () => {
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
           <Panel setTempData={setTempData} />
         </div>
-        <div className="dashboard-container-body-content">
+        <div
+          className="dashboard-container-body-content"
+          style={{ position: 'relative' }}
+        >
           <TagViews />
           <Grid tempData={tempData} />
+          <PropertyPanel visible />
         </div>
       </div>
     </div>

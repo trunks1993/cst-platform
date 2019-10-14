@@ -13,7 +13,7 @@ const StoreLayout = ({ match, user }) => {
       <Layout className="app-container">
         <Header />
         <Content className="main-container">
-          <RouteList match={ match } />
+          <RouteList match={match} />
         </Content>
       </Layout>
     </UserContext.Provider>
@@ -26,4 +26,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(StoreLayout);
+export default connect(
+  mapStateToProps,
+  null
+)(StoreLayout);

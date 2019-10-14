@@ -45,6 +45,7 @@ export function loginByUsername(username, password) {
     // 异步请求后端接口
     return login(username, password).then(
       res => {
+        debugger;
         setToken(res.data.token);
         return dispatch(receiveUser(res.data.user));
       },

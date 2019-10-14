@@ -13,6 +13,19 @@ $customizeWhite: #fff;
   background: url(../assets/images/loginBg.png);
 }
 
+@mixin panel-title {
+  height: 43px;
+  background: url(../assets/images/bg-panel-btn.png);
+  background-size: 100% 100%;
+  font-size: 16px;
+  color: #00ccff;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  cursor: pointer;
+}
+
 // layout
 .layout {
   height: $fullHeight;
@@ -91,7 +104,7 @@ $customizeWhite: #fff;
       vertical-align: top;
       .label {
         font-size: 24px;
-        color: #00CCFF;
+        color: #00ccff;
         font-weight: bolder;
         position: absolute;
         top: 50%;
@@ -118,7 +131,7 @@ $customizeWhite: #fff;
           height: 42px;
           color: #fff;
           @extend .common-flex;
-          transition: all .3s;
+          transition: all 0.3s;
           cursor: pointer;
           background: url(../assets/images/temp/bg-btn.png);
           &:hover {
@@ -126,7 +139,6 @@ $customizeWhite: #fff;
           }
         }
       }
-      
     }
     img {
       width: 100%;
@@ -137,6 +149,108 @@ $customizeWhite: #fff;
   &-body {
     display: flex;
     height: calc(100% - 69px);
+    overflow: hidden;
+    .property-panel {
+      position: absolute;
+      width: 240px;
+      background: url(../assets/images/property-config-bg.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      right:30px;
+      top: 0;
+      bottom: 15px;
+      height: calc(100% - 15px);
+      color: #fff;
+      padding: 40px 6px 8px 6px;
+      transition: transform .5s;
+      overflow-x: hidden;
+      .panel-box {
+        width: 230px;
+        height: calc(100% - 15px);;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        .img-line {
+          margin: 10px 0 10px 6px;
+        }
+      }
+      .btn {
+        @include panel-title();
+      }
+      .text-area {
+        margin-top: 8px;
+        background: #05254B;
+        border-color: #05254B;
+        color: #0393FF;
+      }
+      .property-container {
+        padding: 0 12px;
+        overflow: hidden;
+        transition: max-height .3s;
+
+        // 按钮样式
+        .button-style {
+          height: 30px;
+          font-size: 12px;
+          background: #063C79;
+          border-color: #063C79;
+          color: #fff;
+          padding: 0px 8px;
+          margin-right: -2px;
+          z-index: 1;
+        }
+
+        // 单选框的样式
+        .ant-radio-inner {
+          background: #05254B !important;
+          border: 1px solid #0EBFE6 !important;
+        }
+
+        .application-config {
+          display: flex;
+          width: 219px;
+          height: 55px;
+          flex-wrap: nowrap;
+          font-size: 14px;
+          justify-content: space-between;
+          background-color: #05254B;
+          padding: 20px 15px;
+          margin-top: 10px;
+          align-items: center;
+          background-image: linear-gradient(to right, #051D40, #05254B, #051D40);
+          .radio-title {
+            font-size: 12px;
+          }
+          .radio-style {
+            font-size: 12px;
+            color: #0393ff
+          }
+        }
+
+        .property-content {
+          display: flex;
+          position: relative;
+          padding: 8px 0;
+          .select {
+            width: 250px;
+            color: #0393FF;
+          }
+          .ant-select-selection {
+            height: 30px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+
+          .ant-select-selection--single {
+            background: #05254b;
+            border-color: #05254b;
+          }
+          svg {
+            color: #0963df;
+          }
+          
+        }
+      }
+    }
     &-panel {
       background: url(../assets/images/bd-dashboard-tools.png);
       background-size: 100% 100%;
@@ -147,16 +261,7 @@ $customizeWhite: #fff;
         &-item {
           // min-height: 500px;
           .btn {
-            height: 43px;
-            background: url(../assets/images/bg-panel-btn.png);
-            background-size: 100% 100%;
-            font-size: 16px;
-            color: #00CCFF;
-            font-weight: bolder;
-            display: flex;
-            align-items: center;
-            padding-left: 15px;
-            cursor: pointer;
+            @include panel-title();
           }
           .content {
             padding-top: 10px;
@@ -164,7 +269,7 @@ $customizeWhite: #fff;
             overflow: hidden;
             .group-btn {
               font-size: 14px;
-              color: #0393FF;
+              color: #0393ff;
               height: 33px;
               background: url(../assets/images/bg-panel-temp.png);
               display: flex;
@@ -175,7 +280,7 @@ $customizeWhite: #fff;
                 width: 12px;
                 height: 12px;
                 border-radius: 50%;
-                background-color: #0393FF;
+                background-color: #0393ff;
                 margin-left: 5px;
                 display: flex;
                 justify-content: center;
@@ -210,7 +315,7 @@ $customizeWhite: #fff;
             .temp-btn {
               height: 30px;
               padding: 0 10px;
-              background: #05254B;
+              background: #05254b;
               cursor: pointer;
               font-size: 14px;
               color: rgba(3, 147, 255, 0.5);
@@ -241,25 +346,24 @@ $customizeWhite: #fff;
                 .title {
                   white-space: nowrap;
                   overflow: hidden;
-                  text-overflow:ellipsis;
+                  text-overflow: ellipsis;
                 }
               }
             }
 
             .ant-input {
-              background-color: #05254B;
+              background-color: #05254b;
               border: none;
-              color: #00CCFF;
-              &::-webkit-input-placeholder{
-                color:#0393FF;
+              color: #00ccff;
+              &::-webkit-input-placeholder {
+                color: #0393ff;
                 font-size: 14px;
                 font-weight: bolder;
-                opacity:0.5;
+                opacity: 0.5;
               }
-    
             }
             .ant-input-search-icon {
-              color: #0963DF;
+              color: #0963df;
               font-size: 18px;
             }
           }
@@ -288,20 +392,20 @@ $customizeWhite: #fff;
           background: url(../assets/images/temp/bd-btn.png);
           background-size: 100% 100%;
           height: 100%;
-          width: 160px;
+          padding: 0 6px;
           text-align: center;
           line-height: 28px;
         }
       }
       .grid-box {
         background: url(../assets/images/bd-gridbox.png);
-        background-size: 100% 100%; 
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
         height: calc(100% - 28px);
+        width: calc(100% - 240px);
         overflow: auto;
         overflow-x: hidden;
       }
     }
-
   }
-  
 }
