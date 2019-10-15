@@ -1,17 +1,11 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
-import { Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Input, Skeleton } from 'antd';
+// import { getPublicTemp, getStaticTemp } from '@/api/index';
 import { Icon } from 'antd';
 import _ from 'lodash';
 const { Search } = Input;
-
-
-
-const tempData = [
-  { name: '分析研判岗-通用模板一', id: '1', groupId: '01' },
-  { name: '分析研判岗-通用模板二', id: '2', groupId: '01' },
-  { name: '分析研判岗-通用模板三', id: '3', groupId: '01' }
-];
+const tempData = [];
 
 // eslint-disable-next-line complexity
 export default ({ setTempData, setTags, tags }) => {
@@ -20,7 +14,7 @@ export default ({ setTempData, setTags, tags }) => {
   const [visible3, setVisible3] = useState(false);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
-
+  const [isShowPublicTemp, ShowPublicTemp] = useState(true);
   const addTag = tag => {
     const fi = _.findIndex(tags, o => o.id === tag.id);
     if (fi < 0) {
@@ -29,7 +23,11 @@ export default ({ setTempData, setTags, tags }) => {
       setTags(t);
     }
   };
-
+  useEffect(() => {
+    // Update the document title using the browser API
+    // getStaticTemp();
+    ShowPublicTemp(false);
+  },[]);
   return (
     <div className="panel-box" >
       <div className="panel-box-item">
@@ -47,18 +45,22 @@ export default ({ setTempData, setTags, tags }) => {
             </span>
           </div>
           <ul className="group-list" style={{ paddingBottom: visible2 ? 0 : '10px', maxHeight: visible2 ? 0 : '1000px' }}>
-            {
-              tempData.map((tag, index) => (
-                <li key={index} onClick={
-                  () => addTag(tag)
-                }>{tag.name}</li>
-              ))
-            }
+            <Skeleton title={false} loading={ isShowPublicTemp } active>
+              {
+                tempData.map((tag, index) => (
+                  <li key={index} onClick={
+                    () => addTag(tag)
+                  }>{tag.name}</li>
+                ))
+              }
+            </Skeleton>
           </ul>
 
           <div className="group-btn" onClick={() => setVisible3(!visible3)}>个人模板<span className="group-btn-iconbox"><Icon type="caret-down" /></span></div>
           <ul className="group-list" style={{ paddingBottom: visible3 ? 0 : '10px', maxHeight: visible3 ? 0 : '1000px' }}>
-            <li>分析研判岗-通用模板一</li>
+            <Skeleton title={false} loading={ isShowPublicTemp } active>
+              <li>分析研判岗-通用模板一</li>
+            </Skeleton>
           </ul>
 
         </div>
@@ -73,18 +75,30 @@ export default ({ setTempData, setTags, tags }) => {
               <Icon type="caret-down" />
             </span>
           </div>
-          <ul className="temp-list" style={{ maxHeight: visible5 ? 0 : '1000px' }}>
-            <li draggable onDragStart={() => setTempData({ type: 'bar', title: '罪犯文化程度', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
+          <ul className="temp-list" style={{ height: visible5 ? 0 : '200px' }}>
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'bar', title: 'AB门管理', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯文化程度...</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ type: 'line', title: '罪犯婚姻状况', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'line', title: '在监警力统计分析', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
               <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯婚姻状况...</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ type: 'pie', title: '三类罪犯统计', minW: 2, minH: 2, w: 3, h: 8 })} unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'pie', title: '罪犯在押状态统计', minW: 2, minH: 2, w: 6, h: 8 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">三类罪犯统计</div>
+            </li>
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'scatter', title: '报警信息', minW: 2, minH: 2, w: 4, h: 8 })} unselectable="on" >
+              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
+              <div className="title">报警信息</div>
+            </li>
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'gauge', title: '安全指数分析', minW: 2, minH: 2, w: 5, h: 12 })} unselectable="on" >
+              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
+              <div className="title">安全指数分析</div>
+            </li>
+            <li draggable onDragStart={() => setTempData({ isEcharts: false, type: 'gauge', title: '三类罪犯统计分析', minW: 2, minH: 2, w: 6, h: 10 })} unselectable="on" >
+              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
+              <div className="title">三类罪犯统计分析</div>
             </li>
             <li>
               {/* <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
