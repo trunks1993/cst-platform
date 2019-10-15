@@ -10,7 +10,7 @@ export default class ShowcaseLayout extends React.Component {
   static defaultProps = {
     className: 'cst-layout',
     rowHeight: 30,
-    onLayoutChange: function() {},
+    onLayoutChange: function() { },
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
     widgets: []
   };
@@ -140,7 +140,7 @@ export default class ShowcaseLayout extends React.Component {
 
   render() {
     return (
-      <div className="grid-box">
+      <div className="manufacturer-grid-box">
         <ResponsiveReactGridLayout
           {...this.props}
           layouts={this.state.layouts}
