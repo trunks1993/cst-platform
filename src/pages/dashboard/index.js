@@ -9,14 +9,20 @@ export default () => {
   const [tags, setTags] = useState([]);
 
   return (
-    <div className="dashboard-container" >
+    <div className="dashboard-container">
       <div className="dashboard-container-header">
         <div className="dashboard-container-header-title">
           <span className="label">个性化工作台</span>
-          <img src={require('../../assets/images/bg-dashboard-headerl.png')} alt="" />
+          <img
+            src={require('../../assets/images/bg-dashboard-headerl.png')}
+            alt=""
+          />
         </div>
         <div className="dashboard-container-header-btn">
-          <img src={require('../../assets/images/bg-dashboard-header.png')} alt="" />
+          <img
+            src={require('../../assets/images/bg-dashboard-header.png')}
+            alt=""
+          />
           <ul>
             <li className="btn-item">新建</li>
             <li className="btn-item">保存</li>

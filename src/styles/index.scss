@@ -1,13 +1,31 @@
-@import "~antd/dist/antd.css";
-@import "~react-grid-layout/css/styles.css";
-@import "~react-resizable/css/styles.css";
-@import "./app";
-@import "./platform";
+@import '~antd/dist/antd.css';
+@import '~react-grid-layout/css/styles.css';
+@import '~react-resizable/css/styles.css';
+@import './app';
+@import './platform';
+
+// 自定义 antd select 样式
+.ant-select-dropdown-menu {
+  background: #05254b;
+}
+.ant-select-dropdown-menu-item {
+  color: #fff;
+}
+.ant-select-dropdown-menu-item:hover {
+  color: #fff;
+  background-color: #4baefd !important;
+}
+.ant-select-dropdown-menu-item-selected {
+  background-color: #4baefd !important;
+}
+
+// ----------------------------------------------------
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

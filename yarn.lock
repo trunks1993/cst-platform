@@ -6414,7 +6414,7 @@ lodash.isarray@^3.0.0:
 
 lodash.isequal@^4.0.0:
   version "4.5.0"
-  resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
 
 lodash.keys@^3.1.2:
@@ -9156,7 +9156,7 @@ react-dom@^16.8.6:
 
 react-draggable@3.x, react-draggable@^3.0.3:
   version "3.3.2"
-  resolved "https://registry.npmjs.org/react-draggable/-/react-draggable-3.3.2.tgz#966ef1d90f2387af3c2d8bd3516f601ea42ca359"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-3.3.2.tgz#966ef1d90f2387af3c2d8bd3516f601ea42ca359"
   integrity sha512-oaz8a6enjbPtx5qb0oDWxtDNuybOylvto1QLydsXgKmwT7e3GXC2eMVDwEMIUYJIFqVG72XpOv673UuuAq6LhA==
   dependencies:
     classnames "^2.2.5"
@@ -9167,9 +9167,10 @@ react-error-overlay@^6.0.2:
   resolved "https://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-6.0.2.tgz#642bd6157c6a4b6e9ca4a816f7ed30b868c47f81"
   integrity sha1-ZCvWFXxqS26cpKgW9+0wuGjEf4E=
 
-"react-grid-layout@git+ssh://git@github.com:trunks1993/react-grid-layout.git":
+react-grid-layout@^0.16.6:
   version "0.16.6"
-  resolved "git+ssh://git@github.com:trunks1993/react-grid-layout.git#779e8d2d0d410d1e0e145fc7d4a174798a3f66e6"
+  resolved "https://registry.yarnpkg.com/react-grid-layout/-/react-grid-layout-0.16.6.tgz#9b2407a2b946c2260ebaf66f13b556e1da4efeb2"
+  integrity sha512-h2EsYgsqcESLJeevQSJsEKp8hhh+phOlXDJoMhlV2e7T3VWQL+S6iCF3iD/LK19r4oyRyOMDEir0KV+eLXrAyw==
   dependencies:
     classnames "2.x"
     lodash.isequal "^4.0.0"
@@ -9218,7 +9219,7 @@ react-redux@^7.1.0:
 
 react-resizable@1.x:
   version "1.8.0"
-  resolved "https://registry.npmjs.org/react-resizable/-/react-resizable-1.8.0.tgz#a6dd8c90826f1e54244141b770318e0320663a43"
+  resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-1.8.0.tgz#a6dd8c90826f1e54244141b770318e0320663a43"
   integrity sha512-lfYlCelPyUL8GLYd4SgFtZOrFY8XpxpDwXjgGHLiLM2aMv7mEkBT8Jn5MUV1TCinF5mIro4CMezfnniAZEkGvg==
   dependencies:
     prop-types "15.x"
