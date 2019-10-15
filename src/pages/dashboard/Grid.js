@@ -2,7 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { Responsive, WidthProvider } from '@/components/Draggler';
 import ReactEcharts from 'echarts-for-react';
-import { getBarChart, getLineChart, getPieChart } from '@/utils/echarts';
+import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
+// import { Progress } from 'antd';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -55,51 +56,32 @@ export default class ShowcaseLayout extends React.Component {
         option = getLineChart();
       } else if (l.type === 'pie') {
         option = getPieChart();
+      } else if (l.type === 'scatter') {
+        option = getVisualMap();
+      } else if (l.type === 'gauge') {
+        option = getGauge();
       }
+      // const option = getVisualMap();
 
       const component = (
         <ReactEcharts
           option={option}
           notMerge
           lazyUpdate
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%',height: '100%',paddingTop: '30px' }}
         />
       );
 
       return (
-        <div key={i} className={l.static ? 'static' : ''} data-grid={l}>
-          {/* <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>x</span> */}
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/2.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/2.png')}
-            alt=""
-          />
-          <div className="title-box">{l.title}</div>
+        <div key={i} className={l.static ? 'static' : ''} style={{ overflow: 'hidden' }} data-grid={l}>
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+          <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+          <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" />
+          <div className="title-box">{l.title }</div>
           {component}
         </div>
       );
