@@ -8,7 +8,7 @@ export default () => {
       label: '分析研判岗-通用模板1'
     },
     {
-      id: 1,
+      id: 2,
       label: '分析研判岗-通用模板1'
     }
   ];

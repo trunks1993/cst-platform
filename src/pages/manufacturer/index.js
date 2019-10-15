@@ -3,6 +3,68 @@ import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from './TagViews';
 import PropertyPanel from './PropertyPanel';
+import request from '../../utils/request';
+
+const operates = [
+  {
+    key: 'build',
+    label: '新建',
+    callback: function() {
+      request.get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
+        console.log('res: ', res);
+      });
+    }
+  },
+  {
+    key: 'save',
+    label: '保存',
+    callback: function() {
+      console.log('保存啊');
+    }
+  },
+  {
+    key: 'delete',
+    label: '删除',
+    callback: function() {
+      console.log('删除啊');
+    }
+  },
+  {
+    key: 'reset',
+    label: '重置',
+    callback: function() {
+      console.log('重置啊');
+    }
+  },
+  {
+    key: 'preview',
+    label: '预览',
+    callback: function() {
+      console.log('预览啊');
+    }
+  },
+  {
+    key: 'publish',
+    label: '发布',
+    callback: function() {
+      console.log('发布啊');
+    }
+  },
+  {
+    key: 'share',
+    label: '共享',
+    callback: function() {
+      console.log('共享啊');
+    }
+  },
+  {
+    key: 'close',
+    label: '关闭',
+    callback: function() {
+      console.log('关闭啊');
+    }
+  },
+];
 
 export default () => {
   const [tempData, setTempData] = useState({});
@@ -22,15 +84,11 @@ export default () => {
             alt=""
           />
           <ul>
-            <li className="btn-item">新建</li>
-            <li className="btn-item">保存</li>
-            <li className="btn-item">另存为</li>
-            <li className="btn-item">删除</li>
-            <li className="btn-item">重置</li>
-            <li className="btn-item">预览</li>
-            <li className="btn-item">发布</li>
-            <li className="btn-item">共享</li>
-            <li className="btn-item">关闭</li>
+            {
+              operates.map(item => <li key={item.key} className="btn-item" onClick={() => {
+                item.callback();
+              }}>{item.label}</li>)
+            }
           </ul>
         </div>
       </div>

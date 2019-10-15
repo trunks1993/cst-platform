@@ -13,6 +13,15 @@ $customizeWhite: #fff;
   background: url(../assets/images/loginBg.png);
 }
 
+
+@mixin grid-box-common {
+  background: url(../assets/images/bd-gridbox.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: calc(100% - 28px);
+  overflow: auto;
+  overflow-x: hidden;
+}
 @mixin panel-title {
   height: 43px;
   background: url(../assets/images/bg-panel-btn.png);
@@ -94,6 +103,27 @@ $customizeWhite: #fff;
 
 .dashboard-container {
   height: 100%;
+  .create-dialog {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    .content-box {
+      position: relative;
+      width: 480px;
+      color: #fff;
+      padding: 20px 40px;
+      min-height: 315px;
+      left: 50%;
+      margin-left: -240px;
+      top: 25%;
+      background-image: url(../assets/images/bg-dialog.png);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+    }
+  }
   &-header {
     height: 69px;
     &-title {
@@ -398,13 +428,12 @@ $customizeWhite: #fff;
         }
       }
       .grid-box {
-        background: url(../assets/images/bd-gridbox.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        height: calc(100% - 28px);
+        @include grid-box-common();
+        width: 100%;
+      }
+      .manufacturer-grid-box {
+        @include grid-box-common();
         width: calc(100% - 240px);
-        overflow: auto;
-        overflow-x: hidden;
       }
     }
   }

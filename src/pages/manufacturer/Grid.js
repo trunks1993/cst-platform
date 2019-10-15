@@ -140,7 +140,7 @@ export default class ShowcaseLayout extends React.Component {
 
   render() {
     return (
-      <div className="grid-box">
+      <div className="manufacturer-grid-box">
         <ResponsiveReactGridLayout
           {...this.props}
           layouts={this.state.layouts}
