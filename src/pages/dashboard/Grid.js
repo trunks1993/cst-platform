@@ -15,17 +15,17 @@ export default class LocalStorageLayout extends React.PureComponent {
     cols: 12,
     rowHeight: 30,
     isDroppable: false,
+    layout: [],
     onLayoutChange: function() {}
   };
 
   state = {
-    compactType: 'vertical',
     layout: this.props.layout
   };
 
-  resetLayout = () => {
+  resetLayout = (layout) => {
     this.setState({
-      layout: []
+      layout
     });
   }
 
@@ -93,7 +93,6 @@ export default class LocalStorageLayout extends React.PureComponent {
   render() {
     return (
       <div className="grid-box">
-        {/* <button onClick={this.resetLayout}>Reset Layout</button> */}
         <ReactGridLayout
           {...this.props}
           layout={this.state.layout}
