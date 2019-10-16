@@ -12,8 +12,9 @@ export default () => {
   const [tags, setTags] = useState([]);
   const [showModel, handleShowModel] = useState(false);
   const [InputValue, handleInputValue] = useState('');
-  const [curIndex, handleCurIndex] = useState([]);// 当前模板id
+  const [curIndex, handleCurIndex] = useState('');// 当前模板id
   const childRef = useRef();
+  const { confirm } = Modal;
   const addNewModule = () => {
     addStaticTemp({ token: getToken(), cucName: InputValue, cucStatus: '1' }).then(res => {
       message.success(res.msg);
@@ -50,7 +51,34 @@ export default () => {
             <li className="btn-item" onClick={() => { handleShowModel(true); }}>新建</li>
             <li className="btn-item">保存</li>
             <li className="btn-item">另存为</li>
-            <li className="btn-item" onClick={() => { deleteTemp(); }}>删除</li>
+            <li className="btn-item" onClick={() => {
+              console.log(curIndex);
+              if (!curIndex) {
+                message.warning('请先选择模块');
+              } else {
+                confirm({
+                  title: '确定是否删除此模块?',
+                  // content: '确定是否删除此模块？',\
+                  okText: '确认',
+                  cancelText: '取消',
+                  centered: true,
+                  onOk() {
+                    deleteTemp({ token: getToken(), cucId: curIndex }).then(res => {
+                      message.success(res.msg);
+                    }).then(() => {
+                      getStaticTemp({ token: getToken() }).then(res => {
+                        if (res.data.rows.length) {
+                          childRef.current.changeVal(res.data.rows);
+                        }
+                      }).catch(err => {
+                        console.error(err);
+                      });
+                    });
+                  },
+                  onCancel() {},
+                });
+              }
+            }}>删除</li>
             <li className="btn-item">重置</li>
             <li className="btn-item">预览</li>
             <li className="btn-item">发布</li>

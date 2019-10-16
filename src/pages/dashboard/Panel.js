@@ -122,7 +122,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
             <Skeleton title={false} loading={ isShowSingleTemp } active>
               {
                 echartsList.map(item => (
-                  <li draggable onDragStart={() => {
+                  <li key={item.cucId} draggable onDragStart={() => {
                     if (!isExistCurIndex(tags, curIndex)) {
                       // alert('请先选择模板');
                       message.warning('请先选择模板');

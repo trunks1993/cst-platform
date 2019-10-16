@@ -125,3 +125,27 @@
 .active-tag-views{
     color:#03AFFF!important;
 }
+.ant-modal-confirm-body{
+    .ant-modal-confirm-title{
+        color: #fff;
+    }
+}
+.anticon-question-circle{
+    margin-left: 50px;
+}
+.ant-modal-confirm-btns{
+    margin-right: 70px;
+}
+.ant-btn {
+    width: 100px;
+    height: 45px;
+    border:none;
+    outline: none;
+    background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
+    color: #fff;
+}
+.ant-btn:hover, .ant-btn:focus {
+    color: #03AFFF;
+    background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
+    border-color: none;
+}
