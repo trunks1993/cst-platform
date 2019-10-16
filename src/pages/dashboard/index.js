@@ -1,23 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews';
-import { Modal, Form, Input, Select } from 'antd';
-const { Option } = Select;
+import { Modal, Form, Input, message } from 'antd';
+import { addStaticTemp, getStaticTemp, deleteTemp } from '@/api/index';
+import { getToken } from '@/utils/auth';
+
+// const { Option } = Select;
 export default () => {
   const [tempData, setTempData] = useState({});
   const [tags, setTags] = useState([]);
   const [showModel, handleShowModel] = useState(false);
-  // const [SelectValue, handleSelectValue] = useState('');
-  // const [InputValue, handleInputValue] = useState('');
-  // const addNewModule = () => {
-
-  // };
-  const onSearch = () => {
-
-  };
-  const onBlur = () => {
-
+  const [InputValue, handleInputValue] = useState('');
+  const [curIndex, handleCurIndex] = useState([]);// 当前模板id
+  const childRef = useRef();
+  const addNewModule = () => {
+    addStaticTemp({ token: getToken(), cucName: InputValue, cucStatus: '1' }).then(res => {
+      message.success(res.msg);
+      handleShowModel(false);
+      handleInputValue('');
+    }).then(() => {
+      getStaticTemp({ token: getToken() }).then(res => {
+        if (res.data.rows.length) {
+          childRef.current.changeVal(res.data.rows);
+        }
+      }).catch(err => {
+        console.error(err);
+      });
+    }).catch(err => {
+      console.error(err);
+    });
   };
   return (
     <div className="dashboard-container">
@@ -38,7 +50,7 @@ export default () => {
             <li className="btn-item" onClick={() => { handleShowModel(true); }}>新建</li>
             <li className="btn-item">保存</li>
             <li className="btn-item">另存为</li>
-            <li className="btn-item">删除</li>
+            <li className="btn-item" onClick={() => { deleteTemp(); }}>删除</li>
             <li className="btn-item">重置</li>
             <li className="btn-item">预览</li>
             <li className="btn-item">发布</li>
@@ -50,53 +62,37 @@ export default () => {
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setTempData={setTempData} tags={tags} setTags={setTags} />
+          <Panel ref={childRef}
+            cRef={childRef}
+            setTempData={setTempData}
+            tags={tags}
+            setTags={setTags}
+            handleCurIndex={handleCurIndex}
+            curIndex={curIndex} />
         </div>
         <div className="dashboard-container-body-content">
           <Modal
             centered
             visible={ showModel}
-            onOk={() => handleShowModel(false)}
-            onCancel={() => handleShowModel(false)}
             closable={false}
             footer={null}
           >
             <Form>
-              <Form.Item label="添加组：">
-                <Select
-                  showSearch
-                  style={{ width: 200 }}
-                  placeholder="请选择组名"
-                  optionFilterProp="children"
-                  // onChange={val => { console.log(val);
-                  //   handleSelectValue(val); }}
-                  onBlur={onBlur}
-                  onSearch={onSearch}
-                  // allowClear
-                  filterOption={
-                    (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {/* <Option value="1">公共模板</Option> */}
-                  <Option value="1">个人模板</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item label="配置名">
+              <Form.Item>
                 <Input
                   style={{ width: 200 }}
-                  // onChange={val => { console.log(val.target.value);
-                  //   handleInputValue(val.target.value); }}
-                  placeholder="请填写配置名"
+                  onChange={val => { handleInputValue(val.target.value); }}
+                  placeholder="请输入模板名称"
                 />
               </Form.Item>
               <Form.Item>
-                <button className="global-btn">确定</button>
-                <button className="global-btn" onClick={() => { handleShowModel(false); }}>取消</button>
+                <button className="global-btn" onClick={() => { addNewModule(); }}>确定</button>
+                <button className="global-btn" onClick={() => { handleShowModel(false);handleInputValue(''); }}>取消</button>
               </Form.Item>
             </Form>
           </Modal>
-          <TagViews tags={tags} setTags={setTags} />
-          <Grid tempData={tempData} isDroppable />
+          <TagViews tags={tags} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
+          <Grid tempData={tempData} tags={tags} isDroppable />
         </div>
       </div>
     </div>
