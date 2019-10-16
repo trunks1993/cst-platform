@@ -96,7 +96,7 @@ export default () => {
             </Form>
           </Modal>
           <TagViews tags={tags} setTags={setTags} />
-          <Grid tempData={tempData} />
+          <Grid tempData={tempData} isDroppable />
         </div>
       </div>
     </div>
