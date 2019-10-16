@@ -80,7 +80,10 @@ export default class ShowcaseLayout extends React.Component {
           <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
           <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
           <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-          <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" />
+          {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
+          {
+            l.type === 'gauge' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+          }
           <div className="title-box">{l.title }</div>
           {component}
         </div>
@@ -136,7 +139,7 @@ export default class ShowcaseLayout extends React.Component {
           useCSSTransforms={this.state.mounted}
           compactType={this.state.compactType}
           preventCollision={!this.state.compactType}
-          isDroppable
+          isDroppable={this.props.tags.length > 0}
         >
           {this.generateDOM()}
         </ResponsiveReactGridLayout>

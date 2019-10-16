@@ -82,7 +82,9 @@
     border: none;
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
     background-size: 100% 100%;
+    transition: all .3s;
     &:hover{
+        cursor: pointer;
         color: #0393FF;
     }
 }
@@ -119,4 +121,7 @@
 .ant-select-arrow-icon, .ant-select-clear-icon{
     color:#0393FF;
     background: none;
+}
+.active-tag-views{
+    color:#03AFFF!important;
 }
