@@ -103,3 +103,16 @@ export const deleteTemp = (par) => request({
     cucId: par.cucId
   }
 });
+
+// 发布
+export const releaseTemp = (par) => request({
+  url: '/userbpm/v1/userConfigInfo/CusUserConfig/edit',
+  method: 'put',
+  headers: {
+    token: par.token
+  },
+  params: {
+    cucStatus: par.cucStatus,
+    cucID: par.cucId
+  }
+});

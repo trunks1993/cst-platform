@@ -58,7 +58,8 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
       console.error(err);
     });
     ShowPublicTemp(false);
-  },[]);
+  }, []);
+
   return (
     <div className="panel-box" >
       <div className="panel-box-item">
@@ -68,7 +69,6 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
         </div>
         <div className="content" style={{ paddingTop: visible1 ? 0 : '10px', maxHeight: visible1 ? 0 : '1000px' }}>
           <Search placeholder="请输入模板名称" onSearch={value => console.log(value)} />
-
           <div className="group-btn" onClick={() => setVisible2(!visible2)}>
             公共模板
             <span className="group-btn-iconbox">
@@ -94,7 +94,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
             <Skeleton title={false} loading={ isShowSingleTemp } active>
               {
                 singleTemp.map((tag, index) => (
-                  <li key={tag.cucId} onClick={
+                  <li key={tag.cucId} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
                       getTempDetail(getToken(), tag.cucId).then(res => {
                         addTag(tag);
@@ -136,46 +136,6 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
                 ))
               }
             </Skeleton>
-
-            {/* <li draggable onDragStart={() => {
-              if (!isExistCurIndex(tags, curIndex)) {
-                // alert('请先选择模板');
-                message.warning('请先选择模板');
-                // return false;
-              } else {
-                setTempData({ isEcharts: true, type: 'bar', title: 'AB门管理', minW: 2, minH: 4, w: 4, h: 8 });
-              } }} unselectable="on">
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">罪犯文化程度...</div>
-            </li> */}
-            {/* <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'line', title: '在监警力统计分析', minW: 2, minH: 4, w: 4, h: 8 })} unselectable="on" >
-              <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">罪犯婚姻状况...</div>
-            </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'pie', title: '罪犯在押状态统计', w: 6, h: 8 })} unselectable="on" >
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">三类罪犯统计</div>
-            </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'scatter', title: '报警信息', w: 4, h: 8 })} unselectable="on" >
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">报警信息</div>
-            </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'gauge', title: '安全指数分析', w: 5, h: 12 })} unselectable="on" >
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">安全指数分析</div>
-            </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: false, type: 'gauge', title: '三类罪犯统计分析', w: 6, h: 10 })} unselectable="on" >
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">三类罪犯统计分析</div>
-            </li> */}
-            {/* <li>
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">罪犯危险性分...</div>
-            </li>
-            <li>
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">监狱安全指数</div>
-            </li> */}
           </ul>
         </div>
       </div>
