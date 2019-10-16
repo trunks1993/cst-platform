@@ -1,34 +1,41 @@
 import React from 'react';
-import _ from 'lodash';
-import RGL, { WidthProvider } from '@/components/Draggler';
-import ReactEcharts from 'echarts-for-react';
+import RGL, { WidthProvider } from 'react-grid-layout';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
+import _ from 'lodash';
+import ReactEcharts from 'echarts-for-react';
 
 const ReactGridLayout = WidthProvider(RGL);
-
-export default class ShowcaseLayout extends React.Component {
+// const originalLayout = getFromLS('layout') || [];
+/**
+ * This layout demonstrates how to sync to localstorage.
+ */
+export default class LocalStorageLayout extends React.PureComponent {
   static defaultProps = {
     className: 'cst-layout',
-    rowHeight: 30,
     cols: 12,
-    onLayoutChange: function() {},
-    widgets: [],
-    isDroppable: false
+    rowHeight: 30,
+    isDroppable: false,
+    onLayoutChange: function() {}
   };
 
   state = {
     compactType: 'vertical',
-    mounted: false,
-    widgets: this.props.widgets
+    layout: this.props.layout
   };
 
-  componentDidMount() {
-    this.setState({ mounted: true });
+  resetLayout = () => {
+    this.setState({
+      layout: []
+    });
+  }
+
+  onLayoutChange = (layout) => {
+    this.props.setLayouts(layout);
   }
 
   generateDOM = () => {
     // eslint-disable-next-line complexity
-    return _.map(this.state.widgets, (l, i) => {
+    return _.map(this.state.layout, (l, i) => {
       let option;
       if (l.type === 'bar') {
         option = getBarChart();
@@ -70,16 +77,6 @@ export default class ShowcaseLayout extends React.Component {
     });
   };
 
-  onBreakpointChange = breakpoint => {
-    this.setState({
-      currentBreakpoint: breakpoint
-    });
-  };
-
-  onLayoutChange = (layout, layouts) => {
-    this.props.onLayoutChange(layout, layouts);
-  };
-
   onDrop = elemParams => {
     const { tempData } = this.props;
     this.addItem(_.assign(elemParams, tempData));
@@ -87,7 +84,7 @@ export default class ShowcaseLayout extends React.Component {
 
   addItem(elemParams) {
     this.setState({
-      widgets: this.state.widgets.concat({
+      layout: this.state.layout.concat({
         ...elemParams
       })
     });
@@ -96,10 +93,11 @@ export default class ShowcaseLayout extends React.Component {
   render() {
     return (
       <div className="grid-box">
+        {/* <button onClick={this.resetLayout}>Reset Layout</button> */}
         <ReactGridLayout
+          {...this.props}
           layout={this.state.layout}
           onLayoutChange={this.onLayoutChange}
-          {...this.props}
           onDrop={this.onDrop}
           isDroppable={this.props.isDroppable && this.props.tags.length > 0}
         >
