@@ -92,7 +92,7 @@ export default () => {
             </Form>
           </Modal>
           <TagViews tags={tags} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
-          <Grid tempData={tempData} tags={tags} />
+          <Grid tempData={tempData} tags={tags} isDroppable />
         </div>
       </div>
     </div>

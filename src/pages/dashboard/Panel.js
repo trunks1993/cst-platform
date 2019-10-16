@@ -152,19 +152,19 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
               <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">罪犯婚姻状况...</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'pie', title: '罪犯在押状态统计', minW: 2, minH: 2, w: 6, h: 8 })} unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'pie', title: '罪犯在押状态统计', w: 6, h: 8 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">三类罪犯统计</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'scatter', title: '报警信息', minW: 2, minH: 2, w: 4, h: 8 })} unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'scatter', title: '报警信息', w: 4, h: 8 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">报警信息</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'gauge', title: '安全指数分析', minW: 2, minH: 2, w: 5, h: 12 })} unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ isEcharts: true, type: 'gauge', title: '安全指数分析', w: 5, h: 12 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">安全指数分析</div>
             </li>
-            <li draggable onDragStart={() => setTempData({ isEcharts: false, type: 'gauge', title: '三类罪犯统计分析', minW: 2, minH: 2, w: 6, h: 10 })} unselectable="on" >
+            <li draggable onDragStart={() => setTempData({ isEcharts: false, type: 'gauge', title: '三类罪犯统计分析', w: 6, h: 10 })} unselectable="on" >
               <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
               <div className="title">三类罪犯统计分析</div>
             </li> */}

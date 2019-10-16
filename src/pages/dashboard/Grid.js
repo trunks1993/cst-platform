@@ -1,23 +1,22 @@
 import React from 'react';
 import _ from 'lodash';
-import { Responsive, WidthProvider } from '@/components/Draggler';
+import RGL, { WidthProvider } from '@/components/Draggler';
 import ReactEcharts from 'echarts-for-react';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
-// import { Progress } from 'antd';
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const ReactGridLayout = WidthProvider(RGL);
 
 export default class ShowcaseLayout extends React.Component {
   static defaultProps = {
     className: 'cst-layout',
     rowHeight: 30,
+    cols: 12,
     onLayoutChange: function() {},
-    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    widgets: []
+    widgets: [],
+    isDroppable: false
   };
 
   state = {
-    currentBreakpoint: 'lg',
     compactType: 'vertical',
     mounted: false,
     widgets: this.props.widgets
@@ -27,28 +26,9 @@ export default class ShowcaseLayout extends React.Component {
     this.setState({ mounted: true });
   }
 
-  // generateDOM() {
-  //   return _.map(this.state.widgets, function(l, i) {
-  //     return (
-  //       <div key={i} className={l.static ? 'static' : ''} data-grid={l}>
-  //         {l.static ? (
-  //           <span
-  //             className="text"
-  //             title="This item is static and cannot be removed or resized."
-  //           >
-  //             Static - {i}
-  //           </span>
-  //         ) : (
-  //           <span className="text">{i}</span>
-  //         )}
-  //       </div>
-  //     );
-  //   });
-  // }
   generateDOM = () => {
     // eslint-disable-next-line complexity
     return _.map(this.state.widgets, (l, i) => {
-      console.log(l);
       let option;
       if (l.type === 'bar') {
         option = getBarChart();
@@ -61,7 +41,6 @@ export default class ShowcaseLayout extends React.Component {
       } else if (l.type === 'gauge') {
         option = getGauge();
       }
-      // const option = getVisualMap();
 
       const component = (
         <ReactEcharts
@@ -103,15 +82,6 @@ export default class ShowcaseLayout extends React.Component {
 
   onDrop = elemParams => {
     const { tempData } = this.props;
-    // const { minW, minH, w, h } = tempData;
-    // console.log(elemParams, tempData);
-    // console.log(_.assign(elemParams, tempData));
-    // tempData.i = new Date().getTime().toString();
-    // elemParams.minW = 2;
-    // elemParams.minH = 4;
-    // elemParams.w = 4;
-    // elemParams.h = 8;
-    // eslint-disable-next-line no-alert
     this.addItem(_.assign(elemParams, tempData));
   };
 
@@ -126,23 +96,15 @@ export default class ShowcaseLayout extends React.Component {
   render() {
     return (
       <div className="grid-box">
-        <ResponsiveReactGridLayout
-          {...this.props}
-          layouts={this.state.layouts}
-          onBreakpointChange={this.onBreakpointChange}
+        <ReactGridLayout
+          layout={this.state.layout}
           onLayoutChange={this.onLayoutChange}
+          {...this.props}
           onDrop={this.onDrop}
-          // WidthProvider option
-          measureBeforeMount={false}
-          // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
-          // and set `measureBeforeMount={true}`.
-          useCSSTransforms={this.state.mounted}
-          compactType={this.state.compactType}
-          preventCollision={!this.state.compactType}
-          isDroppable={this.props.tags.length > 0}
+          isDroppable={this.props.isDroppable && this.props.tags.length > 0}
         >
           {this.generateDOM()}
-        </ResponsiveReactGridLayout>
+        </ReactGridLayout>
       </div>
     );
   }
