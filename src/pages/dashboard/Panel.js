@@ -32,6 +32,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
       return curIndex === ele.cucId;
     });
   };
+
   useImperativeHandle(cRef, () => ({
     // changeVal 就是暴露给父组件的方法
     changeVal: (newVal) => {
