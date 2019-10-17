@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export function login(username, password) {
   return request({
-    url: '/cas/login',
+    url: '/userbpm/cas/login',
     method: 'post',
     params: {
       username,
@@ -14,68 +14,7 @@ export function login(username, password) {
 // 获取当前用户信息
 export function getUserDetail(token) {
   return request({
-    url: '/cas/user',
-    method: 'get',
-    headers: {
-      'token': token
-    }
-  });
-}
-
-// 获取所有配置组以及组的子节点
-export function queryConfig(token) {
-  return request({
-    url: '/v1/cusConfig/queryConfig',
-    method: 'get',
-    headers: {
-      'token': token
-    }
-  });
-}
-
-// 保存当前配置
-export function saveGroupConfig({ cfgParentId, configName }, token) {
-  return request({
-    url: '/v1/cusConfig/addConfig',
-    method: 'put',
-    headers: {
-      'token': token
-    },
-    params: {
-      cfgName: configName,
-      cfgParentId
-    }
-  });
-}
-
-// 删除指定配置
-export function deleteGroupConfig(id, token) {
-  return request({
-    url: '/v1/cusConfig/deleteConfig',
-    method: 'delete',
-    headers: {
-      'token': token
-    },
-    id
-  });
-}
-
-// 根据当前配置的 id 查询配置项数据
-export function queryByConfigId(id, token) {
-  return request({
-    url: '/v1/cusConfig/queryByConfigId',
-    method: 'get',
-    headers: {
-      'token': token
-    },
-    configId: id
-  });
-}
-
-// 查询组的信息
-export function getSelectParent(token) {
-  return request({
-    url: '/v1/cusConfig/selectParent',
+    url: '/userbpm/cas/user',
     method: 'get',
     headers: {
       'token': token
@@ -92,16 +31,88 @@ export const getTableList = queryList => request({
   url: `/user/getTableList?current=${queryList.current}&pageSize=${queryList.pageSize}`,
   method: 'get'
 });
-
+// 获取公共模板列表
 export const getPublicTemp = params => request({
   url: `/user/getTableList?current=${params.current}&pageSize=${params.pageSize}`,
   method: 'get'
 });
-
+// 获取个人模板列表
 export const getStaticTemp = params => request({
-  url: `/v1/userConfigInfo/CusUserConfig/select?cucUserId=${params.cucUserId}`,
+  url: '/userbpm/v1/userConfigInfo/CusUserConfig/select',
   method: 'get',
-  params: {
+  headers: {
     token: params.token
+  }
+});
+// 新建个人模板
+export const addStaticTemp = par => request({
+  url: '/userbpm/v1/userConfigInfo/CusUserConfig/add',
+  method: 'post',
+  headers: {
+    token: par.token
+  },
+  params: {
+    cucName: par.cucName,
+    cucStatus: par.cucStatus,
+    cucRemake: '1'
+  }
+});
+// 获取左下角echarts配置
+export const getEchartsList = token => request({
+  url: '/userbpm/v1/functionInfo/functionInfo/list',
+  method: 'get',
+  headers: {
+    token
+  }
+});
+
+// 获取配置页详细信息
+export const getTempDetail = (token, configId) => request({
+  url: '/userbpm/v1/userConfigInfo/userFunctionInfo/list',
+  method: 'get',
+  headers: {
+    token
+  },
+  params: {
+    configId
+  }
+});
+
+// 保存
+export const saveTempGridData = (par) => request({
+  url: '/userbpm/v1/userConfigInfo/userFunctionInfo/add',
+  method: 'post',
+  headers: {
+    token: par.token
+  },
+  params: {
+    configId: par.configId,
+    functionInfoId: par.functionInfoId,
+    layout: par.layout
+  }
+});
+
+// 删除
+export const deleteTemp = (par) => request({
+  url: '/userbpm/v1/userConfigInfo/CusUserConfig/remove',
+  method: 'DELETE',
+  headers: {
+    token: par.token
+  },
+  params: {
+    cucId: par.cucId
+  }
+});
+
+// 发布
+export const releaseTemp = (par) => request({
+  url: '/userbpm/v1/userConfigInfo/CusUserConfig/edit',
+  method: 'put',
+  headers: {
+    token: par.token
+  },
+  params: {
+    cucStatus: par.cucStatus,
+    cucID: par.cucId
   }
 });
