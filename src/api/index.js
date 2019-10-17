@@ -1,5 +1,23 @@
 import request from '@/utils/request';
 
+export function login(username, password) {
+  return request({
+    url: '/userbpm/cas/login',
+    method: 'post',
+    params: {
+      username,
+      password
+    }
+  });
+}
+// 获取当前用户信息
+export function getUserDetail(token) {
+  return request({
+    url: '/userbpm/cas/user',
+    method: 'get'
+  });
+}
+
 export const getUserByToken = token => request({
   url: `/user/getUserByToken?token=${token}`,
   method: 'get'

@@ -4,6 +4,7 @@ import { Progress } from 'antd';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import _ from 'lodash';
 import ReactEcharts from 'echarts-for-react';
+import Item from 'antd/lib/list/Item';
 
 const ReactGridLayout = WidthProvider(RGL);
 // const originalLayout = getFromLS('layout') || [];
@@ -59,13 +60,16 @@ export default class LocalStorageLayout extends React.PureComponent {
         />
       );
       const progress = (
-        <div>
-          <span>xx</span>
-          <Progress percent={30}
+        <div style={{ width: '100%',padding: '20px', boxSizing: 'border-box' }}>
+          <div className="progress-label">暴力行为</div>
+          <Progress type="line" percent={1270}
             strokeColor={{
               '0%': '#ff6e02',
               '100%': '#ffff00',
-            }} size="small" />
+            }}
+            strokeWidth={10}
+            format={percent => `${percent * 5} 人`}
+          />
         </div>
       );
       return (
