@@ -1,27 +1,5 @@
 import request from '@/utils/request';
 
-export function login(username, password) {
-  return request({
-    url: '/userbpm/cas/login',
-    method: 'post',
-    params: {
-      username,
-      password
-    }
-  });
-}
-
-export function getUserDetail(token) {
-  return request({
-    url: '/userbpm/cas/user',
-    method: 'get',
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'token': token
-    }
-  });
-}
-
 export const getUserByToken = token => request({
   url: `/user/getUserByToken?token=${token}`,
   method: 'get'
@@ -101,5 +79,18 @@ export const deleteTemp = (par) => request({
   },
   params: {
     cucId: par.cucId
+  }
+});
+
+// 发布
+export const releaseTemp = (par) => request({
+  url: '/userbpm/v1/userConfigInfo/CusUserConfig/edit',
+  method: 'put',
+  headers: {
+    token: par.token
+  },
+  params: {
+    cucStatus: par.cucStatus,
+    cucID: par.cucId
   }
 });

@@ -1,13 +1,25 @@
-import { getUserByToken, login, getUserDetail } from '@/api/index';
+import { getUserByToken } from '@/api/index';
+import { login } from '@/api/cs_api';
 import { setToken, removeToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
 export const REQUEST_USER = 'REQUEST_USER';
+
+// 保存当前登陆者的信息
+export const SAVE_CONFIG = 'SAVE_CONFIG';
+
+export const RECEIVE_USER = 'RECEIVE_USER';
+
+export function SaveGroupData(data) {
+  return {
+    type: SAVE_CONFIG,
+    data
+  };
+}
+
 export function requestUser() {
   return { type: REQUEST_USER, isFetch: true };
 }
-
-export const RECEIVE_USER = 'RECEIVE_USER';
 
 function receiveUser(user) {
   return {
@@ -46,22 +58,22 @@ export function loginByUsername(username, password) {
     return login(username, password).then(
       async res => {
         console.log('res: ', res);
-        res.data.user = {
-          id: 1554121,
-          name: 'trunks',
-          menu: [
-            {
-              id: 0,
-              title: '人员管理',
-              children: [{
-                id: 1,
-                title: '戒毒人员管理',
-                path: '/tablePageTest',
-                component: 'tablePageTest'
-              }]
-            }
-          ]
-        };
+        // res.data.user = {
+        //   id: 1554121,
+        //   name: 'trunks',
+        //   menu: [
+        //     {
+        //       id: 0,
+        //       title: '人员管理',
+        //       children: [{
+        //         id: 1,
+        //         title: '戒毒人员管理',
+        //         path: '/tablePageTest',
+        //         component: 'tablePageTest'
+        //       }]
+        //     }
+        //   ]
+        // };
         setToken(res.data.token);
         return dispatch(receiveUser(res.data.user));
       },

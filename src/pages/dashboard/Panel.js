@@ -70,7 +70,6 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
         </div>
         <div className="content" style={{ paddingTop: visible1 ? 0 : '10px', maxHeight: visible1 ? 0 : '1000px' }}>
           <Search placeholder="请输入模板名称" onSearch={value => console.log(value)} />
-
           <div className="group-btn" onClick={() => setVisible2(!visible2)}>
             公共模板
             <span className="group-btn-iconbox">
@@ -96,7 +95,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
             <Skeleton title={false} loading={ isShowSingleTemp } active>
               {
                 singleTemp.map((tag, index) => (
-                  <li key={tag.cucId} onClick={
+                  <li key={tag.cucId} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
                       getTempDetail(getToken(), tag.cucId).then(res => {
                         addTag(tag);
@@ -124,7 +123,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
             <Skeleton title={false} loading={ isShowSingleTemp } active>
               {
                 echartsList.map(item => (
-                  <li draggable onDragStart={() => {
+                  <li key={item.cucId} draggable onDragStart={() => {
                     if (!isExistCurIndex(tags, curIndex)) {
                       // alert('请先选择模板');
                       message.warning('请先选择模板');

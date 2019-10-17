@@ -15,14 +15,17 @@ export default ({ tags, setTags, curIndex, handleCurIndex }) => {
               } }>
                 {item.cucName }
                 <Icon type="close" style={{ marginLeft: '5px' }}
-                  onClick={ () => {
+                  onClick={ (e) => {
+                    e.stopPropagation();
+                    e.nativeEvent.stopImmediatePropagation();
                     const newViews = _.filter(tags, (v, i) => i !== index);
                     setTags(newViews);
-                    if (newViews.length) {
-                      handleCurIndex(newViews[0].cucId);
-                    } else {
-                      handleCurIndex('');
-                    }
+                    handleCurIndex('');
+                    // if (newViews.length) {
+                    //   handleCurIndex(newViews[0].cucId);
+                    // } else {
+                    //   handleCurIndex('');
+                    // }
                   }
                   } />
               </li>

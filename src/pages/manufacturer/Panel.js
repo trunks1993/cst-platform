@@ -1,17 +1,38 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
-import { Input } from 'antd';
-import { Icon } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Input, Skeleton, Icon } from 'antd';
+import { SaveGroupData } from '../../redux/actions';
+import { queryConfig, deleteGroupConfig, queryByConfigId } from '../../api/cs_api';
+import { getToken } from '../../utils/auth';
+import _ from 'lodash';
 
 const { Search } = Input;
 
 // eslint-disable-next-line complexity
-export default ({ setTempData }) => {
+const Panel = ({ setTempData, configData, addGroupConfigData }) => {
   const [visible1, setVisible1] = useState(false);
-  const [visible2, setVisible2] = useState(false);
-  const [visible3, setVisible3] = useState(false);
+  const [groupDatas, setGroupDatas] = useState([]);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
+  const [queryConfigState, setQueryState] = useState(false);
+
+  useEffect(() => {
+    const token = getToken();
+    // 查询配置信息
+    queryConfig(token).then(res => {
+      // 左侧配置(组名和组的子节点)
+      console.log('query config', res);
+
+      const newArr = Array(res.data.length).fill(true);
+      setGroupDatas(newArr);
+      // dispatch 添加组的数据
+      addGroupConfigData(res.data);
+
+      setQueryState(!queryConfigState);
+    });
+  }, []);
+  console.log('-----------------', configData);
 
   return (
     <div className="panel-box">
@@ -32,39 +53,57 @@ export default ({ setTempData }) => {
             onSearch={value => console.log(value)}
           />
 
-          <div className="group-btn" onClick={() => setVisible2(!visible2)}>
-            罪犯统计分析1
-            <span className="group-btn-iconbox">
-              <Icon type="caret-down" />
-            </span>
-          </div>
-          <ul
-            className="group-list"
-            style={{
-              paddingBottom: visible2 ? 0 : '10px',
-              maxHeight: visible2 ? 0 : '1000px'
-            }}
-          >
-            <li>罪犯婚姻状态统计(编辑中0)</li>
-            <li>罪犯婚姻状态统计(已保存1)</li>
-            <li>罪犯婚姻状态统计(已发布2)</li>
-          </ul>
+          {
+            !queryConfigState ? <Skeleton active /> : configData.map((group, index, arrs) => {
+              return (
+                <div key={group.cfgId}>
+                  <div className="group-btn" onClick={() => {
+                    // 这里 ...............
+                    const ary = _.clone(groupDatas);
+                    ary[index] = !groupDatas[index];
+                    setGroupDatas(ary);
+                  }}>
+                    {group.cfgName}
+                    <span className="group-btn-iconbox">
+                      <Icon type="caret-down" />
+                    </span>
+                  </div>
+                  <ul
+                    className="group-list"
+                    style={{
+                      paddingBottom: groupDatas[index] ? 0 : '10px',
+                      maxHeight: groupDatas[index] ? 0 : '1000px'
+                    }}
+                  >
+                    {
+                      // eslint-disable-next-line complexity
+                      group.children.map(child => <li
+                        key={child.cfgId}
+                        onClick={async e => {
+                          const nodes = e.target.parentNode.childNodes;
+                          for (let i = 0; i < nodes.length; i++) {
+                            nodes[i].setAttribute('class', '');
+                          }
+                          e.target.setAttribute('class', 'active-li');
 
-          <div className="group-btn" onClick={() => setVisible3(!visible3)}>
-            罪犯统计分析2
-            <span className="group-btn-iconbox">
-              <Icon type="caret-down" />
-            </span>
-          </div>
-          <ul
-            className="group-list"
-            style={{
-              paddingBottom: visible3 ? 0 : '10px',
-              maxHeight: visible3 ? 0 : '1000px'
-            }}
-          >
-            <li>罪犯婚姻状态统计(编辑中0)</li>
-          </ul>
+                          console.log('删除当前选中配置', child.cfgId);
+                          const deleteRes = await deleteGroupConfig(child.cfgId, getToken());
+
+                          console.log('deleteRes: ', deleteRes);
+
+                          const configDetail = await queryByConfigId(child.cfgId, getToken());
+                          console.log('configDetail: ', configDetail);
+
+                        }}
+                      >
+                        {child.cfgName}{child.cfgStatus === 0 ? '(编辑中)' : (child.state === 1 ? '(已保存)' : '(已发布)')}
+                      </li>)
+                    }
+                  </ul>
+                </div>
+              );
+            })
+          }
         </div>
       </div>
       <img
@@ -173,3 +212,17 @@ export default ({ setTempData }) => {
     </div>
   );
 };
+
+const mapStateToProps = ({ user: { data } }) => {
+  return {
+    configData: data
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addGroupConfigData: data => dispatch(SaveGroupData(data))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Panel);
