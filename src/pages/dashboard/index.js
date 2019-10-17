@@ -3,7 +3,7 @@ import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews';
 import { Modal, Form, Input, message } from 'antd';
-import { addStaticTemp, getStaticTemp, deleteTemp } from '@/api/index';
+import { addStaticTemp, getStaticTemp, deleteTemp, saveTempGridData } from '@/api/index';
 import { getToken } from '@/utils/auth';
 
 // const { Option } = Select;
@@ -13,7 +13,8 @@ export default () => {
   const [showModel, handleShowModel] = useState(false);
   const [InputValue, handleInputValue] = useState('');
   const [curIndex, handleCurIndex] = useState([]);// 当前模板id
-  const [layouts, setLayouts] = useState([{ type: 'bar', x: 1, y: 0, w: 4, h: 8 }]);// layouts
+  const [layouts, setLayouts] = useState([]);// layouts
+
   const childRef = useRef();
   const { confirm } = Modal;
   const gridRef = useRef();
@@ -52,8 +53,14 @@ export default () => {
           />
           <ul>
             <li className="btn-item" onClick={() => { handleShowModel(true); }}>新建</li>
-            <li className="btn-item">保存</li>
-            <li className="btn-item">另存为</li>
+            <li className="btn-item" onClick={() => {
+              console.log(curIndex);
+              if (!curIndex) {
+                message.warning('请先选择模块');
+              } else {
+                saveTempGridData({ cucId: curIndex, cucStatus: '2' });
+              }
+            }}>保存</li>
             <li className="btn-item" onClick={() => {
               console.log(curIndex);
               if (!curIndex) {
@@ -84,7 +91,14 @@ export default () => {
             }}>删除</li>
             <li className="btn-item">重置</li>
             <li className="btn-item">预览</li>
-            <li className="btn-item">发布</li>
+            <li className="btn-item" onClick={() => {
+              console.log(curIndex);
+              if (!curIndex) {
+                message.warning('请先选择模块');
+              } else {
+                saveTempGridData({ cucId: curIndex, cucStatus: '3' });
+              }
+            }}>发布</li>
             <li className="btn-item">共享</li>
             <li className="btn-item">关闭</li>
           </ul>
@@ -123,7 +137,7 @@ export default () => {
             </Form>
           </Modal>
           <TagViews tags={tags} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
-          <Grid tempData={tempData} tags={tags} ref={gridRef} layout={layouts} setLayouts={setLayouts} isDroppable />
+          <Grid tempData={tempData} tags={tags} layout={layouts} setLayouts={setLayouts} isDroppable />
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export function login(username, password) {
   return request({
-    url: '/userbpm/cas/login',
+    url: '/cas/login',
     method: 'post',
     params: {
       username,
@@ -13,7 +13,7 @@ export function login(username, password) {
 // 获取当前用户信息
 export function getUserDetail(token) {
   return request({
-    url: '/userbpm/cas/user',
+    url: '/cas/user',
     method: 'get'
   });
 }
@@ -27,26 +27,24 @@ export const getTableList = queryList => request({
   url: `/user/getTableList?current=${queryList.current}&pageSize=${queryList.pageSize}`,
   method: 'get'
 });
+
 // 获取公共模板列表
 export const getPublicTemp = params => request({
-  url: `/user/getTableList?current=${params.current}&pageSize=${params.pageSize}`,
-  method: 'get'
+  url: '/v1/userConfigInfo/CusUserConfig/list',
+  method: 'get',
+  params: {
+    cucIsShare: '1'
+  }
 });
 // 获取个人模板列表
 export const getStaticTemp = params => request({
-  url: '/userbpm/v1/userConfigInfo/CusUserConfig/select',
+  url: '/v1/userConfigInfo/CusUserConfig/select',
   method: 'get',
-  headers: {
-    token: params.token
-  }
 });
 // 新建个人模板
 export const addStaticTemp = par => request({
-  url: '/userbpm/v1/userConfigInfo/CusUserConfig/add',
+  url: '/v1/userConfigInfo/CusUserConfig/add',
   method: 'post',
-  headers: {
-    token: par.token
-  },
   params: {
     cucName: par.cucName,
     cucStatus: par.cucStatus,
@@ -55,60 +53,35 @@ export const addStaticTemp = par => request({
 });
 // 获取左下角echarts配置
 export const getEchartsList = token => request({
-  url: '/userbpm/v1/functionInfo/functionInfo/list',
+  url: '/v1/functionInfo/functionInfo/list',
   method: 'get',
-  headers: {
-    token
-  }
 });
 
 // 获取配置页详细信息
 export const getTempDetail = (token, configId) => request({
-  url: '/userbpm/v1/userConfigInfo/userFunctionInfo/list',
+  url: '/v1/userConfigInfo/userFunctionInfo/list',
   method: 'get',
-  headers: {
-    token
-  },
   params: {
     configId
   }
 });
 
-// 保存
+// 保存 或 发布
 export const saveTempGridData = (par) => request({
-  url: '/userbpm/v1/userConfigInfo/userFunctionInfo/add',
-  method: 'post',
-  headers: {
-    token: par.token
-  },
+  url: '/v1/userConfigInfo/CusUserConfig/edit',
+  method: 'PUT',
   params: {
-    configId: par.configId,
-    functionInfoId: par.functionInfoId,
-    layout: par.layout
+    cucID: par.cucId,
+    cucStatus: par.cucStatus
   }
 });
 
 // 删除
 export const deleteTemp = (par) => request({
-  url: '/userbpm/v1/userConfigInfo/CusUserConfig/remove',
+  url: '/v1/userConfigInfo/CusUserConfig/remove',
   method: 'DELETE',
-  headers: {
-    token: par.token
-  },
   params: {
     cucId: par.cucId
   }
 });
 
-// 发布
-export const releaseTemp = (par) => request({
-  url: '/userbpm/v1/userConfigInfo/CusUserConfig/edit',
-  method: 'put',
-  headers: {
-    token: par.token
-  },
-  params: {
-    cucStatus: par.cucStatus,
-    cucID: par.cucId
-  }
-});

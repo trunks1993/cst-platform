@@ -20,10 +20,10 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
   const [echartsList, handleEchartsList] = useState([]);
   const addTag = tag => {
     const fi = _.findIndex(tags, o => o.cucId === tag.cucId);
+    handleCurIndex(tag.cucId);
     if (fi < 0) {
       const t = _.clone(tags);
       t.push(tag);
-      handleCurIndex(tag.cucId);
       setTags(t);
     }
   };
@@ -46,7 +46,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
     getEchartsList(getToken()).then(res => {
       handleEchartsList(res.data);
     });
-    handlePublicTemp([]);
+    // 个人模板
     getStaticTemp({ token: getToken() }).then(res => {
       if (res.data.rows.length) {
         // setTimeout(() => {
@@ -55,6 +55,13 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
         ShowSingleTemp(false);
         // }, 20000);
       }
+    }).catch(err => {
+      console.error(err);
+    });
+    // 公共模板
+    getPublicTemp().then(res => {
+      handlePublicTemp(res.data.rows);
+      ShowPublicTemp(false);
     }).catch(err => {
       console.error(err);
     });
@@ -79,12 +86,15 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
           <ul className="group-list" style={{ paddingBottom: visible2 ? 0 : '10px', maxHeight: visible2 ? 0 : '1000px' }}>
             <Skeleton title={false} loading={ isShowPublicTemp } active>
               {
+                // eslint-disable-next-line complexity
                 publicTemp.map((tag, index) => (
-                  <li key={index} onClick={
+                  <li key={index} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
-                      getTempDetail(getToken(), tag.cucId);
+                      getTempDetail(getToken(), tag.cucId).then(res => {
+                        addTag(tag);
+                      });;
                     }
-                  }>{tag.name}</li>
+                  }>{tag.cucName}{ tag.status === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
                 ))
               }
             </Skeleton>
@@ -94,6 +104,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
           <ul className="group-list" style={{ paddingBottom: visible3 ? 0 : '10px', maxHeight: visible3 ? 0 : '1000px' }}>
             <Skeleton title={false} loading={ isShowSingleTemp } active>
               {
+                // eslint-disable-next-line complexity
                 singleTemp.map((tag, index) => (
                   <li key={tag.cucId} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
@@ -101,7 +112,7 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
                         addTag(tag);
                       });
                     }
-                  }>{tag.cucName}</li>
+                  }>{tag.cucName}{ tag.cucStatus === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
                 ))
               }
             </Skeleton>
