@@ -8,6 +8,8 @@ import thunk from 'redux-thunk';
 import '@/styles/index.scss';
 import '@/mock/index';
 
+console.log('a', process.env);
+
 const store = createStore(appStore, applyMiddleware(thunk));
 
 ReactDOM.render(

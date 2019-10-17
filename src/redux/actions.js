@@ -1,5 +1,4 @@
-import { getUserByToken } from '@/api/index';
-import { login } from '@/api/cs_api';
+import { login, getUserByToken } from '@/api/index';
 import { setToken, removeToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
@@ -44,7 +43,7 @@ export function getUser(token) {
     dispatch(requestUser());
     // 异步请求后端接口
     return getUserByToken(token).then(
-      res => dispatch(receiveUser(res.data.user)),
+      res => dispatch(receiveUser(res.data)),
       error => dispatch(recevieUserOnError('error'))
     );
   };
@@ -56,27 +55,7 @@ export function loginByUsername(username, password) {
     dispatch(requestUser());
     // 异步请求后端接口
     return login(username, password).then(
-      async res => {
-        console.log('res: ', res);
-        // res.data.user = {
-        //   id: 1554121,
-        //   name: 'trunks',
-        //   menu: [
-        //     {
-        //       id: 0,
-        //       title: '人员管理',
-        //       children: [{
-        //         id: 1,
-        //         title: '戒毒人员管理',
-        //         path: '/tablePageTest',
-        //         component: 'tablePageTest'
-        //       }]
-        //     }
-        //   ]
-        // };
-        setToken(res.data.token);
-        return dispatch(receiveUser(res.data.user));
-      },
+      res => setToken(res.data.token),
       error => dispatch(recevieUserOnError('error'))
     );
   };

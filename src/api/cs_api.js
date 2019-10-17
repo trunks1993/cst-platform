@@ -1,30 +1,5 @@
 import request from '@/utils/request';
 
-// 厂商接口
-
-// 厂商登录
-export function login(username, password) {
-  return request({
-    url: '/cas/login',
-    method: 'post',
-    params: {
-      username,
-      password
-    }
-  });
-}
-
-// 获取当前用户信息
-export function getUserDetail(token) {
-  return request({
-    url: '/cas/user',
-    method: 'get',
-    headers: {
-      'token': token
-    }
-  });
-}
-
 // 获取所有配置组以及组的子节点
 export function queryConfig(token) {
   return request({

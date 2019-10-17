@@ -17,7 +17,7 @@ export default () => {
 
   const childRef = useRef();
   const { confirm } = Modal;
-  const gridRef = useRef();
+
   const addNewModule = () => {
     addStaticTemp({ token: getToken(), cucName: InputValue, cucStatus: '1' }).then(res => {
       message.success(res.msg);

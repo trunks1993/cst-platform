@@ -15,23 +15,20 @@ export default () => (
   <HashRouter>
     <Switch>
       <AuthRoute exact path="/login" authTo="/" component={LoginPage} />
-      <AuthRoute exact path="/jd" authTo="/login" component={Layout} />
-      <AuthRoute exact path="/manufacturer" authTo="/login" component={Layout} />
-      <Redirect exact from="/" to="/jd" />
-      <Redirect exact from="/" to="/manufacturer" />
+      <AuthRoute exact path="/config" authTo="/login" component={Layout} />
+      <Redirect exact from="/" to="/config" />
       <Route component={Page404} />
     </Switch>
   </HashRouter>
 );
 
 export const RouteList = ({ match }) => {
-  const user = useContext(UserContext);
-
-  console.log('user: ', flatTree(user.menu));
-  console.log('match :', match);
+  // const user = useContext(UserContext);
+  const isCs = (process.env.REACT_APP_ENV === 'cs');
+  console.log(isCs, process.env.REACT_APP_ENV);
   return (
     <Switch>
-      {flatTree(user.menu)
+      {/* {flatTree(user.menu)
         .filter(item => item.component)
         .map((item, index) => (
           <Route
@@ -39,8 +36,8 @@ export const RouteList = ({ match }) => {
             key={index}
             component={componentObj[item.component]}
           />
-        ))}
-      <Route exact path={match.path} component={match.path === '/jd' ? Dashboard : Manufacturer} />
+        ))} */}
+      <Route exact path="/config" component={isCs ? Manufacturer : Dashboard} />
       <Route component={Page404} />
     </Switch>
   );

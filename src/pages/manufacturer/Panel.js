@@ -54,55 +54,55 @@ const Panel = ({ setTempData, configData, addGroupConfigData }) => {
           />
 
           {
-            !queryConfigState ? <Skeleton active /> : configData.map((group, index, arrs) => {
-              return (
-                <div key={group.cfgId}>
-                  <div className="group-btn" onClick={() => {
-                    // 这里 ...............
-                    const ary = _.clone(groupDatas);
-                    ary[index] = !groupDatas[index];
-                    setGroupDatas(ary);
-                  }}>
-                    {group.cfgName}
-                    <span className="group-btn-iconbox">
-                      <Icon type="caret-down" />
-                    </span>
-                  </div>
-                  <ul
-                    className="group-list"
-                    style={{
-                      paddingBottom: groupDatas[index] ? 0 : '10px',
-                      maxHeight: groupDatas[index] ? 0 : '1000px'
-                    }}
-                  >
-                    {
-                      // eslint-disable-next-line complexity
-                      group.children.map(child => <li
-                        key={child.cfgId}
-                        onClick={async e => {
-                          const nodes = e.target.parentNode.childNodes;
-                          for (let i = 0; i < nodes.length; i++) {
-                            nodes[i].setAttribute('class', '');
-                          }
-                          e.target.setAttribute('class', 'active-li');
+            // !queryConfigState ? <Skeleton active /> : configData.map((group, index, arrs) => {
+            //   return (
+            //     <div key={group.cfgId}>
+            //       <div className="group-btn" onClick={() => {
+            //         // 这里 ...............
+            //         const ary = _.clone(groupDatas);
+            //         ary[index] = !groupDatas[index];
+            //         setGroupDatas(ary);
+            //       }}>
+            //         {group.cfgName}
+            //         <span className="group-btn-iconbox">
+            //           <Icon type="caret-down" />
+            //         </span>
+            //       </div>
+            //       <ul
+            //         className="group-list"
+            //         style={{
+            //           paddingBottom: groupDatas[index] ? 0 : '10px',
+            //           maxHeight: groupDatas[index] ? 0 : '1000px'
+            //         }}
+            //       >
+            //         {
+            //           // eslint-disable-next-line complexity
+            //           group.children.map(child => <li
+            //             key={child.cfgId}
+            //             onClick={async e => {
+            //               const nodes = e.target.parentNode.childNodes;
+            //               for (let i = 0; i < nodes.length; i++) {
+            //                 nodes[i].setAttribute('class', '');
+            //               }
+            //               e.target.setAttribute('class', 'active-li');
 
-                          console.log('删除当前选中配置', child.cfgId);
-                          const deleteRes = await deleteGroupConfig(child.cfgId, getToken());
+            //               console.log('删除当前选中配置', child.cfgId);
+            //               const deleteRes = await deleteGroupConfig(child.cfgId, getToken());
 
-                          console.log('deleteRes: ', deleteRes);
+            //               console.log('deleteRes: ', deleteRes);
 
-                          const configDetail = await queryByConfigId(child.cfgId, getToken());
-                          console.log('configDetail: ', configDetail);
+            //               const configDetail = await queryByConfigId(child.cfgId, getToken());
+            //               console.log('configDetail: ', configDetail);
 
-                        }}
-                      >
-                        {child.cfgName}{child.cfgStatus === 0 ? '(编辑中)' : (child.state === 1 ? '(已保存)' : '(已发布)')}
-                      </li>)
-                    }
-                  </ul>
-                </div>
-              );
-            })
+            //             }}
+            //           >
+            //             {child.cfgName}{child.cfgStatus === 0 ? '(编辑中)' : (child.state === 1 ? '(已保存)' : '(已发布)')}
+            //           </li>)
+            //         }
+            //       </ul>
+            //     </div>
+            //   );
+            // })
           }
         </div>
       </div>
