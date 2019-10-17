@@ -9,7 +9,7 @@ import { getToken } from '../../utils/auth';
 import { SaveGroupData } from '../../redux/actions';
 
 // API
-import { saveGroupConfig, getSelectParent, queryConfig } from '../../api';
+import { saveGroupConfig, getSelectParent, queryConfig } from '../../api/cs_api';
 
 import { Modal, Form, Input, AutoComplete } from 'antd';
 const { Option } = AutoComplete;
