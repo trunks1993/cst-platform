@@ -196,8 +196,8 @@ $customizeWhite: #fff;
       overflow-x: hidden;
       .panel-box {
         width: 230px;
-        height: calc(100% - 15px);;
-        overflow-y: scroll;
+        height: calc(100% - 15px);
+        overflow-y: auto;
         overflow-x: hidden;
         .img-line {
           margin: 10px 0 10px 6px;
@@ -288,6 +288,9 @@ $customizeWhite: #fff;
       width: 268px;
       font-size: 0;
       .panel-box {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 100%;
         &-item {
           // min-height: 500px;
           .btn {
@@ -339,6 +342,9 @@ $customizeWhite: #fff;
                 &:not(:first-child) {
                   margin-top: 10px;
                 }
+              }
+              .active-li {
+                color: #0393FF;
               }
             }
 
