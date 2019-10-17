@@ -1,13 +1,24 @@
-import { getUserByToken, login, getUserDetail } from '@/api/index';
+import { getUserByToken, login } from '@/api/index';
 import { setToken, removeToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
 export const REQUEST_USER = 'REQUEST_USER';
+
+// 保存当前登陆者的信息
+export const SAVE_CONFIG = 'SAVE_CONFIG';
+
+export const RECEIVE_USER = 'RECEIVE_USER';
+
+export function SaveGroupData(data) {
+  return {
+    type: SAVE_CONFIG,
+    data
+  };
+}
+
 export function requestUser() {
   return { type: REQUEST_USER, isFetch: true };
 }
-
-export const RECEIVE_USER = 'RECEIVE_USER';
 
 function receiveUser(user) {
   return {

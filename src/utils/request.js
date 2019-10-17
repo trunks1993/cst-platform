@@ -1,12 +1,14 @@
 import axios from 'axios';
+import { getToken } from './auth';
 
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API+'/api', // api的base_url
-  baseURL: 'http://192.168.0.105:9093',
+  baseURL: 'http://192.168.0.105:9092/bpm',
   timeout: 150000, // 请求超时时间
   headers: {
-    'X-Requested-With': 'XMLHttpRequest'
+    'X-Requested-With': 'XMLHttpRequest',
+    token: getToken()
   }
 });
 
