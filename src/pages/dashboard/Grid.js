@@ -1,5 +1,6 @@
 import React from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
+import { Progress } from 'antd';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import _ from 'lodash';
 import ReactEcharts from 'echarts-for-react';
@@ -57,7 +58,16 @@ export default class LocalStorageLayout extends React.PureComponent {
           style={{ width: '100%',height: '100%',paddingTop: '30px' }}
         />
       );
-
+      const progress = (
+        <div>
+          <span>xx</span>
+          <Progress percent={30}
+            strokeColor={{
+              '0%': '#ff6e02',
+              '100%': '#ffff00',
+            }} size="small" />
+        </div>
+      );
       return (
         <div key={i} className={l.static ? 'static' : ''} style={{ overflow: 'hidden' }} data-grid={l}>
           <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
@@ -71,7 +81,7 @@ export default class LocalStorageLayout extends React.PureComponent {
             l.type === 'gauge' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
           }
           <div className="title-box">{l.title }</div>
-          {component}
+          {progress}
         </div>
       );
     });
