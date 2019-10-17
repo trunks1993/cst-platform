@@ -1,4 +1,5 @@
-import { getUserByToken, login } from '@/api/index';
+import { getUserByToken } from '@/api/index';
+import { login } from '@/api/cs_api';
 import { setToken, removeToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
@@ -57,22 +58,22 @@ export function loginByUsername(username, password) {
     return login(username, password).then(
       async res => {
         console.log('res: ', res);
-        res.data.user = {
-          id: 1554121,
-          name: 'trunks',
-          menu: [
-            {
-              id: 0,
-              title: '人员管理',
-              children: [{
-                id: 1,
-                title: '戒毒人员管理',
-                path: '/tablePageTest',
-                component: 'tablePageTest'
-              }]
-            }
-          ]
-        };
+        // res.data.user = {
+        //   id: 1554121,
+        //   name: 'trunks',
+        //   menu: [
+        //     {
+        //       id: 0,
+        //       title: '人员管理',
+        //       children: [{
+        //         id: 1,
+        //         title: '戒毒人员管理',
+        //         path: '/tablePageTest',
+        //         component: 'tablePageTest'
+        //       }]
+        //     }
+        //   ]
+        // };
         setToken(res.data.token);
         return dispatch(receiveUser(res.data.user));
       },

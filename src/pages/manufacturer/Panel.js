@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Input, Skeleton, Icon } from 'antd';
 import { SaveGroupData } from '../../redux/actions';
-import { queryConfig, deleteGroupConfig, queryByConfigId } from '../../api';
+import { queryConfig, deleteGroupConfig, queryByConfigId } from '../../api/cs_api';
 import { getToken } from '../../utils/auth';
 import _ from 'lodash';
 
