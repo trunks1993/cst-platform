@@ -217,17 +217,6 @@ $customizeWhite: #fff;
         overflow: hidden;
         transition: max-height .3s;
 
-        // 按钮样式
-        .button-style {
-          height: 30px;
-          font-size: 12px;
-          background: #063C79;
-          border-color: #063C79;
-          color: #fff;
-          padding: 0px 8px;
-          margin-right: -2px;
-          z-index: 1;
-        }
 
         // 单选框的样式
         .ant-radio-inner {
@@ -258,10 +247,29 @@ $customizeWhite: #fff;
 
         .property-content {
           display: flex;
+          align-items: center;
           position: relative;
           padding: 8px 0;
+          &-btn {
+            height: 28px;
+            font-size: 12px;
+            background: #063C79;
+            color: #fff;
+            width: 68px;
+            text-align: center;
+            display: block;
+            border-radius:2px;
+            line-height: 28px;
+            position: relative;
+            z-index: 1;
+            margin-right: -2px;
+          }
+          &-editetable {
+            
+          }
           .select {
-            width: 250px;
+            width: calc(100% - 68px);
+            height: 28px;
             color: #0393FF;
           }
           .ant-select-selection {
@@ -269,7 +277,15 @@ $customizeWhite: #fff;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
           }
-
+          input {
+            color: #0393FF;
+            background: #05254b;
+            height: 28px;
+            border: none;
+            width: calc(100% - 68px);
+            border-radius: 3px;
+            text-align: center;
+          }
           .ant-select-selection--single {
             background: #05254b;
             border-color: #05254b;

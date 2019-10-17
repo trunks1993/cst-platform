@@ -5,34 +5,35 @@ import { Input, Skeleton, Icon } from 'antd';
 import { SaveGroupData } from '../../redux/actions';
 import { queryConfig, deleteGroupConfig, queryByConfigId } from '../../api/cs_api';
 import { getToken } from '../../utils/auth';
+import { tempArr } from '@/config';
+
 import _ from 'lodash';
 
 const { Search } = Input;
-
+console.log(tempArr);
 // eslint-disable-next-line complexity
-const Panel = ({ setTempData, configData, addGroupConfigData }) => {
+const Panel = ({ setTempData, configData, addGroupConfigData, pref }) => {
   const [visible1, setVisible1] = useState(false);
   const [groupDatas, setGroupDatas] = useState([]);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
   const [queryConfigState, setQueryState] = useState(false);
 
-  useEffect(() => {
-    const token = getToken();
-    // 查询配置信息
-    queryConfig(token).then(res => {
-      // 左侧配置(组名和组的子节点)
-      console.log('query config', res);
+  // useEffect(() => {
+  //   const token = getToken();
+  //   // 查询配置信息
+  //   queryConfig(token).then(res => {
+  //     // 左侧配置(组名和组的子节点)
+  //     console.log('query config', res);
 
-      const newArr = Array(res.data.length).fill(true);
-      setGroupDatas(newArr);
-      // dispatch 添加组的数据
-      addGroupConfigData(res.data);
+  //     const newArr = Array(res.data.length).fill(true);
+  //     setGroupDatas(newArr);
+  //     // dispatch 添加组的数据
+  //     addGroupConfigData(res.data);
 
-      setQueryState(!queryConfigState);
-    });
-  }, []);
-  console.log('-----------------', configData);
+  //     setQueryState(!queryConfigState);
+  //   });
+  // }, [addGroupConfigData, queryConfigState]);
 
   return (
     <div className="panel-box">
@@ -133,79 +134,19 @@ const Panel = ({ setTempData, configData, addGroupConfigData }) => {
             className="temp-list"
             style={{ maxHeight: visible5 ? 0 : '1000px' }}
           >
-            <li
-              draggable
-              onDragStart={() => {
-                return setTempData({
-                  type: 'bar',
-                  title: '罪犯文化程度',
-                  minW: 2,
-                  minH: 4,
-                  w: 4,
-                  h: 8
-                });
-              }}
-              unselectable="on"
-            >
-              <img
-                src={require('../../assets/images/tempIcons/1.png')}
-                alt=""
-              />
-              <div className="title">罪犯文化程度...</div>
-            </li>
-            <li
-              draggable
-              onDragStart={() => {
-                return setTempData({
-                  type: 'line',
-                  title: '罪犯婚姻状况',
-                  minW: 2,
-                  minH: 4,
-                  w: 4,
-                  h: 8
-                });
-              }}
-              unselectable="on"
-            >
-              <img
-                draggable={false}
-                src={require('../../assets/images/tempIcons/1.png')}
-                alt=""
-              />
-              <div className="title">罪犯婚姻状况...</div>
-            </li>
-            <li
-              draggable
-              onDragStart={() => {
-                return setTempData({
-                  type: 'pie',
-                  title: '三类罪犯统计',
-                  minW: 2,
-                  minH: 2,
-                  w: 3,
-                  h: 8
-                });
-              }}
-              unselectable="on"
-            >
-              <img
-                src={require('../../assets/images/tempIcons/1.png')}
-                alt=""
-              />
-              <div className="title">三类罪犯统计</div>
-            </li>
-            <li>
-              {/* <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">四涉罪犯统计</div> */}
-            </li>
-            {/* <li>
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">罪犯危险性分...</div>
-            </li>
-            <li>
-              <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
-              <div className="title">监狱安全指数</div>
-            </li> */}
+            {
+              _.map(tempArr, (v, i) => (
+                // eslint-disable-next-line no-unused-expressions
+                <li
+                  draggable
+                  onDragStart={() => setTempData(v)}
+                  unselectable="on"
+                >
+                  <img src={require('@/assets/images/tempIcons/' + v.icon)} alt="" />
+                  <div className="title">{v.name}</div>
+                </li>)
+              )
+            }
           </ul>
         </div>
       </div>

@@ -12,13 +12,10 @@ export function queryConfig(token) {
 }
 
 // 保存当前配置
-export function saveGroupConfig({ cfgParentId, configName }, token) {
+export function saveGroupConfig({ cfgParentId, configName }) {
   return request({
     url: '/v1/cusConfig/addConfig',
     method: 'put',
-    headers: {
-      'token': token
-    },
     params: {
       cfgName: configName,
       cfgParentId
@@ -58,5 +55,13 @@ export function getSelectParent(token) {
     headers: {
       'token': token
     }
+  });
+}
+
+export function saveInfo(arr) {
+  return request({
+    url: '/v1/cusFunctionInfo/saveInfo',
+    method: 'post',
+    data: arr
   });
 }
