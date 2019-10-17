@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'antd';
 import _ from 'lodash';
 
-export default ({ tags, setTags }) => {
+export default ({ tags, setTags, curIndex, handleCurIndex }) => {
 
   return (
     <div className="tag-views">
@@ -10,12 +10,19 @@ export default ({ tags, setTags }) => {
         {
           tags.map((item, index) => {
             return (
-              <li className="tag-views-item" key={index}>
-                {item.name }
-                <Icon type="close"
+              <li className={ curIndex === item.cucId ? 'tag-views-item active-tag-views' : 'tag-views-item' } key={index} onClick={ () => {
+                handleCurIndex(item.cucId);
+              } }>
+                {item.cucName }
+                <Icon type="close" style={{ marginLeft: '5px' }}
                   onClick={ () => {
                     const newViews = _.filter(tags, (v, i) => i !== index);
                     setTags(newViews);
+                    if (newViews.length) {
+                      handleCurIndex(newViews[0].cucId);
+                    } else {
+                      handleCurIndex('');
+                    }
                   }
                   } />
               </li>
