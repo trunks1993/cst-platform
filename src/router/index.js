@@ -1,18 +1,13 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useContext } from 'react';
+import React from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import AuthRoute from './authRoute';
-// eslint-disable-next-line no-unused-vars
-import { UserContext } from '@/utils/contexts';
-// import Home from '@/pages/home';
+// import { UserContext } from '@/utils/contexts';
+
 import LoginPage from '@/pages/loginPage';
 import Layout from '@/pages/layout';
 import Page404 from '@/pages/page404';
 import Dashboard from '@/pages/dashboard';
 import Manufacturer from '@/pages/manufacturer';
-
-// eslint-disable-next-line no-unused-vars
-import componentObj, { flatTree } from '@/utils';
 
 export default () => (
   <HashRouter>

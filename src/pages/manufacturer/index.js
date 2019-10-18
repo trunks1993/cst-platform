@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import Grid from './Grid';
 import Panel from './Panel';
-import TagViews from './TagViews';
+import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
-import request from '../../utils/request';
-import { getToken } from '../../utils/auth';
+import { getToken } from '@/utils/auth';
 import { SaveGroupData } from '../../redux/actions';
+import _ from 'lodash';
+import { UserContext } from '@/utils/contexts';
 
 // API
-import { saveGroupConfig, getSelectParent, queryConfig, saveInfo } from '../../api/cs_api';
+import { saveGroupConfig, getSelectParent, queryConfig, saveInfo, updateStauts } from '@/api/cs_api';
 
 import { Modal, Form, Input, AutoComplete } from 'antd';
 const { Option } = AutoComplete;
@@ -85,16 +86,9 @@ const Main = ({ addConfigData }) => {
   const [formInfo, setFormInfo] = useState([]);// layouts
   const [selectId, setSelectId] = useState('');// layouts选中Id
 
+  const [selectTag, setSelectTag] = useState({});// tags选中Id
+
   const [groupParents, setParents] = useState([]);
-
-  const onSearch = value => {
-  };
-
-  const onFocus = async() => {
-    const res = await getSelectParent(getToken());
-    setParents(res.data);
-
-  };
 
   const callSave = async() => {
     // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
@@ -102,8 +96,6 @@ const Main = ({ addConfigData }) => {
     if (configName.value) {
       const res = await saveGroupConfig({ configName: configName.value, cfgParentId: groupId.value }, getToken());
       handleShowModel(!showModel);
-      console.log('res:', res);
-
       // 新建配置后重新请求所有配置
       const allConfigData = await queryConfig(getToken());
 
@@ -112,6 +104,8 @@ const Main = ({ addConfigData }) => {
     }
   };
 
+  const user = useContext(UserContext);
+  console.log('user', user);
   return (
     <div className="dashboard-container">
       <div className="dashboard-container-header">
@@ -144,6 +138,9 @@ const Main = ({ addConfigData }) => {
                   case '删除':
                     item.callback(111);
                     break;
+                  case '发布':
+                    updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {});
+                    break;
                   default:
                     return '';
                 }
@@ -155,7 +152,7 @@ const Main = ({ addConfigData }) => {
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setTempData={setTempData} />
+          <Panel setSelectTag={setSelectTag} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
         </div>
         <div
           className="dashboard-container-body-content"
@@ -178,8 +175,6 @@ const Main = ({ addConfigData }) => {
                   placeholder="请选择组名"
                   optionFilterProp="children"
                   onChange={val => setGroupId({ value: val })}
-                  onFocus={onFocus}
-                  onSearch={onSearch}
                   value={groupId.value}
                 >
 
@@ -202,8 +197,8 @@ const Main = ({ addConfigData }) => {
               </Form.Item>
             </Form>
           </Modal>
-          <TagViews />
-          <Grid tempData={tempData} setSelectId={setSelectId} selectId={selectId} tags={['test']} formInfo={formInfo} setFormInfo={setFormInfo} />
+          <TagViews selectTag={selectTag} setSelectTag={setSelectTag} />
+          <Grid tempData={tempData} selectTag={selectTag} setSelectId={setSelectId} selectId={selectId} tags={['test']} formInfo={formInfo} setFormInfo={setFormInfo} />
           <PropertyPanel selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} visible />
         </div>
       </div>

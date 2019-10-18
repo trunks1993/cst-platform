@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PanelTitle from '@/components/PanelTitle';
+import { selectByDataSource } from '@/api/cs_api';
 
-import { Select, Input, Radio } from 'antd';
-import EditeTable from './EditeTable';
+import { Select, Radio } from 'antd';
 import _ from 'lodash';
 const { Option } = Select;
-const { TextArea } = Input;
 
 // eslint-disable-next-line complexity
 const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
@@ -28,22 +27,34 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
   // 更新
   const [cfiIsUpdate, setCfiIsUpdate] = useState(1);
 
+  // 数据源类型
+  const [cdsOdbcType, setCdsOdbcType] = useState('1');
+
+  // 数据源id
+  const [cfiDatasourceId, setCfiDatasourceId] = useState('');
+
+  // 数据源option
+  const [dsIdOptions, setDsIdOptions] = useState([]);
+
   // 数据源绑定
-  const [cusDataSource, setCusDataSource] = useState({ cdsOdbcType: 1, cdsOdbcValue: [], cdsRemark: '' });
+  // const [cusDataSource, setCusDataSource] = useState({ cdsOdbcType: 1, cdsOdbcValue: [], cdsRemark: '' });
 
   // 事件
   const [cfiEvent, setCfiEvent] = useState({ glass: 1, filter: 1, export: 1, detail: 1 });
 
   useEffect(() => {
-    const o = formInfo.find(v => v.tId === selectId);
+    const o = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
     if (o) {
-      setCfiType(o.type);
+      setCfiType(o.cfiType);
       setCfiEvent(JSON.parse(o.cfiEvent));
       setCfiName(o.cfiName);
       setCfiIsUpdate(o.cfiIsUpdate);
-      setCusDataSource(JSON.parse(o.cusDataSource));
+      setCfiDatasourceId(o.cfiDatasourceId);
+      selectByDataSource(o.cfiType, '1', cdsOdbcType).then(res => {
+        setDsIdOptions(res.data);
+      });
     }
-  }, [formInfo, selectId]);
+  }, [cdsOdbcType, formInfo, selectId]);
 
   return (
     <div className="property-panel" style={{ transform: `translate(${ visible ? 0 : '300px'})`, padding: visible ? '40px 0 8px 0' : '40px 6px 8px 6px' }}>
@@ -62,7 +73,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
               setCfiName(e.target.value);
 
               const t = _.clone(formInfo);
-              const item = t.find(v => v.tId === selectId);
+              const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiName = e.target.value;
               setFormInfo(t);
             }} />
@@ -76,9 +87,10 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
           <div className="property-content">
             <span className="property-content-btn">数据更新</span>
             <Select className="select" value={cfiIsUpdate} onChange={e => {
-              setCfiIsUpdate(e);
+              // setCfiIsUpdate(e);
+              // debugger;
               const t = _.clone(formInfo);
-              const item = t.find(v => v.tId === selectId);
+              const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiIsUpdate = e;
               setFormInfo(t);
             }}>
@@ -89,38 +101,47 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="property-content">
             <span className="property-content-btn">数据源</span>
-            <Select className="select" value={cusDataSource.cdsOdbcType} onChange={e => {
-              const d = _.assign({}, cusDataSource, { cdsOdbcType: e });
-              const item = formInfo.find(v => v.tId === selectId);
-              item.cusDataSource = JSON.stringify(d);
-              setFormInfo(formInfo);
-              setCusDataSource(d);
+            <Select className="select" value={cdsOdbcType} onChange={e => {
+              setCdsOdbcType(e);
             }}>
-              <Option value={1}>自定义</Option>
-              <Option value={2}>URL</Option>
-              <Option value={3}>SQL</Option>
+              <Option value={'1'}>自定义</Option>
+              <Option value={'2'}>URL</Option>
+              <Option value={'3'}>SQL</Option>
             </Select>
           </div>
 
-          <div className="">
-            <EditeTable className="property-content-editetable" cusDataSource={cusDataSource } setCusDataSource={setCusDataSource} selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} />
+          <div className="property-content">
+            <span className="property-content-btn">数据绑定</span>
+            <Select className="select" value={cfiDatasourceId} onChange={e => {
+              const t = _.clone(formInfo);
+              const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
+              item.cfiDatasourceId = e;
+              setFormInfo(t);
+              setCfiDatasourceId(e);
+            }}>
+              {
+                _.map(dsIdOptions, v => (
+                  <Option key={v.cdsOdbcId} value={v.cdsOdbcId}>{v.cdsRemark}</Option>
+                ))
+              }
+            </Select>
           </div>
 
-          <div className="property-content" style={{ display: 'block' }}>
+          {/* <div className="property-content" style={{ display: 'block' }}>
             <span className="property-content-btn">数据源说明</span>
             <TextArea
               className="text-area"
               value={cusDataSource.cdsRemark}
               onChange={e => {
                 const d = _.assign({}, cusDataSource, { cdsRemark: e.target.value });
-                const item = formInfo.find(v => v.tId === selectId);
-                item.cusDataSource = JSON.stringify(d);
+                const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
+                item.cusDataSource = d;
                 setFormInfo(formInfo);
                 setCusDataSource(d);
               }}
               autosize={{ minRows: 5, maxRows: 5 }}
             />
-          </div>
+          </div> */}
         </div>
 
         <img
@@ -143,8 +164,8 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
             <Radio.Group onChange={e => {
               const d = _.assign({}, cfiEvent, { glass: e.target.value });
               setCfiEvent(d);
-
-              const item = formInfo.find(v => v.tId === selectId);
+              debugger;
+              const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiEvent = JSON.stringify(d);
               setFormInfo(formInfo);
             }} value={cfiEvent.glass} >
@@ -159,7 +180,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
               const d = _.assign({}, cfiEvent, { filter: e.target.value });
               setCfiEvent(d);
 
-              const item = formInfo.find(v => v.tId === selectId);
+              const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiEvent = JSON.stringify(d);
               setFormInfo(formInfo);
             }} value={cfiEvent.filter}>
@@ -174,7 +195,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
               const d = _.assign({}, cfiEvent, { export: e.target.value });
               setCfiEvent(d);
 
-              const item = formInfo.find(v => v.tId === selectId);
+              const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiEvent = JSON.stringify(d);
               setFormInfo(formInfo);
             }} value={cfiEvent.export}>
@@ -187,7 +208,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
             <span className="radio-title">明细</span>
             <Radio.Group onChange={e => {
               const d = _.assign({}, cfiEvent, { detail: e.target.value });
-              const item = formInfo.find(v => v.tId === selectId);
+              const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiEvent = JSON.stringify(d);
               setFormInfo(formInfo);
               setCfiEvent(d);
