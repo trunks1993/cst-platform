@@ -43,14 +43,12 @@ const LoginPage = ({ handleLogin }) => {
           />
         </Form.Item>
         <Form.Item>
-          <Checkbox>Remember me</Checkbox>
-
           <Button type="primary" onClick={() => {
             if (userNameObj.value && passworldObj.value) {
               handleLogin(userNameObj.value, passworldObj.value);
             }
           }} className="login-form-button">
-            登陆
+            登录
           </Button>
         </Form.Item>
       </Form>

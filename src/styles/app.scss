@@ -10,7 +10,7 @@ $customizeWhite: #fff;
   justify-content: center;
 }
 .common-imgurl-1 {
-  background: url(../assets/images/loginBg.png);
+  background: url(../assets/images/bg-body.png);
 }
 
 
@@ -46,7 +46,43 @@ $customizeWhite: #fff;
   @extend .common-imgurl-1;
   @extend .common-flex;
   .login-form {
-    max-width: 300px;
+    width: 556px;
+    height: 445px;
+    background: url(../assets/images/login-bk.png);
+    background-size: 100% 100%;
+    padding: 124px 95px;
+    .ant-form-item {
+      .ant-form-item-control-wrapper {
+        width: 100%;
+        height: 50px;
+        background: url(../assets/images/login-input.png);
+        background-size: 100% 100%;
+        .anticon {
+          color: #fff !important;
+          margin-left: 15px;
+          font-size: 20px;
+        }
+        .ant-input {
+          border: none;
+          line-height: 50px;
+          height: 50px;
+          padding-left: 60px;
+          font-size: 16px;
+        }
+      }
+      .ant-btn {
+        background: url(../assets/images/login.png);
+        background-size: 100% 100%;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+      }
+    }
+    .ant-form-item:nth-child(3) {
+      .ant-form-item-control-wrapper {
+        background: none !important;
+      }
+    }
   }
   .login-form-forgot {
     float: right;
@@ -213,7 +249,7 @@ $customizeWhite: #fff;
         color: #0393FF;
       }
       .property-container {
-        padding: 0 12px;
+        padding: 0 8px 0 14px;
         overflow: hidden;
         transition: max-height .3s;
 
@@ -237,7 +273,7 @@ $customizeWhite: #fff;
 
         .application-config {
           display: flex;
-          width: 219px;
+          width: 208px;
           height: 55px;
           flex-wrap: nowrap;
           font-size: 14px;
