@@ -46,36 +46,60 @@ $customizeWhite: #fff;
   @extend .common-imgurl-1;
   @extend .common-flex;
   .login-form {
-    width: 556px;
-    height: 445px;
+    width: 604px;
+    height: 356px;
     background: url(../assets/images/login-bk.png);
     background-size: 100% 100%;
-    padding: 124px 95px;
+    padding: 63px 95px;
+    h2 {
+      width: 87px;
+      color: #fff;
+      margin: 0 auto;
+      font-size: 21px;
+      margin-bottom: 34px;
+      text-shadow:0px 0px 8px #006def;
+      position: relative;
+      font-family:Adobe Heiti Std;
+    }
+    h2::after {
+      content: "";
+      display: inline-block;
+      width: 87px;
+      height: 2px;
+      background-color: #fff;
+      box-shadow: 0px 0px 8px #006def;
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+    }
     .ant-form-item {
       .ant-form-item-control-wrapper {
-        width: 100%;
-        height: 50px;
-        background: url(../assets/images/login-input.png);
+        width: 330px;
+        height: 30px;
         background-size: 100% 100%;
+        margin-left: 42px;
         .anticon {
-          color: #fff !important;
-          margin-left: 15px;
-          font-size: 20px;
+          color: #79A8E0 !important;
+          font-size: 16px;
         }
         .ant-input {
           border: none;
-          line-height: 50px;
-          height: 50px;
-          padding-left: 60px;
+          line-height: 30px;
+          height: 30px;
+          padding-left: 35px;
           font-size: 16px;
+          color: #79A8E0;
+          background-color: #05254B;
+          border: 1px solid #02439D;
         }
       }
       .ant-btn {
         background: url(../assets/images/login.png);
         background-size: 100% 100%;
-        height: 50px;
-        line-height: 50px;
-        font-size: 16px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        margin-top: 14px;
       }
     }
     .ant-form-item:nth-child(3) {
@@ -243,7 +267,7 @@ $customizeWhite: #fff;
         @include panel-title();
       }
       .text-area {
-        margin-top: 8px;
+        margin-top: 14px;
         background: #05254B;
         border-color: #05254B;
         color: #0393FF;
@@ -263,13 +287,13 @@ $customizeWhite: #fff;
         .application-config {
           display: flex;
           width: 208px;
-          height: 55px;
+          height: 40px;
           flex-wrap: nowrap;
           font-size: 14px;
           justify-content: space-between;
           background-color: #05254B;
           padding: 20px 15px;
-          margin-top: 10px;
+          margin-top: 14px;
           align-items: center;
           background-image: linear-gradient(to right, #051D40, #05254B, #051D40);
           .radio-title {
@@ -285,7 +309,7 @@ $customizeWhite: #fff;
           display: flex;
           align-items: center;
           position: relative;
-          padding: 8px 0;
+          padding-top: 14px;
           &-btn {
             height: 28px;
             font-size: 12px;
@@ -309,9 +333,12 @@ $customizeWhite: #fff;
             color: #0393FF;
           }
           .ant-select-selection {
-            height: 30px;
+            height: 28px;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+            .ant-select-selection__rendered {
+              line-height: 28px;
+            }
           }
           input {
             color: #0393FF;
