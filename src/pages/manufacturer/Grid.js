@@ -1,164 +1,94 @@
-import React from 'react';
+import React, { useState } from 'react';
+import RGL, { WidthProvider } from 'react-grid-layout';
+import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import _ from 'lodash';
-import { Responsive, WidthProvider } from '@/components/Draggler';
 import ReactEcharts from 'echarts-for-react';
-import { getBarChart, getLineChart, getPieChart } from '@/utils/echarts';
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const generateDOM = (formInfo, selectId, setSelectId) => {
+  // eslint-disable-next-line complexity
+  return _.map(formInfo, (l, i) => {
+    let option;
+    if (l.type === 1) {
+      option = getBarChart();
+    } else if (l.type === 2) {
+      option = getLineChart();
+    } else if (l.type === 3) {
+      option = getPieChart();
+    } else if (l.type === 4) {
+      option = getVisualMap();
+    } else if (l.type === 5) {
+      option = getGauge();
+    } else {
+      option = getBarChart();
+    }
 
-export default class ShowcaseLayout extends React.Component {
-  static defaultProps = {
-    className: 'cst-layout',
-    rowHeight: 30,
-    onLayoutChange: function() { },
-    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    widgets: []
-  };
+    const component = (
+      <ReactEcharts
+        option={option}
+        notMerge
+        lazyUpdate
+        style={{ width: '100%',height: '100%',paddingTop: '30px' }}
+      />
+    );
 
-  state = {
-    currentBreakpoint: 'lg',
-    compactType: 'vertical',
-    mounted: false,
-    widgets: this.props.widgets
-  };
-
-  componentDidMount() {
-    this.setState({ mounted: true });
-  }
-
-  // generateDOM() {
-  //   return _.map(this.state.widgets, function(l, i) {
-  //     return (
-  //       <div key={i} className={l.static ? 'static' : ''} data-grid={l}>
-  //         {l.static ? (
-  //           <span
-  //             className="text"
-  //             title="This item is static and cannot be removed or resized."
-  //           >
-  //             Static - {i}
-  //           </span>
-  //         ) : (
-  //           <span className="text">{i}</span>
-  //         )}
-  //       </div>
-  //     );
-  //   });
-  // }
-  generateDOM = () => {
-    // eslint-disable-next-line complexity
-    return _.map(this.state.widgets, (l, i) => {
-      console.log(l);
-      let option;
-      if (l.type === 'bar') {
-        option = getBarChart();
-      } else if (l.type === 'line') {
-        option = getLineChart();
-      } else if (l.type === 'pie') {
-        option = getPieChart();
-      }
-
-      const component = (
-        <ReactEcharts
-          option={option}
-          notMerge
-          lazyUpdate
-          style={{ width: '100%', height: '100%' }}
-        />
-      );
-
-      return (
-        <div key={i} className={l.static ? 'static' : ''} data-grid={l}>
-          {/* <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>x</span> */}
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/1.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/2.png')}
-            alt=""
-          />
-          <img
-            className="bg-icon"
-            src={require('@/assets/images/temp/2.png')}
-            alt=""
-          />
-          <div className="title-box">{l.title}</div>
-          {component}
-        </div>
-      );
-    });
-  };
-
-  onBreakpointChange = breakpoint => {
-    this.setState({
-      currentBreakpoint: breakpoint
-    });
-  };
-
-  onLayoutChange = (layout, layouts) => {
-    this.props.onLayoutChange(layout, layouts);
-  };
-
-  onDrop = elemParams => {
-    const { tempData } = this.props;
-    // const { minW, minH, w, h } = tempData;
-    // console.log(elemParams, tempData);
-    // console.log(_.assign(elemParams, tempData));
-    // tempData.i = new Date().getTime().toString();
-    // elemParams.minW = 2;
-    // elemParams.minH = 4;
-    // elemParams.w = 4;
-    // elemParams.h = 8;
-    // eslint-disable-next-line no-alert
-    this.addItem(_.assign(elemParams, tempData));
-  };
-
-  addItem(elemParams) {
-    this.setState({
-      widgets: this.state.widgets.concat({
-        ...elemParams
-      })
-    });
-  }
-
-  render() {
     return (
-      <div className="manufacturer-grid-box">
-        <ResponsiveReactGridLayout
-          {...this.props}
-          layouts={this.state.layouts}
-          onBreakpointChange={this.onBreakpointChange}
-          onLayoutChange={this.onLayoutChange}
-          onDrop={this.onDrop}
-          // WidthProvider option
-          measureBeforeMount={false}
-          // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
-          // and set `measureBeforeMount={true}`.
-          useCSSTransforms={this.state.mounted}
-          compactType={this.state.compactType}
-          preventCollision={!this.state.compactType}
-          isDroppable
-        >
-          {this.generateDOM()}
-        </ResponsiveReactGridLayout>
+      <div key={l.layout.i} style={{ overflow: 'hidden', border: l.tId === selectId ? '1px solid #ecdbdb' : '' }} data-grid={l.layout} onClick={() => setSelectId(l.tId)}>
+        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+        <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+        <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+        {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
+        {
+          l.type === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+        }
+        <div className="title-box">{l.cfiName }</div>
+        {component}
       </div>
     );
+  });
+};
+
+const ReactGridLayout = WidthProvider(RGL);
+export default ({ formInfo, setFormInfo, tempData, tags, setSelectId, selectId }) => {
+  // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
+  const [doing, setDo] = useState(true);
+
+  function onLayoutChange(l) {
+    if (doing) return;
+    const f = _.map(_.clone(formInfo), v => {
+      const item = l.find(lv => lv.i === v.layout.i);
+      v.layout = item;
+      return v;
+    });
+    setFormInfo(f);
   }
-}
+
+  const onDrop = e => {
+    e.i = new Date().getTime() + '';
+    const { layout, type, cfiEvent, cfiName, cfiIsUpdate, cusDataSource } = tempData;
+    const l = _.assign(e, layout);
+    setSelectId(e.i);
+    setFormInfo(formInfo.concat({ type, cfiEvent, cfiName, cfiIsUpdate, cusDataSource, tId: l.i, layout: { ...l } }));
+    setDo(false);
+  };
+
+  return (
+    // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
+    <div className="manufacturer-grid-box" onDragEnter={() => setDo(true)}>
+      <ReactGridLayout
+        className="cst-layout"
+        cols={12}
+        rowHeight={30}
+        // layout={layout}
+        onLayoutChange={onLayoutChange}
+        onDrop={e => onDrop(e)}
+        isDroppable={ tags.length > 0 }
+      >
+        {generateDOM(formInfo, selectId, setSelectId)}
+      </ReactGridLayout>
+    </div>
+  );
+
+};

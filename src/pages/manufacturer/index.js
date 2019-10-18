@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import Grid from './Grid';
 import Panel from './Panel';
@@ -9,7 +9,7 @@ import { getToken } from '../../utils/auth';
 import { SaveGroupData } from '../../redux/actions';
 
 // API
-import { saveGroupConfig, getSelectParent, queryConfig } from '../../api/cs_api';
+import { saveGroupConfig, getSelectParent, queryConfig, saveInfo } from '../../api/cs_api';
 
 import { Modal, Form, Input, AutoComplete } from 'antd';
 const { Option } = AutoComplete;
@@ -25,8 +25,8 @@ const operates = [
   {
     key: 'save',
     label: '保存',
-    callback: function() {
-      console.log('保存啊');
+    callback: function(fn) {
+      fn();
     }
   },
   {
@@ -82,6 +82,8 @@ const Main = ({ addConfigData }) => {
   const [configName, setConfigName] = useState({
     value: ''
   });
+  const [formInfo, setFormInfo] = useState([]);// layouts
+  const [selectId, setSelectId] = useState('');// layouts选中Id
 
   const [groupParents, setParents] = useState([]);
 
@@ -90,11 +92,9 @@ const Main = ({ addConfigData }) => {
 
   const onFocus = async() => {
     const res = await getSelectParent(getToken());
-    console.log('parent group: ', res);
     setParents(res.data);
 
   };
-  console.log('groupId: ', groupId);
 
   const callSave = async() => {
     // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
@@ -129,10 +129,17 @@ const Main = ({ addConfigData }) => {
           />
           <ul>
             {
+              // eslint-disable-next-line complexity
               operates.map(item => <li key={item.key} className="btn-item" onClick={(e) => {
                 switch (e.target.innerText) {
                   case '新建':
                     item.callback(handleShowModel, showModel);
+                    break;
+                  // eslint-disable-next-line no-duplicate-case
+                  case '保存':
+                    saveInfo(formInfo).then(res => {
+                      console.log(res);
+                    });
                     break;
                   case '删除':
                     item.callback(111);
@@ -196,8 +203,8 @@ const Main = ({ addConfigData }) => {
             </Form>
           </Modal>
           <TagViews />
-          <Grid tempData={tempData} />
-          <PropertyPanel visible />
+          <Grid tempData={tempData} setSelectId={setSelectId} selectId={selectId} tags={['test']} formInfo={formInfo} setFormInfo={setFormInfo} />
+          <PropertyPanel selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} visible />
         </div>
       </div>
     </div>

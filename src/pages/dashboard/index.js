@@ -99,6 +99,7 @@ export default () => {
             setTempData={setTempData}
             tags={tags}
             setTags={setTags}
+            setLayouts={setLayouts}
             handleCurIndex={handleCurIndex}
             curIndex={curIndex} />
         </div>

@@ -7,7 +7,7 @@ import { Icon } from 'antd';
 import _ from 'lodash';
 const { Search } = Input;
 // eslint-disable-next-line complexity
-export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) => {
+export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curIndex, cRef }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
@@ -97,8 +97,9 @@ export default ({ setTempData, setTags, tags, handleCurIndex, curIndex, cRef }) 
                 singleTemp.map((tag, index) => (
                   <li key={tag.cucId} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
+                      addTag(tag);
                       getTempDetail(getToken(), tag.cucId).then(res => {
-                        addTag(tag);
+                        setLayouts(res.data);
                       });
                     }
                   }>{tag.cucName}</li>

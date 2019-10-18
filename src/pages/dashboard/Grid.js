@@ -60,7 +60,6 @@ export default ({ layout, setLayouts, tempData, tags }) => {
 
   const onDrop = e => {
     const l = _.assign(e, tempData);
-    debugger;
     setLayouts(layout.concat({ ...l }));
     setDo(false);
   };

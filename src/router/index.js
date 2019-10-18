@@ -25,7 +25,6 @@ export default () => (
 export const RouteList = ({ match }) => {
   // const user = useContext(UserContext);
   const isCs = (process.env.REACT_APP_ENV === 'cs');
-  console.log(isCs, process.env.REACT_APP_ENV);
   return (
     <Switch>
       {/* {flatTree(user.menu)
