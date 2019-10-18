@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import AuthRoute from './authRoute';
-import { UserContext } from '@/utils/contexts';
+// import { UserContext } from '@/utils/contexts';
 
 import LoginPage from '@/pages/loginPage';
 import Layout from '@/pages/layout';
 import Page404 from '@/pages/page404';
 import Dashboard from '@/pages/dashboard';
 import Manufacturer from '@/pages/manufacturer';
-
-import componentObj, { flatTree } from '@/utils';
 
 export default () => (
   <HashRouter>

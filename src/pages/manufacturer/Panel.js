@@ -4,36 +4,31 @@ import { connect } from 'react-redux';
 import { Input, Skeleton, Icon } from 'antd';
 import { SaveGroupData } from '../../redux/actions';
 import { queryConfig, deleteGroupConfig, queryByConfigId } from '../../api/cs_api';
-import { getToken } from '../../utils/auth';
 import { tempArr } from '@/config';
 
 import _ from 'lodash';
 
 const { Search } = Input;
-console.log(tempArr);
 // eslint-disable-next-line complexity
-const Panel = ({ setTempData, configData, addGroupConfigData, pref }) => {
+const Panel = ({ setTempData, setSelectTag, selectTag, addGroupConfigData, setFormInfo, setSelectId }) => {
   const [visible1, setVisible1] = useState(false);
   const [groupDatas, setGroupDatas] = useState([]);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
   const [queryConfigState, setQueryState] = useState(false);
 
-  // useEffect(() => {
-  //   const token = getToken();
-  //   // 查询配置信息
-  //   queryConfig(token).then(res => {
-  //     // 左侧配置(组名和组的子节点)
-  //     console.log('query config', res);
-
-  //     const newArr = Array(res.data.length).fill(true);
-  //     setGroupDatas(newArr);
-  //     // dispatch 添加组的数据
-  //     addGroupConfigData(res.data);
-
-  //     setQueryState(!queryConfigState);
-  //   });
-  // }, [addGroupConfigData, queryConfigState]);
+  useEffect(() => {
+    // 查询配置信息
+    queryConfig().then(res => {
+      // 左侧配置(组名和组的子节点)
+      const g = _.map(res.data, v => {
+        v.visible = true;
+        return v;
+      });
+      setGroupDatas(g);
+      setQueryState(true);
+    });
+  }, [addGroupConfigData, queryConfigState]);
 
   return (
     <div className="panel-box">
@@ -55,55 +50,47 @@ const Panel = ({ setTempData, configData, addGroupConfigData, pref }) => {
           />
 
           {
-            // !queryConfigState ? <Skeleton active /> : configData.map((group, index, arrs) => {
-            //   return (
-            //     <div key={group.cfgId}>
-            //       <div className="group-btn" onClick={() => {
-            //         // 这里 ...............
-            //         const ary = _.clone(groupDatas);
-            //         ary[index] = !groupDatas[index];
-            //         setGroupDatas(ary);
-            //       }}>
-            //         {group.cfgName}
-            //         <span className="group-btn-iconbox">
-            //           <Icon type="caret-down" />
-            //         </span>
-            //       </div>
-            //       <ul
-            //         className="group-list"
-            //         style={{
-            //           paddingBottom: groupDatas[index] ? 0 : '10px',
-            //           maxHeight: groupDatas[index] ? 0 : '1000px'
-            //         }}
-            //       >
-            //         {
-            //           // eslint-disable-next-line complexity
-            //           group.children.map(child => <li
-            //             key={child.cfgId}
-            //             onClick={async e => {
-            //               const nodes = e.target.parentNode.childNodes;
-            //               for (let i = 0; i < nodes.length; i++) {
-            //                 nodes[i].setAttribute('class', '');
-            //               }
-            //               e.target.setAttribute('class', 'active-li');
-
-            //               console.log('删除当前选中配置', child.cfgId);
-            //               const deleteRes = await deleteGroupConfig(child.cfgId, getToken());
-
-            //               console.log('deleteRes: ', deleteRes);
-
-            //               const configDetail = await queryByConfigId(child.cfgId, getToken());
-            //               console.log('configDetail: ', configDetail);
-
-            //             }}
-            //           >
-            //             {child.cfgName}{child.cfgStatus === 0 ? '(编辑中)' : (child.state === 1 ? '(已保存)' : '(已发布)')}
-            //           </li>)
-            //         }
-            //       </ul>
-            //     </div>
-            //   );
-            // })
+            !queryConfigState ? <Skeleton active /> : groupDatas.map((group, index, arrs) => {
+              return (
+                <div key={group.cfgId}>
+                  <div className="group-btn" onClick={() => {
+                    const t = _.clone(groupDatas);
+                    t[index].visible = !group.visible;
+                    setGroupDatas(t);
+                  }}>
+                    {group.cfgName}
+                    <span className="group-btn-iconbox">
+                      <Icon type="caret-down" />
+                    </span>
+                  </div>
+                  <ul
+                    className="group-list"
+                    style={{
+                      paddingBottom: !group.visible ? 0 : '10px',
+                      maxHeight: !group.visible ? 0 : '1000px'
+                    }}
+                  >
+                    {
+                      // eslint-disable-next-line complexity
+                      group.children.map(child => (<li
+                        key={child.cfgId}
+                        onClick = {() => {
+                          setSelectTag(child);
+                          queryByConfigId(child.cfgId).then(res => {
+                            if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
+                            setFormInfo(res.data);
+                          });
+                        }}
+                        style={{ color: selectTag.cfgId === child.cfgId ? '#03AFFF' : null }}
+                      >
+                        {child.cfgName}{child.cfgStatus === 3 ? '(已发布)' : (child.state === 2 ? '(已保存)' : '(编辑中)')}
+                      </li>)
+                      )
+                    }
+                  </ul>
+                </div>
+              );
+            })
           }
         </div>
       </div>
@@ -138,6 +125,7 @@ const Panel = ({ setTempData, configData, addGroupConfigData, pref }) => {
               _.map(tempArr, (v, i) => (
                 // eslint-disable-next-line no-unused-expressions
                 <li
+                  key={i}
                   draggable
                   onDragStart={() => setTempData(v)}
                   unselectable="on"

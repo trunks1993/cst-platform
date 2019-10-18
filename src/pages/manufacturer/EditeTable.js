@@ -88,7 +88,9 @@ class EditableCell extends React.Component {
     }
 }
 
-export default ({ cusDataSource, setCusDataSource, formInfo, selectId, setFormInfo }) => {
+export default ({ cusDataSource, setCusDataSource, formInfo, selectId }) => {
+  const t = typeof cusDataSource.cdsOdbcValue;
+  const ds = t === 'string' ? JSON.parse(cusDataSource.cdsOdbcValue) : cusDataSource.cdsOdbcValue;
 
   const columnData = [
     {
@@ -104,7 +106,7 @@ export default ({ cusDataSource, setCusDataSource, formInfo, selectId, setFormIn
     {
       title: '',
       dataIndex: 'operation',
-      render: (text, record) => cusDataSource.cdsOdbcValue.length >= 1 ? (
+      render: (text, record) => ds.length >= 1 ? (
         <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
           <a><Icon type="delete" /></a>
         </Popconfirm>
@@ -120,7 +122,7 @@ export default ({ cusDataSource, setCusDataSource, formInfo, selectId, setFormIn
   };
 
   const handleSave = row => {
-    const newData = [...cusDataSource.cdsOdbcValue];
+    const newData = [...ds];
     const index = newData.findIndex(item => row.key === item.key);
     const item = newData[index];
     newData.splice(index, 1, {
@@ -128,9 +130,9 @@ export default ({ cusDataSource, setCusDataSource, formInfo, selectId, setFormIn
       ...row,
     });
 
-    const d = _.assign({}, cusDataSource, { cdsOdbcValue: newData });
+    const d = _.assign({}, cusDataSource, { cdsOdbcValue: JSON.stringify(newData) });
     const items = formInfo.find(v => v.tId === selectId);
-    items.cusDataSource = JSON.stringify(d);
+    items.cusDataSource = d;
     setCusDataSource(d);
     // setFormInfo(d);
   };
@@ -157,14 +159,14 @@ export default ({ cusDataSource, setCusDataSource, formInfo, selectId, setFormIn
   };
 
   const handleAdd = () => {
-    const d = _.clone(cusDataSource.cdsOdbcValue);
+    const d = _.clone(ds);
     d.push({
       key: +new Date().getTime(),
       keyName: '',
       value: ''
     });
 
-    const f = _.assign({}, cusDataSource, { cdsOdbcValue: d });
+    const f = _.assign({}, cusDataSource, { cdsOdbcValue: JSON.stringify(d) });
     setCusDataSource(f);
   };
 
@@ -175,7 +177,7 @@ export default ({ cusDataSource, setCusDataSource, formInfo, selectId, setFormIn
         size={'small'}
         components={components}
         rowClassName={() => 'editable-row'}
-        dataSource={cusDataSource.cdsOdbcValue}
+        dataSource={ds}
         columns={columns}
         pagination={ false }
       />
