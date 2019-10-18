@@ -1,37 +1,37 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useContext } from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import AuthRoute from './authRoute';
+// eslint-disable-next-line no-unused-vars
 import { UserContext } from '@/utils/contexts';
-
+// import Home from '@/pages/home';
 import LoginPage from '@/pages/loginPage';
 import Layout from '@/pages/layout';
 import Page404 from '@/pages/page404';
 import Dashboard from '@/pages/dashboard';
 import Manufacturer from '@/pages/manufacturer';
 
+// eslint-disable-next-line no-unused-vars
 import componentObj, { flatTree } from '@/utils';
 
 export default () => (
   <HashRouter>
     <Switch>
       <AuthRoute exact path="/login" authTo="/" component={LoginPage} />
-      <AuthRoute exact path="/jd" authTo="/login" component={Layout} />
-      <AuthRoute exact path="/manufacturer" authTo="/login" component={Layout} />
-      <Redirect exact from="/" to="/jd" />
-      <Redirect exact from="/" to="/manufacturer" />
+      <AuthRoute exact path="/config" authTo="/login" component={Layout} />
+      <Redirect exact from="/" to="/config" />
+      {/* <Route exact path="/sys" component={Dashboard} /> */}
       <Route component={Page404} />
     </Switch>
   </HashRouter>
 );
 
 export const RouteList = ({ match }) => {
-  const user = useContext(UserContext);
-
-  console.log('user: ', flatTree(user.menu));
-  console.log('match :', match);
+  // const user = useContext(UserContext);
+  const isCs = (process.env.REACT_APP_ENV === 'cs');
   return (
     <Switch>
-      {flatTree(user.menu)
+      {/* {flatTree(user.menu)
         .filter(item => item.component)
         .map((item, index) => (
           <Route
@@ -39,8 +39,9 @@ export const RouteList = ({ match }) => {
             key={index}
             component={componentObj[item.component]}
           />
-        ))}
-      <Route exact path={match.path} component={match.path === '/jd' ? Dashboard : Manufacturer} />
+        ))} */}
+      {/* <Route exact path="/config" component={isCs ? Manufacturer : Home} /> */}
+      <Route exact path="/config" component={isCs ? Manufacturer : Dashboard} />
       <Route component={Page404} />
     </Switch>
   );

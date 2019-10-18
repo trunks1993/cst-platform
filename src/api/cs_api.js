@@ -1,30 +1,5 @@
 import request from '@/utils/request';
 
-// 厂商接口
-
-// 厂商登录
-export function login(username, password) {
-  return request({
-    url: '/cas/login',
-    method: 'post',
-    params: {
-      username,
-      password
-    }
-  });
-}
-
-// 获取当前用户信息
-export function getUserDetail(token) {
-  return request({
-    url: '/cas/user',
-    method: 'get',
-    headers: {
-      'token': token
-    }
-  });
-}
-
 // 获取所有配置组以及组的子节点
 export function queryConfig(token) {
   return request({
@@ -37,13 +12,10 @@ export function queryConfig(token) {
 }
 
 // 保存当前配置
-export function saveGroupConfig({ cfgParentId, configName }, token) {
+export function saveGroupConfig({ cfgParentId, configName }) {
   return request({
     url: '/v1/cusConfig/addConfig',
     method: 'put',
-    headers: {
-      'token': token
-    },
     params: {
       cfgName: configName,
       cfgParentId
@@ -83,5 +55,13 @@ export function getSelectParent(token) {
     headers: {
       'token': token
     }
+  });
+}
+
+export function saveInfo(arr) {
+  return request({
+    url: '/v1/cusFunctionInfo/saveInfo',
+    method: 'post',
+    data: arr
   });
 }

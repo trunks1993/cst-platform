@@ -1,5 +1,4 @@
-import { getUserByToken, login } from '@/api/index';
-// import { login } from '@/api/index';
+import { login, getUserByToken } from '@/api/index';
 import { setToken, removeToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
@@ -44,7 +43,7 @@ export function getUser(token) {
     dispatch(requestUser());
     // 异步请求后端接口
     return getUserByToken(token).then(
-      res => dispatch(receiveUser(res.data.user)),
+      res => dispatch(receiveUser(res.data)),
       error => dispatch(recevieUserOnError('error'))
     );
   };

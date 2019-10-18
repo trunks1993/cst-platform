@@ -1,5 +1,6 @@
 import request from '@/utils/request';
 
+// 登陆
 export function login(username, password) {
   return request({
     url: '/cas/login',
@@ -10,24 +11,14 @@ export function login(username, password) {
     }
   });
 }
+
 // 获取当前用户信息
-export function getUserDetail(token) {
+export function getUserByToken(token) {
   return request({
     url: '/cas/user',
     method: 'get'
   });
 }
-
-export const getUserByToken = token => request({
-  url: `/user/getUserByToken?token=${token}`,
-  method: 'get'
-});
-
-export const getTableList = queryList => request({
-  url: `/user/getTableList?current=${queryList.current}&pageSize=${queryList.pageSize}`,
-  method: 'get'
-});
-
 // 获取公共模板列表
 export const getPublicTemp = params => request({
   url: '/v1/userConfigInfo/CusUserConfig/list',
@@ -36,11 +27,13 @@ export const getPublicTemp = params => request({
     cucIsShare: '1'
   }
 });
+
 // 获取个人模板列表
 export const getStaticTemp = params => request({
-  url: '/v1/userConfigInfo/CusUserConfig/select',
-  method: 'get',
+  url: '/v1/userConfigInfo/CusUserConfig/queryUserById',
+  method: 'get'
 });
+
 // 新建个人模板
 export const addStaticTemp = par => request({
   url: '/v1/userConfigInfo/CusUserConfig/add',
@@ -54,7 +47,7 @@ export const addStaticTemp = par => request({
 // 获取左下角echarts配置
 export const getEchartsList = token => request({
   url: '/v1/functionInfo/functionInfo/list',
-  method: 'get',
+  method: 'get'
 });
 
 // 获取配置页详细信息
@@ -83,5 +76,11 @@ export const deleteTemp = (par) => request({
   params: {
     cucId: par.cucId
   }
+});
+
+// home首页详情
+export const getHomeDetail = () => request({
+  url: '/v1/userConfigTopic/userConfigTopic/list',
+  method: 'GET',
 });
 
