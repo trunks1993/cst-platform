@@ -5,6 +5,7 @@ import TagViews from '@/components/TagViews';
 import { Modal, Form, Input, message } from 'antd';
 import { addStaticTemp, getStaticTemp, deleteTemp, saveTempGridData } from '@/api/index';
 import { getToken } from '@/utils/auth';
+import _ from 'lodash';
 
 // const { Option } = Select;
 export default () => {
@@ -13,8 +14,8 @@ export default () => {
   const [showModel, handleShowModel] = useState(false);
   const [InputValue, handleInputValue] = useState('');
   const [curIndex, handleCurIndex] = useState([]);// 当前模板id
-  const [layouts, setLayouts] = useState([]);// layouts
-  const [selectId, setSelectId] = useState('');// layouts选中Id
+  const [formInfo, setFormInfo] = useState([]);// formInfo
+  const [selectId, setSelectId] = useState('');// formInfo选中Id
 
   const childRef = useRef();
   const { confirm } = Modal;
@@ -59,7 +60,25 @@ export default () => {
               if (!curIndex) {
                 message.warning('请先选择模块');
               } else {
-                saveTempGridData({ cucId: curIndex, cucStatus: '2' });
+                const matchInfo = _.map(formInfo, e => ({
+                  configId: curIndex,
+                  functionInfoId: e.cfiConfigId,
+                  // id: e.
+                  cufSourceid: e.cfiDatasourceId,
+                  layout: e.cfiLayout
+                }));
+                debugger;
+                saveTempGridData(matchInfo).then(res => {
+                  if (res.code === '0') {
+                    getStaticTemp({ token: getToken() }).then(res => {
+                      if (res.data.rows.length) {
+                        childRef.current.changeVal(res.data.rows);
+                      }
+                    }).catch(err => {
+                      console.error(err);
+                    });
+                  }
+                });
               }
             }}>保存</li>
             <li className="btn-item" onClick={() => {
@@ -113,7 +132,7 @@ export default () => {
             setTempData={setTempData}
             tags={tags}
             setTags={setTags}
-            setLayouts={setLayouts}
+            setFormInfo={setFormInfo}
             handleCurIndex={handleCurIndex}
             curIndex={curIndex} />
         </div>
@@ -139,7 +158,7 @@ export default () => {
             </Form>
           </Modal>
           <TagViews tags={tags} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
-          <Grid setSelectId={setSelectId} selectId={selectId} curIndex={curIndex} handleCurIndex={handleCurIndex} tempData={tempData} tags={tags} layout={layouts} setLayouts={setLayouts} isDroppable />
+          <Grid setSelectId={setSelectId} selectId={selectId} curIndex={curIndex} handleCurIndex={handleCurIndex} tempData={tempData} tags={tags} formInfo={formInfo} setFormInfo={setFormInfo} isDroppable />
         </div>
       </div>
     </div>

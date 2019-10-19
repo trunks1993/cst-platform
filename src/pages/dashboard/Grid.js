@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import RGL, { WidthProvider } from 'react-grid-layout';
-import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
+import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
+// import DragDom from '@/components/DragDom';
+import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import ReactEcharts from 'echarts-for-react';
 
-const generateDOM = (layout, selectId, setSelectId) => {
+const ReactGridLayout = WidthProvider(RGL);
+
+const generateDOM = (formInfo, selectId, setSelectId) => {
   // eslint-disable-next-line complexity
-  return _.map(layout, (l, i) => {
+  return _.map(formInfo, (l, i) => {
     let option;
     if (l.cfiType === '1') {
       option = getBarChart();
@@ -31,21 +34,9 @@ const generateDOM = (layout, selectId, setSelectId) => {
       />
     );
     const nl = JSON.parse(l.cfiLayout);
-    // const progress = (
-    //   <div style={{ width: '100%',padding: '20px', boxSizing: 'border-box' }}>
-    //     <div className="progress-label">暴力行为</div>
-    //     <Progress type="line" percent={1270}
-    //       strokeColor={{
-    //         '0%': '#ff6e02',
-    //         '100%': '#ffff00',
-    //       }}
-    //       strokeWidth={10}
-    //       format={percent => `${percent * 5} 人`}
-    //     />
-    //   </div>
-    // );
+
     return (
-      <div key={nl.i} className={l.static ? 'static' : ''} style={{ overflow: 'hidden' }} data-grid={nl} data-grid={nl} onClick={() => setSelectId(nl.i)}>
+      <div key={i} style={{ overflow: 'hidden' }} data-grid={nl}>
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
@@ -54,7 +45,7 @@ const generateDOM = (layout, selectId, setSelectId) => {
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
         {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
         {
-          l.type === 'gauge' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+          l.cfiType === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
         }
         <div className="title-box">{l.cfiName }</div>
         {component}
@@ -63,47 +54,44 @@ const generateDOM = (layout, selectId, setSelectId) => {
   });
 };
 
-const ReactGridLayout = WidthProvider(RGL);
-export default ({ curIndex, handleCurIndex, layout, setLayouts, tempData, tags, setSelectId, selectId }) => {
+export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tags, setSelectId, selectId }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
   const [doing, setDo] = useState(true);
 
   function onLayoutChange(l) {
     if (doing) return;
-    const f = _.map(_.clone(layout), v => {
+    debugger;
+    const f = _.map(_.clone(formInfo), v => {
       const item = l.find(lv => lv.i === JSON.parse(v.cfiLayout).i);
       v.cfiLayout = JSON.stringify(item);
       return v;
     });
-    setLayouts(f);
+    setFormInfo(f);
   }
 
   const onDrop = e => {
-    // debugger;
-    console.log(tempData);
-    // e.i = new Date().getTime() + '';
-    // tempData.cfiConfigId = curIndex;
-    // const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId } = tempData;
-    // const l = _.assign(e, JSON.parse(cfiLayout));
-    // setSelectId(e.i);
-    // setLayouts(layout.concat({ cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }) }));
-    // setDo(false);
+    const { datasourceId, layout, name, type, id } = tempData;
+    const { w, h } = JSON.parse(layout);
+    const { x, y } = e;
+    const i = '' + new Date().getTime();
+    const cfiLayout = JSON.stringify({ x, y, w, h, i });
+    const newInfo = [{ cfiLayout, cfiDatasourceId: datasourceId, cfiName: name, cfiType: type, cfiConfigId: id }, ...formInfo];
+    setFormInfo(newInfo);
+    setDo(false);
   };
 
   return (
     // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
-    <div className="grid-box" onDragOver={e => e.preventDefault()} onDragEnter={(e) => { setDo(true); }} onDrop={e => onDrop(e)}>
+    <div className="grid-box" onDragEnter={() => setDo(true)}>
       <ReactGridLayout
         className="cst-layout"
         cols={12}
         rowHeight={30}
         onLayoutChange={onLayoutChange}
-        // onDragOver={(e) => { console.log(e); }}
-        // onDrop={e => onDrop(e)}
-        // isDroppable={ !!curIndex }
-        isDraggable
+        onDrop={onDrop}
+        isDroppable={!!curIndex}
       >
-        {generateDOM(layout, selectId, setSelectId)}
+        { generateDOM(formInfo) }
       </ReactGridLayout>
     </div>
   );

@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { connect } from 'react-redux';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
-import { getToken } from '@/utils/auth';
-import { SaveGroupData } from '../../redux/actions';
 import _ from 'lodash';
 import { UserContext } from '@/utils/contexts';
+import { getCSGroup } from '@/redux/actions';
 
 // API
-import { saveGroupConfig, getSelectParent, queryConfig, saveInfo, updateStauts } from '@/api/cs_api';
+import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 
 import { Modal, Form, Input, AutoComplete } from 'antd';
 const { Option } = AutoComplete;
@@ -45,67 +44,58 @@ const operates = [
     }
   },
   {
-    key: 'preview',
-    label: '预览',
-    callback: function() {
-      console.log('预览啊');
-    }
-  },
-  {
     key: 'publish',
     label: '发布',
     callback: function() {
       console.log('发布啊');
     }
-  },
-  {
-    key: 'share',
-    label: '共享',
-    callback: function() {
-      console.log('共享啊');
-    }
-  },
-  {
-    key: 'close',
-    label: '关闭',
-    callback: function() {
-      console.log('关闭啊');
-    }
-  },
+  }
 ];
 
-const Main = ({ addConfigData }) => {
+const Main = ({ getCSGroup }) => {
   const [tempData, setTempData] = useState({});
-  const [showModel, handleShowModel] = useState(false);
-  const [groupId, setGroupId] = useState({
-    id: ''
-  });
-  const [configName, setConfigName] = useState({
-    value: ''
-  });
+  const [newModelVisible, handleNewModelVisible] = useState(false);
+  const [groupId, setGroupId] = useState('');
+  const [cfgName, setCfgName] = useState('');
   const [formInfo, setFormInfo] = useState([]);// layouts
   const [selectId, setSelectId] = useState('');// layouts选中Id
 
   const [selectTag, setSelectTag] = useState({});// tags选中Id
 
-  const [groupParents, setParents] = useState([]);
+  const [groupParents, setGroupParents] = useState([]);
 
-  const callSave = async() => {
-    // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
-    // 选择了组名，配置名就是组下的配置名
-    if (configName.value) {
-      const res = await saveGroupConfig({ configName: configName.value, cfgParentId: groupId.value }, getToken());
-      handleShowModel(!showModel);
-      // 新建配置后重新请求所有配置
-      const allConfigData = await queryConfig(getToken());
+  // const callSave = async() => {
+  //   // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
+  //   // 选择了组名，配置名就是组下的配置名
+  //   if (configName.value) {
+  //     const res = await saveGroupConfig({ configName: configName.value, cfgParentId: groupId.value }, getToken());
+  //     handleShowModel(!showModel);
+  //     // 新建配置后重新请求所有配置
+  //     const allConfigData = await queryConfig(getToken());
+  //     // disptch 保存到 common state
+  //     addConfigData(allConfigData.data);
+  //   }
+  // };
+  const childRef = useRef();
 
-      // disptch 保存到 common state
-      addConfigData(allConfigData.data);
-    }
+
+  const handleSave = () => {
+    const isNum = (typeof +groupId === 'number' && !isNaN(+groupId));
+    const id = isNum ? groupId : '';
+    saveGroupConfig(id, cfgName).then(res => {
+      childRef.current.fqueryConfig();
+      handleNewModelVisible(false);
+    });
+  };
+
+  const openNewModel = () => {
+    handleNewModelVisible(!newModelVisible);
+    getSelectParent().then(res => {
+      setGroupParents(res.data);
+    });
   };
 
   const user = useContext(UserContext);
-  console.log('user', user);
   return (
     <div className="dashboard-container">
       <div className="dashboard-container-header">
@@ -127,7 +117,8 @@ const Main = ({ addConfigData }) => {
               operates.map(item => <li key={item.key} className="btn-item" onClick={(e) => {
                 switch (e.target.innerText) {
                   case '新建':
-                    item.callback(handleShowModel, showModel);
+                    // item.callback(handleShowModel, showModel);
+                    openNewModel();
                     break;
                   // eslint-disable-next-line no-duplicate-case
                   case '保存':
@@ -136,10 +127,14 @@ const Main = ({ addConfigData }) => {
                     });
                     break;
                   case '删除':
-                    item.callback(111);
+                    deleteConfig(selectTag.cfgId).then(res => {
+                      childRef.current.fqueryConfig();
+                    });
                     break;
                   case '发布':
-                    updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {});
+                    updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
+                      childRef.current.fqueryConfig();
+                    });
                     break;
                   default:
                     return '';
@@ -152,7 +147,7 @@ const Main = ({ addConfigData }) => {
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setSelectTag={setSelectTag} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
+          <Panel setSelectTag={setSelectTag} cRef={childRef} ref={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
         </div>
         <div
           className="dashboard-container-body-content"
@@ -160,9 +155,9 @@ const Main = ({ addConfigData }) => {
         >
           <Modal
             centered
-            visible={ showModel}
-            onOk={() => handleShowModel(false)}
-            onCancel={() => handleShowModel(false)}
+            visible={newModelVisible}
+            // onOk={() => handleShowModel(false)}
+            // onCancel={() => handleShowModel(false)}
             closable={false}
             footer={null}
           >
@@ -174,8 +169,8 @@ const Main = ({ addConfigData }) => {
                   style={{ width: 200 }}
                   placeholder="请选择组名"
                   optionFilterProp="children"
-                  onChange={val => setGroupId({ value: val })}
-                  value={groupId.value}
+                  onChange={e => setGroupId(e)}
+                  value={groupId}
                 >
 
                   {
@@ -186,14 +181,13 @@ const Main = ({ addConfigData }) => {
               <Form.Item label="配置名">
                 <Input
                   style={{ width: 200 }}
-                  onChange={val => setConfigName({ value: val.target.value })}
-                  //   handleInputValue(val.target.value); }}
+                  onChange={e => setCfgName(e.target.value)}
                   placeholder="请填写配置名"
                 />
               </Form.Item>
               <Form.Item>
-                <button className="global-btn" onClick={() => callSave()}>确定</button>
-                <button className="global-btn" onClick={() => { handleShowModel(false); }}>取消</button>
+                <button className="global-btn" onClick={() => handleSave()}>确定</button>
+                <button className="global-btn" onClick={() => { handleNewModelVisible(false); }}>取消</button>
               </Form.Item>
             </Form>
           </Modal>
@@ -208,7 +202,7 @@ const Main = ({ addConfigData }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addConfigData: data => dispatch(SaveGroupData(data))
+    getCSGroup: () => dispatch(getCSGroup())
   };
 };
 

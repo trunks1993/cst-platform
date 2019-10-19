@@ -60,13 +60,10 @@ export const getTempDetail = (token, configId) => request({
 });
 
 // 保存 或 发布
-export const saveTempGridData = (par) => request({
-  url: '/v1/userConfigInfo/CusUserConfig/edit',
-  method: 'PUT',
-  params: {
-    cucID: par.cucId,
-    cucStatus: par.cucStatus
-  }
+export const saveTempGridData = (data) => request({
+  url: '/v1/userConfigInfo/userFunctionInfo/add',
+  method: 'post',
+  data
 });
 
 // 删除

@@ -7,7 +7,7 @@ import { Icon } from 'antd';
 import _ from 'lodash';
 const { Search } = Input;
 // eslint-disable-next-line complexity
-export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curIndex, cRef }) => {
+export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIndex, cRef }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
@@ -92,6 +92,7 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
                     () => {
                       addTag(tag);
                       getTempDetail(getToken(), tag.cucId).then(res => {
+                        setFormInfo(_.map(res.data, v => v.cusFunctionInfo[0]));
                       });;
                     }
                   }>{tag.cucName}{ tag.status === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
@@ -110,7 +111,8 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
                     () => {
                       addTag(tag);
                       getTempDetail(getToken(), tag.cucId).then(res => {
-                        setLayouts(res.data);
+                        // _.map(res.data, v => v.cusFunctionInfo)
+                        setFormInfo(res.data);
                       });
                     }
                   }>{tag.cucName}{ tag.cucStatus === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>

@@ -9,26 +9,14 @@ export function queryConfig() {
 }
 
 // 保存当前配置
-export function saveGroupConfig({ cfgParentId, configName }) {
+export function saveGroupConfig(cfgParentId, cfgName) {
   return request({
     url: '/v1/cusConfig/addConfig',
-    method: 'put',
+    method: 'post',
     params: {
-      cfgName: configName,
+      cfgName,
       cfgParentId
     }
-  });
-}
-
-// 删除指定配置
-export function deleteGroupConfig(id, token) {
-  return request({
-    url: '/v1/cusConfig/deleteConfig',
-    method: 'delete',
-    headers: {
-      'token': token
-    },
-    id
   });
 }
 
@@ -74,12 +62,23 @@ export function selectByDataSource(cdsChartId, cdsSystemId, cdsOdbcType) {
 
 export function updateStauts(cfgId, cfgStatus, cfgUpdayeId) {
   return request({
-    url: '/v1/cusDataSource/selectByDataSource',
-    method: 'get',
+    url: '/v1/cusConfig/updateStauts',
+    method: 'put',
     params: {
       cfgId,
       cfgStatus,
       cfgUpdayeId
+    }
+  });
+}
+
+// 删除组
+export function deleteConfig(id) {
+  return request({
+    url: '/v1/cusConfig/deleteConfig',
+    method: 'delete',
+    params: {
+      id
     }
   });
 }

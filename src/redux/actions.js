@@ -1,23 +1,27 @@
 import { login, getUserByToken } from '@/api/index';
+
+import { queryConfig } from '@/api/cs_api';
+
 import { setToken, removeToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
 export const REQUEST_USER = 'REQUEST_USER';
+
+export const REQUEST_GROUP = 'REQUEST_GROUP';
 
 // 保存当前登陆者的信息
 export const SAVE_CONFIG = 'SAVE_CONFIG';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
 
-export function SaveGroupData(data) {
-  return {
-    type: SAVE_CONFIG,
-    data
-  };
-}
+export const RECEIVE_GROUP = 'RECEIVE_GROUP';
 
 export function requestUser() {
   return { type: REQUEST_USER, isFetch: true };
+}
+
+export function requestGroup() {
+  return { type: REQUEST_GROUP, isFetch: true };
 }
 
 function receiveUser(user) {
@@ -25,6 +29,14 @@ function receiveUser(user) {
     type: RECEIVE_USER,
     isFetch: false,
     user
+  };
+}
+
+function receiveGroup(group) {
+  return {
+    type: RECEIVE_GROUP,
+    isFetch: false,
+    group
   };
 }
 
@@ -85,3 +97,16 @@ export const loginOut = () => dispatch => {
   removeToken();
   return dispatch(receiveUser({}));
 };
+
+// 异步请求action 上面3个基础的action整合
+export function getCSGroup() {
+  return dispatch => {
+    // 首次 dispatch：更新应用的 state 来通知API 请求发起了
+    dispatch(requestGroup());
+    // 异步请求后端接口
+    return queryConfig().then(
+      res => dispatch(receiveGroup(res.data)),
+      error => dispatch(recevieUserOnError('error'))
+    );
+  };
+}

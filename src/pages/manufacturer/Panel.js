@@ -1,16 +1,16 @@
 /* eslint-disable no-alert */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { connect } from 'react-redux';
 import { Input, Skeleton, Icon } from 'antd';
-import { SaveGroupData } from '../../redux/actions';
-import { queryConfig, deleteGroupConfig, queryByConfigId } from '../../api/cs_api';
+// import { SaveGroupData } from '../../redux/actions';
+import { queryConfig, deleteConfig, queryByConfigId } from '@/api/cs_api';
 import { tempArr } from '@/config';
 
 import _ from 'lodash';
 
 const { Search } = Input;
 // eslint-disable-next-line complexity
-const Panel = ({ setTempData, setSelectTag, selectTag, addGroupConfigData, setFormInfo, setSelectId }) => {
+export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId, cRef }) => {
   const [visible1, setVisible1] = useState(false);
   const [groupDatas, setGroupDatas] = useState([]);
   const [visible4, setVisible4] = useState(false);
@@ -19,6 +19,10 @@ const Panel = ({ setTempData, setSelectTag, selectTag, addGroupConfigData, setFo
 
   useEffect(() => {
     // 查询配置信息
+    aqueryConfig();
+  }, [queryConfigState]);
+
+  function aqueryConfig() {
     queryConfig().then(res => {
       // 左侧配置(组名和组的子节点)
       const g = _.map(res.data, v => {
@@ -28,7 +32,14 @@ const Panel = ({ setTempData, setSelectTag, selectTag, addGroupConfigData, setFo
       setGroupDatas(g);
       setQueryState(true);
     });
-  }, [addGroupConfigData, queryConfigState]);
+  }
+
+  useImperativeHandle(cRef, () => ({
+    // changeVal 就是暴露给父组件的方法
+    fqueryConfig: () => {
+      aqueryConfig();
+    }
+  }));
 
   return (
     <div className="panel-box">
@@ -142,16 +153,16 @@ const Panel = ({ setTempData, setSelectTag, selectTag, addGroupConfigData, setFo
   );
 };
 
-const mapStateToProps = ({ user: { data } }) => {
-  return {
-    configData: data
-  };
-};
+// const mapStateToProps = ({ user: { data } }) => {
+//   return {
+//     configData: data
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addGroupConfigData: data => dispatch(SaveGroupData(data))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     addGroupConfigData: data => dispatch(SaveGroupData(data))
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Panel);
+// export default connect(mapStateToProps, null)(Panel);
