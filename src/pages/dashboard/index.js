@@ -14,6 +14,7 @@ export default () => {
   const [InputValue, handleInputValue] = useState('');
   const [curIndex, handleCurIndex] = useState([]);// 当前模板id
   const [layouts, setLayouts] = useState([]);// layouts
+  const [selectId, setSelectId] = useState('');// layouts选中Id
 
   const childRef = useRef();
   const { confirm } = Modal;
@@ -138,7 +139,7 @@ export default () => {
             </Form>
           </Modal>
           <TagViews tags={tags} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
-          <Grid tempData={tempData} tags={tags} layout={layouts} setLayouts={setLayouts} isDroppable />
+          <Grid setSelectId={setSelectId} selectId={selectId} curIndex={curIndex} handleCurIndex={handleCurIndex} tempData={tempData} tags={tags} layout={layouts} setLayouts={setLayouts} isDroppable />
         </div>
       </div>
     </div>

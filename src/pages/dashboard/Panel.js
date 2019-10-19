@@ -90,8 +90,8 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
                 publicTemp.map((tag, index) => (
                   <li key={index} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
+                      addTag(tag);
                       getTempDetail(getToken(), tag.cucId).then(res => {
-                        addTag(tag);
                       });;
                     }
                   }>{tag.cucName}{ tag.status === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
@@ -102,7 +102,7 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
 
           <div className="group-btn" onClick={() => setVisible3(!visible3)}>个人模板<span className="group-btn-iconbox"><Icon type="caret-down" /></span></div>
           <ul className="group-list" style={{ paddingBottom: visible3 ? 0 : '10px', maxHeight: visible3 ? 0 : '1000px' }}>
-            <Skeleton title={false} loading={ isShowSingleTemp } active>
+            <Skeleton key={1} title={false} loading={ isShowSingleTemp } active>
               {
                 // eslint-disable-next-line complexity
                 singleTemp.map((tag, index) => (
@@ -132,23 +132,21 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
             </span>
           </div>
           <ul className="temp-list" style={{ height: visible5 ? 0 : '200px' }}>
-            <Skeleton title={false} loading={ isShowSingleTemp } active>
-              {
-                echartsList.map(item => (
-                  <li key={item.cucId} draggable onDragStart={() => {
+            {
+              echartsList.map((item,index) => (
+                <Skeleton key={index} title={false} loading={ isShowSingleTemp } active>
+                  <li key={index} draggable="true" onDragOver={e => e.preventDefault()} onDragStart={() => {
                     if (!isExistCurIndex(tags, curIndex)) {
-                      // alert('请先选择模板');
                       message.warning('请先选择模板');
-                      // return false;
                     } else {
-                      setTempData({ isEcharts: true, type: 'bar', title: 'AB门管理', minW: 2, minH: 4, w: 4, h: 8 });
+                      setTempData(item);
                     } }} unselectable="on" >
-                    <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
+                    <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
                     <div className="title">{item.name}</div>
                   </li>
-                ))
-              }
-            </Skeleton>
+                </Skeleton>
+              ))
+            }
           </ul>
         </div>
       </div>
