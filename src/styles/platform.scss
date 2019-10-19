@@ -163,3 +163,22 @@
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
     border-color: none;
 }
+.ant-progress-line{
+    width: 200px;
+    display: inline-block;
+}
+.progress-label{
+    display: inline-block;
+    margin-right: 20px;
+    color:#FFFFFF;
+    font-size: 10px;
+    // font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.ant-progress-inner, .ant-progress-bg{
+    // border-radius: 4px;
+    background: none;
+}
+.ant-progress-text, .ant-progress-status-success {
+    color:#FFFFFF!important;
+    font-size: 10px;
+}

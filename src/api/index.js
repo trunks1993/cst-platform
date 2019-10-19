@@ -19,16 +19,18 @@ export function getUserByToken(token) {
     method: 'get'
   });
 }
-
 // 获取公共模板列表
 export const getPublicTemp = params => request({
-  url: `/user/getTableList?current=${params.current}&pageSize=${params.pageSize}`,
-  method: 'get'
+  url: '/v1/userConfigInfo/CusUserConfig/list',
+  method: 'get',
+  params: {
+    cucIsShare: '1'
+  }
 });
 
 // 获取个人模板列表
 export const getStaticTemp = params => request({
-  url: '/v1/userConfigInfo/CusUserConfig/select',
+  url: '/v1/userConfigInfo/CusUserConfig/queryUserById',
   method: 'get'
 });
 
@@ -57,15 +59,11 @@ export const getTempDetail = (token, configId) => request({
   }
 });
 
-// 保存
-export const saveTempGridData = (par) => request({
+// 保存 或 发布
+export const saveTempGridData = (data) => request({
   url: '/v1/userConfigInfo/userFunctionInfo/add',
   method: 'post',
-  params: {
-    configId: par.configId,
-    functionInfoId: par.functionInfoId,
-    layout: par.layout
-  }
+  data
 });
 
 // 删除
@@ -77,12 +75,9 @@ export const deleteTemp = (par) => request({
   }
 });
 
-// 发布
-export const releaseTemp = (par) => request({
-  url: '/v1/userConfigInfo/CusUserConfig/edit',
-  method: 'put',
-  params: {
-    cucStatus: par.cucStatus,
-    cucID: par.cucId
-  }
+// home首页详情
+export const getHomeDetail = () => request({
+  url: '/v1/userConfigTopic/userConfigTopic/list',
+  method: 'GET',
 });
+
