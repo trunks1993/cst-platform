@@ -62,12 +62,11 @@ export function selectByDataSource(cdsChartId, cdsSystemId, cdsOdbcType) {
 
 export function updateStauts(cfgId, cfgStatus, cfgUpdayeId) {
   return request({
-    url: '/v1/cusConfig/updateStauts',
+    url: '/v1/cusConfig/updateStatus',
     method: 'put',
-    params: {
+    data: {
       cfgId,
-      cfgStatus,
-      cfgUpdayeId
+      cfgStatus
     }
   });
 }

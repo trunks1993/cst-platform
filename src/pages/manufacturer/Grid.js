@@ -69,10 +69,10 @@ export default ({ formInfo, setFormInfo, tempData, selectTag, tags, setSelectId,
   const onDrop = e => {
     e.i = new Date().getTime() + '';
     tempData.cfiConfigId = selectTag.cfgId;
-    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId } = tempData;
+    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiId } = tempData;
     const l = _.assign(e, JSON.parse(cfiLayout));
     setSelectId(e.i);
-    setFormInfo(formInfo.concat({ cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }) }));
+    setFormInfo(formInfo.concat({ cfiId, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }) }));
     setDo(false);
   };
 

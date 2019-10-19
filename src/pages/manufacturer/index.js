@@ -7,17 +7,24 @@ import PropertyPanel from './PropertyPanel';
 import _ from 'lodash';
 import { UserContext } from '@/utils/contexts';
 import { getCSGroup } from '@/redux/actions';
-
+import { Select } from 'antd';
 // API
 import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 
-import { Modal, Form, Input, AutoComplete } from 'antd';
-const { Option } = AutoComplete;
+import { Modal, Form, Input, Message } from 'antd';
+// const { Option } = AutoComplete;
 
 const operates = [
   {
     key: 'build',
-    label: '新建',
+    label: '新建分组',
+    callback: function(fn, state) {
+      fn(!state);
+    }
+  },
+  {
+    key: 'build',
+    label: '新建配置',
     callback: function(fn, state) {
       fn(!state);
     }
@@ -55,8 +62,17 @@ const operates = [
 const Main = ({ getCSGroup }) => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
+
+  const [newGroupVisible, handleNewGroupVisible] = useState(false);
+
+  // 选择组
   const [groupId, setGroupId] = useState('');
+  // 新建配置
   const [cfgName, setCfgName] = useState('');
+
+  // 新建组
+  // const [groupName, setGroupName] = useState('');
+
   const [formInfo, setFormInfo] = useState([]);// layouts
   const [selectId, setSelectId] = useState('');// layouts选中Id
 
@@ -80,11 +96,22 @@ const Main = ({ getCSGroup }) => {
 
 
   const handleSave = () => {
-    const isNum = (typeof +groupId === 'number' && !isNaN(+groupId));
-    const id = isNum ? groupId : '';
-    saveGroupConfig(id, cfgName).then(res => {
+    // const isNum = (typeof +groupId === 'number' && !isNaN(+groupId));
+    // const id = isNum ? groupId : '';
+    saveGroupConfig(groupId, cfgName).then(res => {
+      Message.success('保存成功');
       childRef.current.fqueryConfig();
       handleNewModelVisible(false);
+    });
+  };
+
+  const handleSaveGroup = () => {
+    // const isNum = (typeof +groupId === 'number' && !isNaN(+groupId));
+    // const id = isNum ? groupId : '';
+    saveGroupConfig('', cfgName).then(res => {
+      Message.success('保存成功');
+      childRef.current.fqueryConfig();
+      handleNewGroupVisible(false);
     });
   };
 
@@ -93,6 +120,10 @@ const Main = ({ getCSGroup }) => {
     getSelectParent().then(res => {
       setGroupParents(res.data);
     });
+  };
+
+  const openNewGroupModel = () => {
+    handleNewGroupVisible(!newGroupVisible);
   };
 
   const user = useContext(UserContext);
@@ -116,23 +147,30 @@ const Main = ({ getCSGroup }) => {
               // eslint-disable-next-line complexity
               operates.map(item => <li key={item.key} className="btn-item" onClick={(e) => {
                 switch (e.target.innerText) {
-                  case '新建':
+                  case '新建分组':
+                    // item.callback(handleShowModel, showModel);
+                    openNewGroupModel();
+                    break;
+                  case '新建配置':
                     // item.callback(handleShowModel, showModel);
                     openNewModel();
                     break;
                   // eslint-disable-next-line no-duplicate-case
                   case '保存':
                     saveInfo(formInfo).then(res => {
-                      console.log(res);
+                      childRef.current.fqueryConfig();
+                      Message.success('保存成功');
                     });
                     break;
                   case '删除':
                     deleteConfig(selectTag.cfgId).then(res => {
+                      Message.success('删除成功');
                       childRef.current.fqueryConfig();
                     });
                     break;
                   case '发布':
                     updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
+                      Message.success('发布成功');
                       childRef.current.fqueryConfig();
                     });
                     break;
@@ -153,30 +191,20 @@ const Main = ({ getCSGroup }) => {
           className="dashboard-container-body-content"
           style={{ position: 'relative' }}
         >
-          <Modal
-            centered
-            visible={newModelVisible}
-            // onOk={() => handleShowModel(false)}
-            // onCancel={() => handleShowModel(false)}
-            closable={false}
-            footer={null}
-          >
+          <Modal centered visible={newModelVisible} footer={null}>
             <Form>
-              <Form.Item label="添加组：">
-                <AutoComplete
-                  AutoComplete
-                  showSearch
+              <Form.Item label="选择加组：">
+                <Select
                   style={{ width: 200 }}
                   placeholder="请选择组名"
                   optionFilterProp="children"
                   onChange={e => setGroupId(e)}
                   value={groupId}
                 >
-
                   {
-                    groupParents.map(item => <Option key={item.cfgId} value={item.cfgId}>{item.cfgName}</Option>)
+                    groupParents.map(item => <Select.Option key={item.cfgId} value={item.cfgId}>{item.cfgName}</Select.Option>)
                   }
-                </AutoComplete>
+                </Select>
               </Form.Item>
               <Form.Item label="配置名">
                 <Input
@@ -188,6 +216,22 @@ const Main = ({ getCSGroup }) => {
               <Form.Item>
                 <button className="global-btn" onClick={() => handleSave()}>确定</button>
                 <button className="global-btn" onClick={() => { handleNewModelVisible(false); }}>取消</button>
+              </Form.Item>
+            </Form>
+          </Modal>
+
+          <Modal centered visible={newGroupVisible} footer={null}>
+            <Form>
+              <Form.Item label="分组名">
+                <Input
+                  style={{ width: 200 }}
+                  onChange={e => setCfgName(e.target.value)}
+                  placeholder="请填写分组名"
+                />
+              </Form.Item>
+              <Form.Item>
+                <button className="global-btn" onClick={() => handleSaveGroup()}>确定</button>
+                <button className="global-btn" onClick={() => handleNewGroupVisible(false)}>取消</button>
               </Form.Item>
             </Form>
           </Modal>

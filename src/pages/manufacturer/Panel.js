@@ -63,7 +63,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
           {
             !queryConfigState ? <Skeleton active /> : groupDatas.map((group, index, arrs) => {
               return (
-                <div key={group.cfgId}>
+                <div>
                   <div className="group-btn" onClick={() => {
                     const t = _.clone(groupDatas);
                     t[index].visible = !group.visible;
@@ -84,7 +84,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                     {
                       // eslint-disable-next-line complexity
                       group.children.map(child => (<li
-                        key={child.cfgId}
+                        key={child.cfgCreateTime}
                         onClick = {() => {
                           setSelectTag(child);
                           queryByConfigId(child.cfgId).then(res => {
