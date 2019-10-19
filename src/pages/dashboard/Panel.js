@@ -7,7 +7,7 @@ import { Icon } from 'antd';
 import _ from 'lodash';
 const { Search } = Input;
 // eslint-disable-next-line complexity
-export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curIndex, cRef }) => {
+export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIndex, cRef }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [visible3, setVisible3] = useState(false);
@@ -20,10 +20,10 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
   const [echartsList, handleEchartsList] = useState([]);
   const addTag = tag => {
     const fi = _.findIndex(tags, o => o.cucId === tag.cucId);
+    handleCurIndex(tag.cucId);
     if (fi < 0) {
       const t = _.clone(tags);
       t.push(tag);
-      handleCurIndex(tag.cucId);
       setTags(t);
     }
   };
@@ -46,7 +46,7 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
     getEchartsList(getToken()).then(res => {
       handleEchartsList(res.data);
     });
-    handlePublicTemp([]);
+    // 个人模板
     getStaticTemp({ token: getToken() }).then(res => {
       if (res.data.rows.length) {
         // setTimeout(() => {
@@ -55,6 +55,13 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
         ShowSingleTemp(false);
         // }, 20000);
       }
+    }).catch(err => {
+      console.error(err);
+    });
+    // 公共模板
+    getPublicTemp().then(res => {
+      handlePublicTemp(res.data.rows);
+      ShowPublicTemp(false);
     }).catch(err => {
       console.error(err);
     });
@@ -79,12 +86,16 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
           <ul className="group-list" style={{ paddingBottom: visible2 ? 0 : '10px', maxHeight: visible2 ? 0 : '1000px' }}>
             <Skeleton title={false} loading={ isShowPublicTemp } active>
               {
+                // eslint-disable-next-line complexity
                 publicTemp.map((tag, index) => (
-                  <li key={index} onClick={
+                  <li key={index} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
-                      getTempDetail(getToken(), tag.cucId);
+                      addTag(tag);
+                      getTempDetail(getToken(), tag.cucId).then(res => {
+                        setFormInfo(_.map(res.data, v => v.cusFunctionInfo[0]));
+                      });;
                     }
-                  }>{tag.name}</li>
+                  }>{tag.cucName}{ tag.status === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
                 ))
               }
             </Skeleton>
@@ -92,17 +103,19 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
 
           <div className="group-btn" onClick={() => setVisible3(!visible3)}>个人模板<span className="group-btn-iconbox"><Icon type="caret-down" /></span></div>
           <ul className="group-list" style={{ paddingBottom: visible3 ? 0 : '10px', maxHeight: visible3 ? 0 : '1000px' }}>
-            <Skeleton title={false} loading={ isShowSingleTemp } active>
+            <Skeleton key={1} title={false} loading={ isShowSingleTemp } active>
               {
+                // eslint-disable-next-line complexity
                 singleTemp.map((tag, index) => (
                   <li key={tag.cucId} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
                       addTag(tag);
                       getTempDetail(getToken(), tag.cucId).then(res => {
-                        setLayouts(res.data);
+                        // _.map(res.data, v => v.cusFunctionInfo)
+                        setFormInfo(res.data);
                       });
                     }
-                  }>{tag.cucName}</li>
+                  }>{tag.cucName}{ tag.cucStatus === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
                 ))
               }
             </Skeleton>
@@ -121,23 +134,21 @@ export default ({ setTempData, setTags, setLayouts, tags, handleCurIndex, curInd
             </span>
           </div>
           <ul className="temp-list" style={{ height: visible5 ? 0 : '200px' }}>
-            <Skeleton title={false} loading={ isShowSingleTemp } active>
-              {
-                echartsList.map(item => (
-                  <li key={item.cucId} draggable onDragStart={() => {
+            {
+              echartsList.map((item,index) => (
+                <Skeleton key={index} title={false} loading={ isShowSingleTemp } active>
+                  <li key={index} draggable="true" onDragOver={e => e.preventDefault()} onDragStart={() => {
                     if (!isExistCurIndex(tags, curIndex)) {
-                      // alert('请先选择模板');
                       message.warning('请先选择模板');
-                      // return false;
                     } else {
-                      setTempData({ isEcharts: true, type: 'bar', title: 'AB门管理', minW: 2, minH: 4, w: 4, h: 8 });
+                      setTempData(item);
                     } }} unselectable="on" >
-                    <img draggable={false} src={require('../../assets/images/tempIcons/1.png')} alt="" />
+                    <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
                     <div className="title">{item.name}</div>
                   </li>
-                ))
-              }
-            </Skeleton>
+                </Skeleton>
+              ))
+            }
           </ul>
         </div>
       </div>

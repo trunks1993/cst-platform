@@ -172,3 +172,22 @@
 .ant-dropdown-menu-item-divider {
     background-color: #02439d;
 }
+.ant-progress-line{
+    width: 200px;
+    display: inline-block;
+}
+.progress-label{
+    display: inline-block;
+    margin-right: 20px;
+    color:#FFFFFF;
+    font-size: 10px;
+    // font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.ant-progress-inner, .ant-progress-bg{
+    // border-radius: 4px;
+    background: none;
+}
+.ant-progress-text, .ant-progress-status-success {
+    color:#FFFFFF!important;
+    font-size: 10px;
+}

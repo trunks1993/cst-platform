@@ -1,36 +1,42 @@
 import React, { useState } from 'react';
-import RGL, { WidthProvider } from 'react-grid-layout';
-import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
+import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
+// import DragDom from '@/components/DragDom';
+import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import ReactEcharts from 'echarts-for-react';
 
-const generateDOM = (layout) => {
-  // eslint-disable-next-line complexity
-  return _.map(layout, (l, i) => {
-    // let option;
-    // if (l.type === 'bar') {
-    //   option = getBarChart();
-    // } else if (l.type === 'line') {
-    //   option = getLineChart();
-    // } else if (l.type === 'pie') {
-    //   option = getPieChart();
-    // } else if (l.type === 'scatter') {
-    //   option = getVisualMap();
-    // } else if (l.type === 'gauge') {
-    //   option = getGauge();
-    // }
+const ReactGridLayout = WidthProvider(RGL);
 
-    // const component = (
-    //   <ReactEcharts
-    //     option={option}
-    //     notMerge
-    //     lazyUpdate
-    //     style={{ width: '100%',height: '100%',paddingTop: '30px' }}
-    //   />
-    // );
+const generateDOM = (formInfo, selectId, setSelectId) => {
+  // eslint-disable-next-line complexity
+  return _.map(formInfo, (l, i) => {
+    let option;
+    if (l.cfiType === '1') {
+      option = getBarChart();
+    } else if (l.cfiType === '2') {
+      option = getLineChart();
+    } else if (l.cfiType === '3') {
+      option = getPieChart();
+    } else if (l.cfiType === '4') {
+      option = getVisualMap();
+    } else if (l.cfiType === '5') {
+      option = getGauge();
+    } else {
+      option = getBarChart();
+    }
+
+    const component = (
+      <ReactEcharts
+        option={option}
+        notMerge
+        lazyUpdate
+        style={{ width: '100%',height: '100%',paddingTop: '30px' }}
+      />
+    );
+    const nl = JSON.parse(l.cfiLayout);
 
     return (
-      <div key={i} className={l.static ? 'static' : ''} style={{ overflow: 'hidden' }} data-grid={l}>
+      <div key={i} style={{ overflow: 'hidden' }} data-grid={nl}>
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
@@ -39,28 +45,39 @@ const generateDOM = (layout) => {
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
         {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
         {
-          l.type === 'gauge' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+          l.cfiType === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
         }
-        <div className="title-box">{l.title }</div>
-        {/* {component} */}
+        <div className="title-box">{l.cfiName }</div>
+        {component}
       </div>
     );
   });
 };
 
-const ReactGridLayout = WidthProvider(RGL);
-export default ({ layout, setLayouts, tempData, tags }) => {
+export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tags, setSelectId, selectId }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
   const [doing, setDo] = useState(true);
 
   function onLayoutChange(l) {
     if (doing) return;
-    setLayouts(l);
+    const f = _.map(_.clone(formInfo), v => {
+      const item = l.find(lv => lv.i === JSON.parse(v.cfiLayout).i);
+      if (item !== undefined) {
+        v.cfiLayout = JSON.stringify(item);
+      }
+      return v;
+    });
+    setFormInfo(f);
   }
 
   const onDrop = e => {
-    const l = _.assign(e, tempData);
-    setLayouts(layout.concat({ ...l }));
+    const { datasourceId, layout, name, type, id } = tempData;
+    const { w, h } = JSON.parse(layout);
+    const { x, y } = e;
+    const i = '' + new Date().getTime();
+    const cfiLayout = JSON.stringify({ x, y, w, h, i });
+    const newInfo = [{ cfiLayout, cfiDatasourceId: datasourceId, cfiName: name, cfiType: type, cfiConfigId: id }, ...formInfo];
+    setFormInfo(newInfo);
     setDo(false);
   };
 
@@ -71,12 +88,11 @@ export default ({ layout, setLayouts, tempData, tags }) => {
         className="cst-layout"
         cols={12}
         rowHeight={30}
-        layout={layout}
         onLayoutChange={onLayoutChange}
-        onDrop={e => onDrop(e)}
-        isDroppable={ tags.length > 0 }
+        onDrop={onDrop}
+        isDroppable={!!curIndex}
       >
-        {generateDOM(layout)}
+        { generateDOM(formInfo) }
       </ReactGridLayout>
     </div>
   );
