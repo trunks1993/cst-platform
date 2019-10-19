@@ -60,10 +60,11 @@ export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tag
 
   function onLayoutChange(l) {
     if (doing) return;
-    debugger;
     const f = _.map(_.clone(formInfo), v => {
       const item = l.find(lv => lv.i === JSON.parse(v.cfiLayout).i);
-      v.cfiLayout = JSON.stringify(item);
+      if (item !== undefined) {
+        v.cfiLayout = JSON.stringify(item);
+      }
       return v;
     });
     setFormInfo(f);

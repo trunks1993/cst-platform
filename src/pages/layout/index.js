@@ -8,7 +8,6 @@ import { UserContext } from '@/utils/contexts';
 const { Content } = Layout;
 
 const StoreLayout = ({ match, user }) => {
-
   return (
     <UserContext.Provider value={user}>
       <Layout className="app-container">

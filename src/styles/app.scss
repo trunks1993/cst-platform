@@ -460,3 +460,13 @@ $customizeWhite: #fff;
     }
   }
 }
+
+.home-grid-box {
+  background: url(/static/media/bd-gridbox.7a1527da.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  width: 100%;
+}

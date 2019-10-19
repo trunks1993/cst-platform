@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RGL, { WidthProvider } from '@/components/Draggler';
+import RGL, { WidthProvider } from 'react-grid-layout';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import _ from 'lodash';
 import ReactEcharts from 'echarts-for-react';

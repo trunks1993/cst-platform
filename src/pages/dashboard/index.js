@@ -63,11 +63,10 @@ export default () => {
                 const matchInfo = _.map(formInfo, e => ({
                   configId: curIndex,
                   functionInfoId: e.cfiConfigId,
-                  // id: e.
+                  id: e.cufId,
                   cufSourceid: e.cfiDatasourceId,
                   layout: e.cfiLayout
                 }));
-                debugger;
                 saveTempGridData(matchInfo).then(res => {
                   if (res.code === '0') {
                     getStaticTemp({ token: getToken() }).then(res => {
@@ -112,7 +111,6 @@ export default () => {
             <li className="btn-item">重置</li>
             <li className="btn-item">预览</li>
             <li className="btn-item" onClick={() => {
-              console.log(curIndex);
               if (!curIndex) {
                 message.warning('请先选择模块');
               } else {
