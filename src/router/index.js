@@ -15,6 +15,7 @@ export default () => (
       <AuthRoute exact path="/login" authTo="/" component={LoginPage} />
       <AuthRoute exact path="/config" authTo="/login" component={Layout} />
       <Redirect exact from="/" to="/config" />
+      {/* <Route exact path="/sys" component={Dashboard} /> */}
       <Route component={Page404} />
     </Switch>
   </HashRouter>
@@ -34,6 +35,7 @@ export const RouteList = ({ match }) => {
             component={componentObj[item.component]}
           />
         ))} */}
+      {/* <Route exact path="/config" component={isCs ? Manufacturer : Home} /> */}
       <Route exact path="/config" component={isCs ? Manufacturer : Dashboard} />
       <Route component={Page404} />
     </Switch>
