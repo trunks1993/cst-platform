@@ -17,6 +17,7 @@ const LoginPage = ({ handleLogin }) => {
   return (
     <div className="login-container">
       <Form className="login-form">
+        <h2>登录系统</h2>
         <Form.Item>
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -43,14 +44,12 @@ const LoginPage = ({ handleLogin }) => {
           />
         </Form.Item>
         <Form.Item>
-          <Checkbox>Remember me</Checkbox>
-
           <Button type="primary" onClick={() => {
             if (userNameObj.value && passworldObj.value) {
               handleLogin(userNameObj.value, passworldObj.value);
             }
           }} className="login-form-button">
-            登陆
+            登录
           </Button>
         </Form.Item>
       </Form>

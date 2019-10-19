@@ -86,10 +86,10 @@
 }
 
 .global-btn {
-    width: 80px;
-    height: 40px;
+    width: 100px;
+    height: 50px;
     line-height: 30px;
-    margin-right: 20px;
+    margin: 0 10px;
     color: #fff;
     display: inline-block;
     outline: none;
@@ -106,14 +106,20 @@
 .ant-modal-content{
     background:url('../assets/images/temp/bg-tanchuang.png') 0 0 no-repeat;
     background-size: 100% 100%;
+    width: 501px;
+    height: 291px;
     .ant-modal-body{
         text-align: center;
-        padding: 24px;
+        padding: 60px 0 24px 0;
         font-size: 14px;
         line-height: 1.5;
         word-wrap: break-word;
-        padding-top: 46px;
     }
+}
+
+.ant-form-item-label {
+    height: 32px;
+    line-height: 27px;
 }
 .ant-form-item-label > label {
     font-weight: bolder;
@@ -121,7 +127,6 @@
     margin-right: 20px;
     color: #0393FF;
 }
-
 .ant-col {
     position: relative;
     display: inline-block;
@@ -148,11 +153,12 @@
     margin-left: 50px;
 }
 .ant-modal-confirm-btns{
-    margin-right: 70px;
+    float: none !important;
+    margin-left: 0!important;
 }
 .ant-btn {
     width: 100px;
-    height: 45px;
+    height: 50px;
     border:none;
     outline: none;
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
@@ -162,6 +168,9 @@
     color: #03AFFF;
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
     border-color: none;
+}
+.ant-dropdown-menu-item-divider {
+    background-color: #02439d;
 }
 .ant-progress-line{
     width: 200px;
