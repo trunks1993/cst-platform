@@ -131,18 +131,24 @@
         font-size: 14px;
         line-height: 1.5;
         word-wrap: break-word;
+        .ant-form {
+            .ant-form-item:last-child {
+                .ant-col {
+                    margin-left: 25%;
+                }
+            }
+        }
     }
 }
 
 .ant-form-item-label {
     height: 32px;
-    line-height: 27px;
+    line-height: 40px;
 }
 
 .ant-form-item-label>label {
     font-weight: bolder;
     font-size: 14px;
-    margin-right: 20px;
     color: #0393FF;
 }
 
