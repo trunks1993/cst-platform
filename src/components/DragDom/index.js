@@ -1,5 +1,4 @@
 import React from 'react';
-// import _ from 'lodash';
 import ReactEcharts from 'echarts-for-react';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import { DOM_TYPE_USER1, DOM_TYPE_USER2, DOM_TYPE_USER3, DOM_TYPE_USER4, DOM_TYPE_USER5, DOM_TYPE_USER6, DOM_TYPE_USER7 } from '@/utils/const';

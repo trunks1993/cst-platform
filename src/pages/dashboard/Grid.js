@@ -36,7 +36,7 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
     const nl = JSON.parse(l.cfiLayout);
 
     return (
-      <div key={i} style={{ overflow: 'hidden' }} data-grid={nl}>
+      <div key={nl.i} style={{ overflow: 'hidden' }} data-grid={nl}>
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
@@ -62,9 +62,7 @@ export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tag
     if (doing) return;
     const f = _.map(_.clone(formInfo), v => {
       const item = l.find(lv => lv.i === JSON.parse(v.cfiLayout).i);
-      if (item !== undefined) {
-        v.cfiLayout = JSON.stringify(item);
-      }
+      v.cfiLayout = JSON.stringify(item);
       return v;
     });
     setFormInfo(f);
