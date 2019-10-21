@@ -30,6 +30,9 @@ export function getBarChart() {
             color: '#054792', // X轴及其文字颜色
           }
         },
+        axisTick: {
+          show: false
+        },
         splitLine: {
           show: true,
           lineStyle: {
@@ -55,6 +58,9 @@ export function getBarChart() {
             color: '#054792', // Y轴及其文字颜色
           }
         },
+        axisTick: {
+          show: false
+        },
         splitLine: { // 分割线颜色修改
           lineStyle: {
             color: '#054792'
@@ -68,7 +74,7 @@ export function getBarChart() {
         type: 'bar',
         data: [2.0, 4.9, 7.0, 23.2, 25.6, 30, 30, 11, 28],
         barWidth: 12, // 柱子宽度
-        barGap: .5,
+
         itemStyle: {
           emphasis: {
             barBorderRadius: 30
@@ -96,6 +102,7 @@ export function getBarChart() {
         name: '外来车辆',
         type: 'bar',
         data: [2.0, 4.9, 7.0, 26.2, 21.6, 27, 30, 11, 28],
+        barWidth: 12, // 柱子宽度
         itemStyle: {
           emphasis: {
             barBorderRadius: 30

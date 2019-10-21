@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
+import { Slider } from 'antd';
+import TypeProgress from '@/components/TypeProgress';
 // import DragDom from '@/components/DragDom';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import ReactEcharts from 'echarts-for-react';
@@ -24,7 +26,6 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
     } else {
       option = getBarChart();
     }
-
     const component = (
       <ReactEcharts
         option={option}
@@ -34,7 +35,8 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
       />
     );
     const nl = JSON.parse(l.cfiLayout);
-
+    const optionLists = [{ label: '暴力行为', countVal: 80, countName: '好好的', breakVal: 41,breakName: '尴尬' },
+      { label: '阿萨大', countVal: 80, countName: '擦掉啊', breakVal: 41,breakName: '阿萨大' }];
     return (
       <div key={i} style={{ overflow: 'hidden' }} data-grid={nl}>
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
@@ -43,12 +45,12 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-        {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
         {
-          l.cfiType === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+          l.cfiType === '5' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
         }
         <div className="title-box">{l.cfiName }</div>
-        {component}
+        {/* { l.cfiType < '6' ? component : <TypeProgress type={l.cfiType} optionLists={optionLists} /> } */}
+        <TypeProgress type={l.cfiType} optionLists={optionLists} />
       </div>
     );
   });

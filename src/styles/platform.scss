@@ -2,34 +2,40 @@
     background: url(../assets/images/temp/bd.png);
     background-size: 100% 100%;
     position: relative;
+
     .bg-icon {
         &:nth-child(1) {
             position: absolute;
         }
+
         &:nth-child(2) {
             position: absolute;
             top: 0;
             right: 0;
             transform: rotate(90deg);
         }
+
         &:nth-child(3) {
             position: absolute;
             bottom: 0;
             left: 0;
             transform: rotate(270deg);
         }
+
         &:nth-child(4) {
             position: absolute;
             bottom: 0;
             right: 0;
             transform: rotate(-180deg);
         }
+
         &:nth-child(5) {
             position: absolute;
             top: 50%;
             left: 0;
             transform: translate(0, -50%);
         }
+
         &:nth-child(6) {
             position: absolute;
             top: 50%;
@@ -37,7 +43,8 @@
             transform: translate(0, -50%) rotate(180deg);
         }
     }
-    .bg-eGauge{
+
+    .bg-eGauge {
         width: 100%;
         // height: 100%;;
         position: absolute;
@@ -45,6 +52,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
     .title-box {
         height: 30px;
         width: 360px;
@@ -60,21 +68,28 @@
         color: #fff;
     }
 }
-.ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
-    background: none;    
+
+.ant-table-tbody>tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)>td {
+    background: none;
 }
+
 .ant-table-tbody td {
     color: #fff;
 }
+
 .ant-table-thead .ant-table-column-title {
     color: #fff;
 }
+
 .ant-form-explain {
     display: none;
 }
-.has-error .ant-input, .has-error .ant-input:hover {
+
+.has-error .ant-input,
+.has-error .ant-input:hover {
     background: none;
 }
+
 .droppable-element {
     background: #fff;
     width: 100px;
@@ -97,18 +112,20 @@
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
     background-size: 100% 100%;
     transition: all .3s;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
         color: #0393FF;
     }
 }
 
-.ant-modal-content{
-    background:url('../assets/images/temp/bg-tanchuang.png') 0 0 no-repeat;
+.ant-modal-content {
+    background: url('../assets/images/temp/bg-tanchuang.png') 0 0 no-repeat;
     background-size: 100% 100%;
     width: 501px;
     height: 291px;
-    .ant-modal-body{
+
+    .ant-modal-body {
         text-align: center;
         padding: 60px 0 24px 0;
         font-size: 14px;
@@ -121,73 +138,203 @@
     height: 32px;
     line-height: 27px;
 }
-.ant-form-item-label > label {
+
+.ant-form-item-label>label {
     font-weight: bolder;
     font-size: 14px;
     margin-right: 20px;
     color: #0393FF;
 }
+
 .ant-col {
     position: relative;
     display: inline-block;
     min-height: 1px;
 }
-.ant-input,.ant-select-selection  {
+
+.ant-input,
+.ant-select-selection {
     background: none;
     border: 1px solid #0393FF;
-    color:#fff;
+    color: #fff;
 }
-.ant-select-arrow-icon, .ant-select-clear-icon{
-    color:#0393FF;
+
+.ant-select-arrow-icon,
+.ant-select-clear-icon {
+    color: #0393FF;
     background: none;
 }
-.active-tag-views{
-    color:#03AFFF!important;
+
+.active-tag-views {
+    color: #03AFFF !important;
 }
-.ant-modal-confirm-body{
-    .ant-modal-confirm-title{
+
+.ant-modal-confirm-body {
+    .ant-modal-confirm-title {
         color: #fff;
     }
 }
-.anticon-question-circle{
+
+.anticon-question-circle {
     margin-left: 50px;
 }
-.ant-modal-confirm-btns{
+
+.ant-modal-confirm-btns {
     float: none !important;
-    margin-left: 0!important;
+    margin-left: 0 !important;
 }
+
 .ant-btn {
     width: 100px;
     height: 50px;
-    border:none;
+    border: none;
     outline: none;
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
     color: #fff;
 }
-.ant-btn:hover, .ant-btn:focus {
+
+.ant-btn:hover,
+.ant-btn:focus {
     color: #03AFFF;
     background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
     border-color: none;
 }
+
 .ant-dropdown-menu-item-divider {
     background-color: #02439d;
 }
-.ant-progress-line{
+
+.ant-progress-line {
     width: 200px;
     display: inline-block;
 }
-.progress-label{
+
+.progress-label {
     display: inline-block;
     margin-right: 20px;
-    color:#FFFFFF;
+    color: #FFFFFF;
     font-size: 10px;
     // font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-.ant-progress-inner, .ant-progress-bg{
+
+.ant-progress-inner,
+.ant-progress-bg {
     // border-radius: 4px;
     background: none;
 }
-.ant-progress-text, .ant-progress-status-success {
-    color:#FFFFFF!important;
+
+.ant-progress-text,
+.ant-progress-status-success {
+    color: #FFFFFF !important;
     font-size: 10px;
+}
+
+// 单条进度条样式
+.crime-content {
+    padding: 50px 50px;
+    height: 92%;
+
+    .crime-content-pro {
+        display: flex;
+        height: 30%;
+        margin-top: 20px;
+
+        span {
+            color: #fff;
+            line-height: 30px;
+            display: inline-block;
+        }
+
+        .ant-slider {
+            width: 60%;
+            display: inline-block;
+            margin: 5px 0 0 16px;
+
+            .ant-slider-step {
+                height: 12px;
+            }
+
+            .ant-slider-track {
+                height: 12px;
+                border-radius: 6px;
+                background: linear-gradient(90deg, rgba(255, 110, 2, 1) 0%, rgba(255, 255, 0, 1) 100%);
+            }
+
+            .ant-slider-rail {
+                background: transparent;
+            }
+
+            .ant-slider-rail:hover {
+                background: transparent;
+            }
+
+            .ant-slider-handle {
+                display: none;
+            }
+        }
+    }
+}
+
+.equipment-content {
+    padding: 50px 50px;
+    height: 92%;
+    display: flex;
+
+    .crime-content-pro {
+        display: flex;
+        height: 38px;
+        margin-top: 20px;
+        width: 100%;
+
+        span {
+            color: #fff;
+        }
+
+        .crime-content-title {
+            border-right: 1px solid rgba(18, 195, 249, 1);
+            padding-right: 10px;
+            line-height: 38px;
+            display: inline-block;
+        }
+
+        .crime-content-pro-box {
+            width: 50%;
+
+            .number {
+                font-size: 12px;
+                color: #01B9F6;
+            }
+
+            .ant-slider {
+                width: 50%;
+                display: inline-block;
+                margin: 0px;
+                padding: 0px;
+                margin-left: 10px;
+                height: 16px;
+
+                .ant-slider-step {
+                    height: 12px;
+                }
+
+                .ant-slider-track {
+                    height: 16px;
+                    border-radius: 0px;
+                    background: linear-gradient(-90deg, rgba(0, 156, 255, 1) 0%, rgba(17, 199, 252, 1) 100%);
+                }
+
+                .ant-slider-rail {
+                    background: transparent;
+                }
+
+                .ant-slider-rail:hover {
+                    background: transparent;
+                }
+
+                .ant-slider-handle {
+                    display: none;
+                }
+            }
+        }
+    }
 }
