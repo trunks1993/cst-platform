@@ -94,7 +94,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
                   <li key={index} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
                       addTag(tag);
-                      getTempDetail(getToken(), tag.cucId).then(res => {
+                      getTempDetail(tag.cucId).then(res => {
                         setFormInfo(res.data);
                       });;
                     }
@@ -113,7 +113,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
                   <li key={tag.cucId} className={ curIndex === tag.cucId ? 'active-tag-views' : '' } onClick={
                     () => {
                       addTag(tag);
-                      getTempDetail(getToken(), tag.cucId).then(res => {
+                      getTempDetail(tag.cucId).then(res => {
                         // _.map(res.data, v => v.cusFunctionInfo)
                         setFormInfo(res.data);
                       });
