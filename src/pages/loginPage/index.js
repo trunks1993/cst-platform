@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import { loginByUsername } from '@/redux/actions';
 import { createHashHistory } from 'history';

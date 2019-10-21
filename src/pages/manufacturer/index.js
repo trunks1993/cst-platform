@@ -4,12 +4,12 @@ import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
-import _ from 'lodash';
 import { UserContext } from '@/utils/contexts';
 import { getCSGroup } from '@/redux/actions';
 import { Select } from 'antd';
 // API
 import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
+import _ from 'lodash';
 
 import { Modal, Form, Input, Message } from 'antd';
 // const { Option } = AutoComplete;
@@ -169,6 +169,18 @@ const Main = ({ getCSGroup }) => {
                     break;
                   // eslint-disable-next-line no-duplicate-case
                   case '保存':
+                    // 名字不能为空
+                    let o = _.find(formInfo, v => _.trim(v.cfiName) === '');
+                    if (o !== undefined) {
+                      Message.error('功能名不能为空');
+                      return setSelectId(JSON.parse(o.cfiLayout).i);
+                    }
+
+                    o = _.find(formInfo, v => v.cfiDatasourceId === '0');
+                    if (o !== undefined) {
+                      Message.error('请绑定数据');
+                      return setSelectId(JSON.parse(o.cfiLayout).i);
+                    }
                     saveInfo(formInfo).then(res => {
                       childRef.current.fqueryConfig();
                       Message.success(res.msg);
@@ -249,7 +261,7 @@ const Main = ({ getCSGroup }) => {
             </Form>
           </Modal>
           <TagViews tags={tags} setSelectId={setSelectId} setFormInfo={setFormInfo} setTags={setTags} selectTag={selectTag} setSelectTag={setSelectTag} />
-          <Grid tempData={tempData} selectTag={selectTag} setSelectId={setSelectId} selectId={selectId} tags={['test']} formInfo={formInfo} setFormInfo={setFormInfo} />
+          <Grid tempData={tempData} selectTag={selectTag} setSelectId={setSelectId} selectId={selectId} formInfo={formInfo} setFormInfo={setFormInfo} />
           <PropertyPanel selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} visible />
         </div>
       </div>

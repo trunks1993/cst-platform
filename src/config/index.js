@@ -11,7 +11,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   },
   {
@@ -22,7 +22,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: 'test',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   },
   {
@@ -33,7 +33,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   },
   {
@@ -44,7 +44,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   },
   {
@@ -55,7 +55,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   },
   {
@@ -66,7 +66,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   },
   {
@@ -77,7 +77,7 @@ export const tempArr = [
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
     cfiIsUpdate: 1,
-    cfiDatasourceId: 0,
+    cfiDatasourceId: '0',
     cfiConfigId: ''
   }
 ];

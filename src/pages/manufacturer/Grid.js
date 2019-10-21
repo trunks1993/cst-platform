@@ -16,7 +16,7 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
 };
 
 const ReactGridLayout = WidthProvider(RGL);
-export default ({ formInfo, setFormInfo, tempData, selectTag, tags, setSelectId, selectId }) => {
+export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selectId }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
   const [doing, setDo] = useState(false);
 

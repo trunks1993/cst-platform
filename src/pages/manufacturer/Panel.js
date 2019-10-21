@@ -1,6 +1,5 @@
 /* eslint-disable no-alert */
 import React, { useState, useEffect, useImperativeHandle } from 'react';
-import { connect } from 'react-redux';
 import { Input, Skeleton, Icon, Message } from 'antd';
 // import { SaveGroupData } from '../../redux/actions';
 import { queryConfig, deleteConfig, queryByConfigId } from '@/api/cs_api';
@@ -162,7 +161,10 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                 <li
                   key={i}
                   draggable
-                  onDragStart={() => setTempData(v)}
+                  onDragStart={() => {
+                    if (!selectTag.cfgId) Message.warning('请先选择模板');
+                    setTempData(v);
+                  }}
                   unselectable="on"
                 >
                   <img src={require('@/assets/images/tempIcons/' + v.icon)} alt="" />

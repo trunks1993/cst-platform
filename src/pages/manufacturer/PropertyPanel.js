@@ -33,7 +33,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
   const [cdsOdbcType, setCdsOdbcType] = useState('1');
 
   // 数据源id
-  const [cfiDatasourceId, setCfiDatasourceId] = useState('');
+  const [cfiDatasourceId, setCfiDatasourceId] = useState('0');
 
   // 数据源option
   const [dsIdOptions, setDsIdOptions] = useState([]);
@@ -71,7 +71,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="property-content expand-active">
             <span className="property-content-btn">功能名</span>
-            <input value={cfiName } onChange={e => {
+            <input value={cfiName } disabled={!selectId} onChange={e => {
               setCfiName(e.target.value);
 
               const t = _.clone(formInfo);
@@ -83,15 +83,12 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="property-content">
             <span className="property-content-btn">图表类型</span>
-            {/* <input value={cfiType} disabled /> */}
             <span className="property-content-disable">{_.find(tempArr, v => v.cfiType === cfiType).name}</span>
           </div>
 
           <div className="property-content">
             <span className="property-content-btn">数据更新</span>
-            <Select className="select" value={cfiIsUpdate} onChange={e => {
-              // setCfiIsUpdate(e);
-              // debugger;
+            <Select className="select" disabled={!selectId} value={cfiIsUpdate} onChange={e => {
               const t = _.clone(formInfo);
               const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiIsUpdate = e;
@@ -104,7 +101,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="property-content">
             <span className="property-content-btn">数据源</span>
-            <Select className="select" value={cdsOdbcType} onChange={e => {
+            <Select className="select" disabled={!selectId} value={cdsOdbcType} onChange={e => {
               setCdsOdbcType(e);
             }}>
               <Option value={'1'}>自定义</Option>
@@ -115,13 +112,14 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="property-content">
             <span className="property-content-btn">数据绑定</span>
-            <Select className="select" value={cfiDatasourceId} onChange={e => {
+            <Select className="select" disabled={!selectId} value={cfiDatasourceId} onChange={e => {
               const t = _.clone(formInfo);
               const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiDatasourceId = e;
               setFormInfo(t);
               setCfiDatasourceId(e);
             }}>
+              <Option value={'0'}>选择绑定数据</Option>
               {
                 _.map(dsIdOptions, v => (
                   <Option key={v.cdsOdbcId} value={v.cdsOdbcId}>{v.cdsRemark}</Option>
@@ -148,7 +146,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="application-config expand-active">
             <span className="radio-title">放大</span>
-            <Radio.Group onChange={e => {
+            <Radio.Group disabled={!selectId} onChange={e => {
               const d = _.assign({}, cfiEvent, { glass: e.target.value });
               setCfiEvent(d);
               debugger;
@@ -163,7 +161,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="application-config">
             <span className="radio-title">过滤</span>
-            <Radio.Group onChange={e => {
+            <Radio.Group disabled={!selectId} onChange={e => {
               const d = _.assign({}, cfiEvent, { filter: e.target.value });
               setCfiEvent(d);
 
@@ -178,7 +176,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="application-config">
             <span className="radio-title">导出</span>
-            <Radio.Group onChange={e => {
+            <Radio.Group disabled={!selectId} onChange={e => {
               const d = _.assign({}, cfiEvent, { export: e.target.value });
               setCfiEvent(d);
 
@@ -193,7 +191,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="application-config">
             <span className="radio-title">明细</span>
-            <Radio.Group onChange={e => {
+            <Radio.Group disabled={!selectId} onChange={e => {
               const d = _.assign({}, cfiEvent, { detail: e.target.value });
               const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiEvent = JSON.stringify(d);

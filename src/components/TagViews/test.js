@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Icon } from 'antd';
 import _ from 'lodash';
 import { queryByConfigId } from '@/api/cs_api';
@@ -32,6 +32,7 @@ export default ({ tags, setTags, setFormInfo, selectTag, setSelectTag, setSelect
                     setTags(newViews);
                     setSelectTag({});
                     setFormInfo([]);
+                    setSelectId('');
                   }
                   } />
               </li>

@@ -118,8 +118,8 @@ export default () => {
                 });
               }
             }}>删除</li>
-            <li className="btn-item">重置</li>
-            <li className="btn-item">预览</li>
+            {/* <li className="btn-item">重置</li>
+            <li className="btn-item">预览</li> */}
             <li className="btn-item" onClick={() => {
               if (!curIndex) {
                 Message.warning('请先选择模块');
