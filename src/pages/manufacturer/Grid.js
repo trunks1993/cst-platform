@@ -1,55 +1,15 @@
 import React, { useState } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
 import _ from 'lodash';
-import ReactEcharts from 'echarts-for-react';
+import DragDom from '@/components/DragDom';
 
 const generateDOM = (formInfo, selectId, setSelectId) => {
   // eslint-disable-next-line complexity
   return _.map(formInfo, (l, i) => {
-    let option;
-    if (l.cfiType === '1') {
-      option = getBarChart();
-    } else if (l.cfiType === '2') {
-      option = getLineChart();
-    } else if (l.cfiType === '3') {
-      option = getPieChart();
-    } else if (l.cfiType === '4') {
-      option = getVisualMap();
-    } else if (l.cfiType === '5') {
-      option = getGauge();
-    } else {
-      option = getBarChart();
-    }
-    const progress = (
-      <div>
-        adasad
-      </div>
-    );
-    const component = (
-      <ReactEcharts
-        option={option}
-        notMerge
-        lazyUpdate
-        style={{ width: '100%',height: '100%',paddingTop: '30px' }}
-      />
-    );
     const nl = JSON.parse(l.cfiLayout);
-
     return (
       <div key={nl.i} style={{ overflow: 'hidden', border: nl.i === selectId ? '1px solid #ecdbdb' : '' }} data-grid={nl} onClick={() => setSelectId(nl.i)}>
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-        {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
-        {
-          l.cfiType === '5' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
-        }
-        <div className="title-box">{l.cfiName }</div>
-        { l.cfiType <= 5 ? component : progress };
+        <DragDom key={nl.i} data={l} />
       </div>
     );
   });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getToken } from './auth';
-const token = getToken();
+const token = getToken() || '';
 
 // 创建axios实例
 const service = axios.create({
