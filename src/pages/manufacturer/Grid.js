@@ -21,7 +21,11 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
     } else {
       option = getBarChart();
     }
-
+    const progress = (
+      <div>
+        adasad
+      </div>
+    );
     const component = (
       <ReactEcharts
         option={option}
@@ -45,7 +49,7 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
           l.cfiType === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
         }
         <div className="title-box">{l.cfiName }</div>
-        {component}
+        { l.cfiType > 5 ? component : progress };
       </div>
     );
   });

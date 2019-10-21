@@ -10,13 +10,23 @@ import _ from 'lodash';
 
 const { Search } = Input;
 // eslint-disable-next-line complexity
-export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId, cRef }) => {
+export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId, cRef, setTags, tags }) => {
   const [visible1, setVisible1] = useState(false);
   const [groupDatas, setGroupDatas] = useState([]);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
   const [queryConfigState, setQueryState] = useState(false);
 
+  const addTag = tag => {
+    console.log(tag);
+    const fi = _.findIndex(tags, o => o.cfgId === tag.cfgId);
+    setSelectTag(tag.cfgId);
+    if (fi < 0) {
+      const t = _.clone(tags);
+      t.push(tag);
+      setTags(t);
+    }
+  };
   useEffect(() => {
     // 查询配置信息
     aqueryConfig();
@@ -63,7 +73,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
           {
             !queryConfigState ? <Skeleton active /> : groupDatas.map((group, index, arrs) => {
               return (
-                <div>
+                <div key={index}>
                   <div className="group-btn" onClick={() => {
                     const t = _.clone(groupDatas);
                     t[index].visible = !group.visible;
@@ -83,9 +93,10 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                   >
                     {
                       // eslint-disable-next-line complexity
-                      group.children.map(child => (<li
-                        key={child.cfgCreateTime}
+                      group.children.map((child,idx_) => (<li
+                        key={idx_}
                         onClick = {() => {
+                          addTag(child);
                           setSelectTag(child);
                           queryByConfigId(child.cfgId).then(res => {
                             if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
