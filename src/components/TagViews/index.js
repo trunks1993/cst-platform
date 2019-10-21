@@ -10,10 +10,10 @@ export default ({ tags, setTags, curIndex, handleCurIndex, setFormInfo }) => {
         {
           tags.map((item, index) => {
             return (
-              <li className={ curIndex === item.cucId ? 'tag-views-item active-tag-views' : 'tag-views-item' } key={index} onClick={ () => {
+              <li className={ curIndex === item.cucId ? 'tag-views-item active-tag-views' : 'tag-views-item' } style={{ cursor: 'pointer' }} key={index} onClick={ () => {
                 handleCurIndex(item.cucId);
                 getTempDetail(item.cucId).then(res => {
-                  setFormInfo(_.map(res.data, v => v.cusFunctionInfo[0]));
+                  setFormInfo(res.data);
                 });
               } }>
                 {item.cucName }
@@ -25,11 +25,6 @@ export default ({ tags, setTags, curIndex, handleCurIndex, setFormInfo }) => {
                     setTags(newViews);
                     handleCurIndex('');
                     setFormInfo([]);
-                    // if (newViews.length) {
-                    //   handleCurIndex(newViews[0].cucId);
-                    // } else {
-                    //   handleCurIndex('');
-                    // }
                   }
                   } />
               </li>

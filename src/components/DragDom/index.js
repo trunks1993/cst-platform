@@ -1,27 +1,26 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
-import { DOM_TYPE_USER1, DOM_TYPE_USER2, DOM_TYPE_USER3, DOM_TYPE_USER4, DOM_TYPE_USER5, DOM_TYPE_USER6, DOM_TYPE_USER7 } from '@/utils/const';
+import { DOM_TYPE_BAR, DOM_TYPE_LINE, DOM_TYPE_PIE, DOM_TYPE_VIS, DOM_TYPE_GAUGE, DOM_TYPE_PRO6, DOM_TYPE_PRO7 } from '@/utils/const';
+import TypeProgress from '@/components/TypeProgress';
 
 const map = {
-  [DOM_TYPE_USER1]: getBarChart,
-  [DOM_TYPE_USER2]: getLineChart,
-  [DOM_TYPE_USER3]: getPieChart,
-  [DOM_TYPE_USER4]: getVisualMap,
-  [DOM_TYPE_USER5]: getGauge,
-  [DOM_TYPE_USER6]: getBarChart,
-  [DOM_TYPE_USER7]: getBarChart
+  [DOM_TYPE_BAR]: getBarChart,
+  [DOM_TYPE_LINE]: getLineChart,
+  [DOM_TYPE_PIE]: getPieChart,
+  [DOM_TYPE_VIS]: getVisualMap,
+  [DOM_TYPE_GAUGE]: getGauge,
+  [DOM_TYPE_PRO6]: getBarChart,
+  [DOM_TYPE_PRO7]: getBarChart
 };
 
 // eslint-disable-next-line complexity
-export default ({ data, selectId, setSelectId }) => {
+export default ({ data, selectId, setSelectId, optionList = [] }) => {
 
   const option = map[data.cfiType]();
 
-  const component = data.cfiType > DOM_TYPE_USER5 ? (
-    <div>
-        adasad
-    </div>
+  const component = data.cfiType > DOM_TYPE_GAUGE ? (
+    <TypeProgress type={data.cfiType} optionList={optionList} />
   ) : (<ReactEcharts
     option={option}
     notMerge
@@ -37,7 +36,7 @@ export default ({ data, selectId, setSelectId }) => {
       <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-      { data.cfiType === DOM_TYPE_USER5 && <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> }
+      { data.cfiType === DOM_TYPE_GAUGE && <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> }
       <div className="title-box">{data.cfiName }</div>
       {component}
     </>

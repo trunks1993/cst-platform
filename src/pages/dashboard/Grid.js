@@ -1,58 +1,22 @@
 import React, { useState } from 'react';
 import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
-// import DragDom from '@/components/DragDom';
-import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
-import ReactEcharts from 'echarts-for-react';
-
-const ReactGridLayout = WidthProvider(RGL);
+import DragDom from '@/components/DragDom';
 
 const generateDOM = (formInfo, selectId, setSelectId) => {
   // eslint-disable-next-line complexity
   return _.map(formInfo, (l, i) => {
-    let option;
-    if (l.cfiType === '1') {
-      option = getBarChart();
-    } else if (l.cfiType === '2') {
-      option = getLineChart();
-    } else if (l.cfiType === '3') {
-      option = getPieChart();
-    } else if (l.cfiType === '4') {
-      option = getVisualMap();
-    } else if (l.cfiType === '5') {
-      option = getGauge();
-    } else {
-      option = getBarChart();
-    }
-
-    const component = (
-      <ReactEcharts
-        option={option}
-        notMerge
-        lazyUpdate
-        style={{ width: '100%',height: '100%',paddingTop: '30px' }}
-      />
-    );
     const nl = JSON.parse(l.cfiLayout);
-
     return (
       <div key={nl.i} style={{ overflow: 'hidden' }} data-grid={nl}>
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-        <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-        {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
-        {
-          l.cfiType === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
-        }
-        <div className="title-box">{l.cfiName }</div>
-        {component}
+        <DragDom key={nl.i} data={l} />
       </div>
     );
   });
 };
+
+
+const ReactGridLayout = WidthProvider(RGL);
 
 export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tags, setSelectId, selectId }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板

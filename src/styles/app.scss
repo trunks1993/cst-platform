@@ -324,8 +324,15 @@ $customizeWhite: #fff;
             z-index: 1;
             margin-right: -2px;
           }
-          &-editetable {
-            
+          &-disable {
+            color: #0393FF;
+            background: #05254b;
+            height: 28px;
+            line-height: 28px;
+            border: none;
+            width: calc(100% - 68px);
+            border-radius: 3px;
+            text-align: center;
           }
           .select {
             width: calc(100% - 68px);

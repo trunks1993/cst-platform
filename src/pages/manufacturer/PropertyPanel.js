@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import { selectByDataSource } from '@/api/cs_api';
-
+import { tempArr } from '@/config';
 import { Select, Radio } from 'antd';
+import { DOM_TYPE_BAR } from '@/utils/const';
+
 import _ from 'lodash';
 const { Option } = Select;
 
@@ -22,7 +24,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
   const [cfiName, setCfiName] = useState('');
 
   // 图表类型绑定
-  const [cfiType, setCfiType] = useState(1);
+  const [cfiType, setCfiType] = useState(DOM_TYPE_BAR);
 
   // 更新
   const [cfiIsUpdate, setCfiIsUpdate] = useState(1);
@@ -81,7 +83,8 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
 
           <div className="property-content">
             <span className="property-content-btn">图表类型</span>
-            <input value={cfiType} disabled />
+            {/* <input value={cfiType} disabled /> */}
+            <span className="property-content-disable">{_.find(tempArr, v => v.cfiType === cfiType).name}</span>
           </div>
 
           <div className="property-content">
@@ -126,22 +129,6 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
               }
             </Select>
           </div>
-
-          {/* <div className="property-content" style={{ display: 'block' }}>
-            <span className="property-content-btn">数据源说明</span>
-            <TextArea
-              className="text-area"
-              value={cusDataSource.cdsRemark}
-              onChange={e => {
-                const d = _.assign({}, cusDataSource, { cdsRemark: e.target.value });
-                const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
-                item.cusDataSource = d;
-                setFormInfo(formInfo);
-                setCusDataSource(d);
-              }}
-              autosize={{ minRows: 5, maxRows: 5 }}
-            />
-          </div> */}
         </div>
 
         <img

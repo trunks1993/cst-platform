@@ -13,7 +13,7 @@ export default () => {
   const [tags, setTags] = useState([]);
   const [showModel, handleShowModel] = useState(false);
   const [InputValue, handleInputValue] = useState('');
-  const [curIndex, handleCurIndex] = useState([]);// 当前模板id
+  const [curIndex, handleCurIndex] = useState('');// 当前模板id
   const [formInfo, setFormInfo] = useState([]);// formInfo
   const [selectId, setSelectId] = useState('');// formInfo选中Id
 
