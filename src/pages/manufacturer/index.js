@@ -169,6 +169,8 @@ const Main = ({ getCSGroup }) => {
                     break;
                   // eslint-disable-next-line no-duplicate-case
                   case '保存':
+                    // 选择标签 模块不能为空
+                    if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');
                     // 名字不能为空
                     let o = _.find(formInfo, v => _.trim(v.cfiName) === '');
                     if (o !== undefined) {
@@ -176,6 +178,7 @@ const Main = ({ getCSGroup }) => {
                       return setSelectId(JSON.parse(o.cfiLayout).i);
                     }
 
+                    // 数据源未绑定
                     o = _.find(formInfo, v => v.cfiDatasourceId === '0');
                     if (o !== undefined) {
                       Message.error('请绑定数据');
