@@ -80,7 +80,6 @@ export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tag
     setFormInfo(newInfo);
     setDo(false);
   };
-
   return (
     // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
     <div className="grid-box" onDragEnter={() => setDo(true)}>
@@ -90,7 +89,7 @@ export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tag
         rowHeight={30}
         onLayoutChange={onLayoutChange}
         onDrop={onDrop}
-        isDroppable={!!curIndex}
+        isDroppable={curIndex.length > 0}
       >
         { generateDOM(formInfo) }
       </ReactGridLayout>

@@ -37,6 +37,9 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
     // changeVal 就是暴露给父组件的方法
     changeVal: (newVal) => {
       handleSingleTemp(newVal);
+    },
+    changePublic: v => {
+      handlePublicTemp(v);
     }
   }));
 
@@ -92,7 +95,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
                     () => {
                       addTag(tag);
                       getTempDetail(getToken(), tag.cucId).then(res => {
-                        setFormInfo(_.map(res.data, v => v.cusFunctionInfo[0]));
+                        setFormInfo(res.data);
                       });;
                     }
                   }>{tag.cucName}{ tag.status === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>

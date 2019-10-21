@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews';
-import { Modal, Form, Input, message } from 'antd';
-import { addStaticTemp, getStaticTemp, deleteTemp, saveTempGridData } from '@/api/index';
+import { Modal, Form, Input, Message } from 'antd';
+import { addStaticTemp, getStaticTemp, deleteTemp, saveTempGridData, editTempGridData, shareTempGridData, getPublicTemp } from '@/api/index';
 import { getToken } from '@/utils/auth';
 import _ from 'lodash';
 
@@ -22,7 +22,7 @@ export default () => {
 
   const addNewModule = () => {
     addStaticTemp({ token: getToken(), cucName: InputValue, cucStatus: '1' }).then(res => {
-      message.success(res.msg);
+      Message.success(res.msg);
       handleShowModel(false);
       handleInputValue('');
     }).then(() => {
@@ -58,7 +58,7 @@ export default () => {
             <li className="btn-item" onClick={() => {
               console.log(curIndex);
               if (!curIndex) {
-                message.warning('请先选择模块');
+                Message.warning('请先选择模块');
               } else {
                 const matchInfo = _.map(formInfo, e => ({
                   configId: curIndex,
@@ -68,13 +68,12 @@ export default () => {
                   layout: e.cfiLayout
                 }));
                 saveTempGridData(matchInfo).then(res => {
+                  Message.success(res.msg);
                   if (res.code === '0') {
                     getStaticTemp({ token: getToken() }).then(res => {
                       if (res.data.rows.length) {
                         childRef.current.changeVal(res.data.rows);
                       }
-                    }).catch(err => {
-                      console.error(err);
                     });
                   }
                 });
@@ -83,7 +82,7 @@ export default () => {
             <li className="btn-item" onClick={() => {
               console.log(curIndex);
               if (!curIndex) {
-                message.warning('请先选择模块');
+                Message.warning('请先选择模块');
               } else {
                 confirm({
                   title: '确定是否删除此模块?',
@@ -93,7 +92,7 @@ export default () => {
                   centered: true,
                   onOk() {
                     deleteTemp({ token: getToken(), cucId: curIndex }).then(res => {
-                      message.success(res.msg);
+                      Message.success(res.msg);
                     }).then(() => {
                       getStaticTemp({ token: getToken() }).then(res => {
                         if (res.data.rows.length) {
@@ -112,13 +111,27 @@ export default () => {
             <li className="btn-item">预览</li>
             <li className="btn-item" onClick={() => {
               if (!curIndex) {
-                message.warning('请先选择模块');
+                Message.warning('请先选择模块');
               } else {
-                saveTempGridData({ cucId: curIndex, cucStatus: '3' });
+                editTempGridData('3', curIndex).then(res => {
+                  Message.success('发布成功');
+                });
               }
             }}>发布</li>
-            <li className="btn-item">共享</li>
-            <li className="btn-item">关闭</li>
+            <li className="btn-item" onClick={() => {
+              if (!curIndex) {
+                Message.warning('请先选择模块');
+              } else {
+                shareTempGridData('1', curIndex).then(res => {
+                  Message.success('共享成功');
+                }).then(res => {
+                  getPublicTemp().then(res => {
+                    childRef.current.changePublic(res.data.rows);
+                  });
+                });
+              }
+            }}>共享</li>
+            {/* <li className="btn-item">关闭</li> */}
           </ul>
         </div>
       </div>

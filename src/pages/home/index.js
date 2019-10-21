@@ -6,21 +6,24 @@ import _ from 'lodash';
 import ReactEcharts from 'echarts-for-react';
 import { getHomeDetail } from '@/api/index';
 
+const ReactGridLayout = WidthProvider(RGL);
 
 const generateDOM = (layout) => {
   // eslint-disable-next-line complexity
   return _.map(layout, (l, i) => {
     let option;
-    if (l.type === 'bar') {
+    if (l.cfiType === '1') {
       option = getBarChart();
-    } else if (l.type === 'line') {
+    } else if (l.cfiType === '2') {
       option = getLineChart();
-    } else if (l.type === 'pie') {
+    } else if (l.cfiType === '3') {
       option = getPieChart();
-    } else if (l.type === 'scatter') {
+    } else if (l.cfiType === '4') {
       option = getVisualMap();
-    } else if (l.type === 'gauge') {
+    } else if (l.cfiType === '5') {
       option = getGauge();
+    } else {
+      option = getBarChart();
     }
 
     const component = (
@@ -44,32 +47,33 @@ const generateDOM = (layout) => {
     //     />
     //   </div>
     // );
+    const nl = JSON.parse(l.cfiLayout);
+    nl.static = true;
     return (
-      <div key={i} className={l.static ? 'static' : ''} style={{ overflow: 'hidden' }} data-grid={l}>
+      <div key={i} style={{ overflow: 'hidden' }} data-grid={nl}>
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-        <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" />
+        {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
         {
-          l.type === 'gauge' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+          l.cfiType === '5' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
         }
         <div className="title-box">{l.title }</div>
-        {/* {component} */}
+        {component}
       </div>
     );
   });
 };
 
-const ReactGridLayout = WidthProvider(RGL);
 export default () => {
-  const [layout, getLayout] = useState([]);
+  const [layout, setLayout] = useState([]);
 
   useEffect(() => {
     getHomeDetail().then(res => {
-      console.log(res);
+      setLayout(res.data);
     });
   }, []);
   return (
@@ -79,7 +83,6 @@ export default () => {
         className="cst-layout"
         cols={12}
         rowHeight={30}
-        layout={layout}
       >
         {generateDOM(layout)}
       </ReactGridLayout>

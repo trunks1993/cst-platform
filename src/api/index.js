@@ -81,3 +81,23 @@ export const getHomeDetail = () => request({
   method: 'GET',
 });
 
+// 发布
+export const editTempGridData = (cucStatus, cucID) => request({
+  url: '/v1/userConfigInfo/CusUserConfig/edit',
+  method: 'put',
+  params: {
+    cucStatus,
+    cucID
+  }
+});
+
+// 共享
+export const shareTempGridData = (cucIsShare, cucID) => request({
+  url: '/v1/userConfigInfo/CusUserConfig/editShare',
+  method: 'put',
+  params: {
+    cucIsShare,
+    cucID
+  }
+});
+

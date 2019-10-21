@@ -4,15 +4,23 @@ import { Link } from 'react-router-dom';
 import { Dropdown, Icon, Menu } from 'antd';
 import { connect } from 'react-redux';
 import { loginOut } from '@/redux/actions';
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 const UserDropdown = ({ user, handleLoginOut }) => {
   return (
     <Dropdown className="user-dropdown" overlay={
       <Menu onClick={({ item, key, keyPath, domEvent }) => {
-        handleLoginOut();
+        if (key === '0') {
+          history.push('/platForm/config');
+        } else if (key === '1') {
+          history.push('/platForm/home');
+        } else {
+          handleLoginOut();
+        }
       }}>
         <Menu.Item key="0">
-          <Link to="/sys">系统设置</Link>
+          <Link to="#">系统设置</Link>
         </Menu.Item>
         <Menu.Item key="1">
           <a href="#">个人中心</a>
