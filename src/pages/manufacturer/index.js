@@ -13,6 +13,16 @@ import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts 
 
 import { Modal, Form, Input, Message } from 'antd';
 // const { Option } = AutoComplete;
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 },
+  },
+};
 
 const operates = [
   {
@@ -192,7 +202,7 @@ const Main = ({ getCSGroup }) => {
           style={{ position: 'relative' }}
         >
           <Modal centered visible={newModelVisible} footer={null}>
-            <Form>
+            <Form {...formItemLayout}>
               <Form.Item label="选择加组：">
                 <Select
                   style={{ width: 200 }}
@@ -221,7 +231,7 @@ const Main = ({ getCSGroup }) => {
           </Modal>
 
           <Modal centered visible={newGroupVisible} footer={null}>
-            <Form>
+            <Form {...formItemLayout}>
               <Form.Item label="分组名">
                 <Input
                   style={{ width: 200 }}

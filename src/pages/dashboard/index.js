@@ -38,6 +38,17 @@ export default () => {
     });
   };
 
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 12 },
+    },
+  };
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-container-header">
@@ -141,8 +152,8 @@ export default () => {
             closable={false}
             footer={null}
           >
-            <Form>
-              <Form.Item>
+            <Form {...formItemLayout}>
+              <Form.Item label="新建模板">
                 <Input
                   style={{ width: 200 }}
                   onChange={val => { handleInputValue(val.target.value); }}
