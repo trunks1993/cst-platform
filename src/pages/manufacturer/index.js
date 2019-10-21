@@ -80,6 +80,8 @@ const Main = ({ getCSGroup }) => {
 
   const [groupParents, setGroupParents] = useState([]);
 
+  const [tags, setTags] = useState([]);
+
   // const callSave = async() => {
   //   // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
   //   // 选择了组名，配置名就是组下的配置名
@@ -145,7 +147,7 @@ const Main = ({ getCSGroup }) => {
           <ul>
             {
               // eslint-disable-next-line complexity
-              operates.map(item => <li key={item.key} className="btn-item" onClick={(e) => {
+              operates.map((item, idx) => <li key={idx} className="btn-item" onClick={(e) => {
                 switch (e.target.innerText) {
                   case '新建分组':
                     // item.callback(handleShowModel, showModel);
@@ -185,7 +187,8 @@ const Main = ({ getCSGroup }) => {
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setSelectTag={setSelectTag} cRef={childRef} ref={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
+          <Panel setTags={setTags} tags={tags}
+            setSelectTag={setSelectTag} cRef={childRef} ref={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
         </div>
         <div
           className="dashboard-container-body-content"
@@ -235,7 +238,7 @@ const Main = ({ getCSGroup }) => {
               </Form.Item>
             </Form>
           </Modal>
-          <TagViews selectTag={selectTag} setSelectTag={setSelectTag} />
+          <TagViews tags={tags} setSelectId={setSelectId} setFormInfo={setFormInfo} setTags={setTags} selectTag={selectTag} setSelectTag={setSelectTag} />
           <Grid tempData={tempData} selectTag={selectTag} setSelectId={setSelectId} selectId={selectId} tags={['test']} formInfo={formInfo} setFormInfo={setFormInfo} />
           <PropertyPanel selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} visible />
         </div>

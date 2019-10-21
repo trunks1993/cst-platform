@@ -155,7 +155,7 @@ export default () => {
               </Form.Item>
             </Form>
           </Modal>
-          <TagViews tags={tags} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
+          <TagViews tags={tags} setFormInfo={setFormInfo} setTags={setTags} curIndex={curIndex} handleCurIndex={handleCurIndex} />
           <Grid setSelectId={setSelectId} selectId={selectId} curIndex={curIndex} handleCurIndex={handleCurIndex} tempData={tempData} tags={tags} formInfo={formInfo} setFormInfo={setFormInfo} isDroppable />
         </div>
       </div>
