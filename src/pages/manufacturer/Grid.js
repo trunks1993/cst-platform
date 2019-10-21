@@ -46,10 +46,10 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
         <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
         {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
         {
-          l.cfiType === 5 ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
+          l.cfiType === '5' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
         }
         <div className="title-box">{l.cfiName }</div>
-        { l.cfiType > 5 ? component : progress };
+        { l.cfiType <= 5 ? component : progress };
       </div>
     );
   });
@@ -58,7 +58,7 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
 const ReactGridLayout = WidthProvider(RGL);
 export default ({ formInfo, setFormInfo, tempData, selectTag, tags, setSelectId, selectId }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
-  const [doing, setDo] = useState(true);
+  const [doing, setDo] = useState(false);
 
   function onLayoutChange(l) {
     if (doing) return;

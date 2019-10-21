@@ -161,7 +161,7 @@ const Main = ({ getCSGroup }) => {
                   case '保存':
                     saveInfo(formInfo).then(res => {
                       childRef.current.fqueryConfig();
-                      Message.success('保存成功');
+                      Message.success(res.msg);
                     });
                     break;
                   case '删除':
