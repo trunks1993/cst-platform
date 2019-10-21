@@ -65,5 +65,16 @@ export const tempArr = [
     cfiIsUpdate: 1,
     cfiDatasourceId: 0,
     cfiConfigId: ''
+  },
+  {
+    name: '进度条',
+    icon: '7.png',
+    cfiLayout: JSON.stringify({ w: 4, h: 8 }),
+    cfiType: '7',
+    cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
+    cfiName: '',
+    cfiIsUpdate: 1,
+    cfiDatasourceId: 0,
+    cfiConfigId: ''
   }
 ];

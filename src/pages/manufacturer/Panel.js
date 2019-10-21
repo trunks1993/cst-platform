@@ -1,10 +1,11 @@
 /* eslint-disable no-alert */
 import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { connect } from 'react-redux';
-import { Input, Skeleton, Icon } from 'antd';
+import { Input, Skeleton, Icon, Message } from 'antd';
 // import { SaveGroupData } from '../../redux/actions';
 import { queryConfig, deleteConfig, queryByConfigId } from '@/api/cs_api';
 import { tempArr } from '@/config';
+import { showConfirm } from '@/utils';
 
 import _ from 'lodash';
 
@@ -80,6 +81,18 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                     setGroupDatas(t);
                   }}>
                     {group.cfgName}
+                    <span className="group-btn-del" onClick={e => {
+                      e.stopPropagation();
+                      showConfirm(function() {
+                        console.log(group);
+                        deleteConfig(group.cfgId).then(res => {
+                          Message.success('删除成功');
+                          aqueryConfig();
+                        });
+                      });
+                    }}>
+                      <Icon type="delete" />
+                    </span>
                     <span className="group-btn-iconbox">
                       <Icon type="caret-down" />
                     </span>

@@ -9,7 +9,7 @@ const service = axios.create({
   timeout: 150000, // 请求超时时间
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    token: token ? token : ''
+    token
   }
 });
 
