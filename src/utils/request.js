@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getToken } from './auth';
-const token = getToken();
+const token = getToken() || '';
 
 // 创建axios实例
 const service = axios.create({
@@ -9,7 +9,7 @@ const service = axios.create({
   timeout: 150000, // 请求超时时间
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    token: token ? token : ''
+    token
   }
 });
 

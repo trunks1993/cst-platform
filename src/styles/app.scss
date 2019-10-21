@@ -388,6 +388,11 @@ $customizeWhite: #fff;
               align-items: center;
               padding-left: 10px;
               margin-top: 10px;
+              position: relative;
+
+              &:hover .group-btn-del {
+                opacity: 1;
+              }
               &-iconbox {
                 width: 12px;
                 height: 12px;
@@ -401,6 +406,14 @@ $customizeWhite: #fff;
                   color: #fff;
                   transform: scale(0.8);
                 }
+              }
+              &-del {
+                position: absolute;
+                right: 15px;
+                top: -4px;
+                opacity: 0;
+                transition: all .3s;
+                cursor: pointer;
               }
             }
             .group-list {
@@ -445,7 +458,6 @@ $customizeWhite: #fff;
             .temp-list {
               display: flex;
               flex-wrap: wrap;
-              justify-content: space-around;
               padding: 0 20px;
               font-size: 12px;
               color: #fff;
@@ -453,7 +465,7 @@ $customizeWhite: #fff;
               overflow: auto;
               li {
                 text-align: center;
-                width: 80px;
+                width: 90px;
                 img {
                   width: 100%;
                   cursor: move;
@@ -510,6 +522,22 @@ $customizeWhite: #fff;
           padding: 0 6px;
           text-align: center;
           line-height: 28px;
+          min-width: 160px;
+          position: relative;
+          i {
+            // background: blue;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translate(0, -50%);
+            transition: all .3s;
+            &:hover {
+              background: rgba(255, 255, 255, 0.2);
+              color: #fff;
+              border-radius: 50%;
+              padding: 2px;
+            }
+          }
         }
       }
       .grid-box {

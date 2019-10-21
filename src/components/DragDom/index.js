@@ -2,48 +2,44 @@ import React from 'react';
 // import _ from 'lodash';
 import ReactEcharts from 'echarts-for-react';
 import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '@/utils/echarts';
+import { DOM_TYPE_BAR, DOM_TYPE_LINE, DOM_TYPE_PIE, DOM_TYPE_VIS, DOM_TYPE_GAUGE, DOM_TYPE_PRO6, DOM_TYPE_PRO7 } from '@/utils/const';
+import TypeProgress from '@/components/TypeProgress';
+
+const map = {
+  [DOM_TYPE_BAR]: getBarChart,
+  [DOM_TYPE_LINE]: getLineChart,
+  [DOM_TYPE_PIE]: getPieChart,
+  [DOM_TYPE_VIS]: getVisualMap,
+  [DOM_TYPE_GAUGE]: getGauge,
+  [DOM_TYPE_PRO6]: getBarChart,
+  [DOM_TYPE_PRO7]: getBarChart
+};
 
 // eslint-disable-next-line complexity
-export default ({ data }) => {
-  let option;
-  if (data.cfiType === '1') {
-    option = getBarChart();
-  } else if (data.cfiType === '2') {
-    option = getLineChart();
-  } else if (data.cfiType === '3') {
-    option = getPieChart();
-  } else if (data.cfiType === '4') {
-    option = getVisualMap();
-  } else if (data.cfiType === '5') {
-    option = getGauge();
-  } else {
-    option = getBarChart();
-  };
+export default ({ data, selectId, setSelectId, optionList = [] }) => {
 
-  const component = (
-    <ReactEcharts
-      option={option}
-      notMerge
-      lazyUpdate
-      style={{ width: '100%',height: '100%',paddingTop: '30px' }}
-    />
-  );
-  const nl = JSON.parse(data.cfiLayout);
-  debugger;
+  const option = map[data.cfiType]();
+
+  const component = data.cfiType > DOM_TYPE_GAUGE ? (
+    <TypeProgress type={data.cfiType} optionList={optionList} />
+  ) : (<ReactEcharts
+    option={option}
+    notMerge
+    lazyUpdate
+    style={{ width: '100%',height: '100%',paddingTop: '30px' }}
+  />);
+
   return (
-    <div key={nl.i} className={data.static ? 'static' : ''} style={{ overflow: 'hidden' }} data-grid={nl} >
+    <>
       <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
-      {/* <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> */}
-      {
-        data.cfiType === '5' ? <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> : null
-      }
+      { data.cfiType === DOM_TYPE_GAUGE && <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> }
       <div className="title-box">{data.cfiName }</div>
-      {/* {component} */}
-    </div>
+      {component}
+    </>
   );
 };

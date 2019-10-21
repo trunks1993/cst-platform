@@ -161,18 +161,18 @@ const Main = ({ getCSGroup }) => {
                   case '保存':
                     saveInfo(formInfo).then(res => {
                       childRef.current.fqueryConfig();
-                      Message.success('保存成功');
+                      Message.success(res.msg);
                     });
                     break;
                   case '删除':
                     deleteConfig(selectTag.cfgId).then(res => {
-                      Message.success('删除成功');
+                      Message.success(res.msg);
                       childRef.current.fqueryConfig();
                     });
                     break;
                   case '发布':
                     updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
-                      Message.success('发布成功');
+                      Message.success(res.msg);
                       childRef.current.fqueryConfig();
                     });
                     break;
