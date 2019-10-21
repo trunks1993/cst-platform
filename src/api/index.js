@@ -51,7 +51,7 @@ export const getEchartsList = token => request({
 });
 
 // 获取配置页详细信息
-export const getTempDetail = (token, configId) => request({
+export const getTempDetail = (configId) => request({
   url: '/v1/userConfigInfo/userFunctionInfo/list',
   method: 'get',
   params: {
