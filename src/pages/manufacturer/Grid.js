@@ -23,7 +23,6 @@ export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selec
   function onLayoutChange(l) {
     if (doing) return;
     const f = _.map(_.clone(formInfo), v => {
-      debugger;
       const item = l.find(lv => lv.i === JSON.parse(v.cfiLayout).i);
       v.cfiLayout = JSON.stringify(item);
       return v;
@@ -37,7 +36,6 @@ export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selec
     const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiId } = tempData;
     const l = _.assign(e, JSON.parse(cfiLayout));
     setSelectId(e.i);
-    debugger;
     setFormInfo(formInfo.concat({ cfiId, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }) }));
     setDo(false);
   };

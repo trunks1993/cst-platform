@@ -50,7 +50,7 @@ export const tempArr = [
   {
     name: '仪表盘',
     icon: '5.png',
-    cfiLayout: JSON.stringify({ w: 4, h: 8 }),
+    cfiLayout: JSON.stringify({ w: 4, h: 11 }),
     cfiType: DOM_TYPE_GAUGE,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',

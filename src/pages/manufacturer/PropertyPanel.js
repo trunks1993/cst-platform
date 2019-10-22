@@ -149,7 +149,6 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
             <Radio.Group disabled={!selectId} onChange={e => {
               const d = _.assign({}, cfiEvent, { glass: e.target.value });
               setCfiEvent(d);
-              debugger;
               const item = formInfo.find(v => JSON.parse(v.cfiLayout).i === selectId);
               item.cfiEvent = JSON.stringify(d);
               setFormInfo(formInfo);
