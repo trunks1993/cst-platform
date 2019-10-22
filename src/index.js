@@ -9,7 +9,7 @@ import '@/styles/index.scss';
 import '@/mock/index';
 
 const store = createStore(appStore, applyMiddleware(thunk));
-
+console.log(store.getState());
 ReactDOM.render(
   <Provider store ={store}>
     <App />

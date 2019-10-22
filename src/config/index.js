@@ -48,7 +48,7 @@ export const tempArr = [
     cfiConfigId: ''
   },
   {
-    name: '基本雷达图',
+    name: '仪表盘',
     icon: '5.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_GAUGE,

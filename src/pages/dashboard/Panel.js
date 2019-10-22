@@ -98,7 +98,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
                         setFormInfo(res.data);
                       });;
                     }
-                  }>{tag.cucName}{ tag.status === '1' ? '（编辑中）' : (tag.status === '2' ? '（保存）' : '（发布）') }</li>
+                  }>{tag.cucName}</li>
                 ))
               }
             </Skeleton>

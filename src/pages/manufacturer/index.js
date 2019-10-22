@@ -7,6 +7,8 @@ import PropertyPanel from './PropertyPanel';
 import { UserContext } from '@/utils/contexts';
 import { getCSGroup } from '@/redux/actions';
 import { Select } from 'antd';
+import { showConfirm } from '@/utils';
+
 // API
 import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 import _ from 'lodash';
@@ -190,12 +192,16 @@ const Main = ({ getCSGroup }) => {
                     });
                     break;
                   case '删除':
-                    deleteConfig(selectTag.cfgId).then(res => {
-                      Message.success(res.msg);
-                      childRef.current.fqueryConfig();
+                    if (!selectTag.cfgId) return Message.error('请选择要删除的配置');
+                    showConfirm(function() {
+                      deleteConfig(selectTag.cfgId).then(res => {
+                        Message.success(res.msg);
+                        childRef.current.fqueryConfig();
+                      });
                     });
                     break;
                   case '发布':
+                    if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');
                     updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
                       Message.success(res.msg);
                       childRef.current.fqueryConfig();
