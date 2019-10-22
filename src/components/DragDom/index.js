@@ -4,7 +4,7 @@ import { getBarChart, getLineChart, getPieChart, getVisualMap, getGauge } from '
 import { DOM_TYPE_BAR, DOM_TYPE_LINE, DOM_TYPE_PIE, DOM_TYPE_VIS, DOM_TYPE_GAUGE, DOM_TYPE_PRO6, DOM_TYPE_PRO7 } from '@/utils/const';
 import TypeProgress from '@/components/TypeProgress';
 
-const map = {
+const types = {
   [DOM_TYPE_BAR]: getBarChart,
   [DOM_TYPE_LINE]: getLineChart,
   [DOM_TYPE_PIE]: getPieChart,
@@ -17,7 +17,7 @@ const map = {
 // eslint-disable-next-line complexity
 export default ({ data, selectId, setSelectId, optionList = [] }) => {
 
-  const option = map[data.cfiType]();
+  const option = types[data.cfiType]();
 
   const component = data.cfiType > DOM_TYPE_GAUGE ? (
     <TypeProgress type={data.cfiType} optionList={optionList} />
