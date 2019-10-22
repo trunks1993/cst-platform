@@ -5,7 +5,7 @@ import { DOM_TYPE_BAR, DOM_TYPE_LINE, DOM_TYPE_PIE, DOM_TYPE_VIS, DOM_TYPE_GAUGE
 export const tempArr = [
   {
     name: '基本折线图',
-    icon: '2.png',
+    icon: '5.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_LINE,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
@@ -16,7 +16,7 @@ export const tempArr = [
   },
   {
     name: '基本柱状图',
-    icon: '1.png',
+    icon: '7.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_BAR,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
@@ -27,7 +27,7 @@ export const tempArr = [
   },
   {
     name: '基本饼图',
-    icon: '3.png',
+    icon: '13.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_PIE,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
@@ -38,7 +38,7 @@ export const tempArr = [
   },
   {
     name: '基本散点图',
-    icon: '4.png',
+    icon: '9.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_VIS,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
@@ -48,9 +48,9 @@ export const tempArr = [
     cfiConfigId: ''
   },
   {
-    name: '仪表盘',
-    icon: '5.png',
-    cfiLayout: JSON.stringify({ w: 4, h: 11 }),
+    name: '单仪表盘',
+    icon: '1.png',
+    cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_GAUGE,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
     cfiName: '',
@@ -59,8 +59,8 @@ export const tempArr = [
     cfiConfigId: ''
   },
   {
-    name: '基本关系图',
-    icon: '6.png',
+    name: '基本条形图',
+    icon: '14.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_PRO6,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
@@ -70,8 +70,8 @@ export const tempArr = [
     cfiConfigId: ''
   },
   {
-    name: '进度条',
-    icon: '7.png',
+    name: '堆叠条形图',
+    icon: '16.png',
     cfiLayout: JSON.stringify({ w: 4, h: 8 }),
     cfiType: DOM_TYPE_PRO7,
     cfiEvent: JSON.stringify({ glass: 1, filter: 1, export: 1, detail: 1 }),
