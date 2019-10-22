@@ -8,7 +8,7 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
   return _.map(formInfo, (l, i) => {
     const nl = JSON.parse(l.cfiLayout);
     return (
-      <div key={nl.i} style={{ overflow: 'hidden', border: nl.i === selectId ? '1px solid #ecdbdb' : '' }} data-grid={nl} onClick={() => setSelectId(nl.i)}>
+      <div key={nl.i} style={{ overflow: 'hidden', border: nl.i === selectId ? '2px solid #03ccff' : '' }} data-grid={nl} onClick={() => setSelectId(nl.i)}>
         <DragDom key={nl.i} data={l} />
       </div>
     );
