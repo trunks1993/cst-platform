@@ -16,15 +16,21 @@ export function login(username, password) {
 export function getUserByToken(token) {
   return request({
     url: '/cas/user',
-    method: 'get'
+    method: 'get',
+    headers: {
+      token
+    }
   });
 }
 // 获取公共模板列表
-export const getPublicTemp = params => request({
+export const getPublicTemp = token => request({
   url: '/v1/userConfigInfo/CusUserConfig/list',
   method: 'get',
   params: {
     cucIsShare: '1'
+  },
+  headers: {
+    token
   }
 });
 
@@ -52,7 +58,7 @@ export const getEchartsList = token => request({
 
 // 获取配置页详细信息
 export const getTempDetail = (configId) => request({
-  url: '/v1/userConfigInfo/userFunctionInfo/list',
+  url: '/v1/userFunctionInfo/userFunctionInfo/list',
   method: 'get',
   params: {
     configId
@@ -61,7 +67,7 @@ export const getTempDetail = (configId) => request({
 
 // 保存 或 发布
 export const saveTempGridData = (data) => request({
-  url: '/v1/userConfigInfo/userFunctionInfo/add',
+  url: '/v1/userFunctionInfo/userFunctionInfo/add',
   method: 'post',
   data
 });
@@ -101,3 +107,11 @@ export const shareTempGridData = (cucIsShare, cucID) => request({
   }
 });
 
+// 单独获取每个图表的数据GET /v1/userConfigTopic/userConfigTopic/queryFrequency
+export const applySingleEchartsInfo = (cufId) => request({
+  url: '/v1/userConfigTopic/userConfigTopic/queryFrequency',
+  method: 'get',
+  params: {
+    cufId
+  }
+});

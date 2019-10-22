@@ -92,18 +92,9 @@ const Main = ({ getCSGroup }) => {
 
   const [tags, setTags] = useState([]);
 
-  // const callSave = async() => {
-  //   // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
-  //   // 选择了组名，配置名就是组下的配置名
-  //   if (configName.value) {
-  //     const res = await saveGroupConfig({ configName: configName.value, cfgParentId: groupId.value }, getToken());
-  //     handleShowModel(!showModel);
-  //     // 新建配置后重新请求所有配置
-  //     const allConfigData = await queryConfig(getToken());
-  //     // disptch 保存到 common state
-  //     addConfigData(allConfigData.data);
-  //   }
-  // };
+  // 数据源option
+  const [dsIdOptions, setDsIdOptions] = useState([]);
+
   const childRef = useRef();
 
 
@@ -264,8 +255,8 @@ const Main = ({ getCSGroup }) => {
             </Form>
           </Modal>
           <TagViews tags={tags} setSelectId={setSelectId} setFormInfo={setFormInfo} setTags={setTags} selectTag={selectTag} setSelectTag={setSelectTag} />
-          <Grid tempData={tempData} selectTag={selectTag} setSelectId={setSelectId} selectId={selectId} formInfo={formInfo} setFormInfo={setFormInfo} />
-          <PropertyPanel selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} visible />
+          <Grid tempData={tempData} selectTag={selectTag} dsIdOptions={dsIdOptions} setSelectId={setSelectId} selectId={selectId} formInfo={formInfo} setFormInfo={setFormInfo} />
+          <PropertyPanel selectId={selectId} dsIdOptions={dsIdOptions} setDsIdOptions={setDsIdOptions} setFormInfo={setFormInfo} formInfo={formInfo} visible />
         </div>
       </div>
     </div>

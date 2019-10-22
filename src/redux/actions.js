@@ -2,7 +2,7 @@ import { login, getUserByToken } from '@/api/index';
 
 import { queryConfig } from '@/api/cs_api';
 
-import { setToken, removeToken } from '@/utils/auth';
+import { setToken, removeToken, getToken } from '@/utils/auth';
 
 // 通知 reducer 请求开始的 user
 export const REQUEST_USER = 'REQUEST_USER';

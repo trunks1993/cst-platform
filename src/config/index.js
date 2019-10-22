@@ -12,7 +12,9 @@ export const tempArr = [
     cfiName: '',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    // eslint-disable-next-line no-dupe-keys
+    cfiIsUpdate: ''
   },
   {
     name: '基本柱状图',
@@ -23,7 +25,9 @@ export const tempArr = [
     cfiName: 'test',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    // eslint-disable-next-line no-dupe-keys
+    cfiIsUpdate: ''
   },
   {
     name: '基本饼图',
@@ -34,7 +38,8 @@ export const tempArr = [
     cfiName: '',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    cfiIsUpdate: ''
   },
   {
     name: '基本散点图',
@@ -45,7 +50,8 @@ export const tempArr = [
     cfiName: '',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    cfiIsUpdate: ''
   },
   {
     name: '基本雷达图',
@@ -56,7 +62,8 @@ export const tempArr = [
     cfiName: '',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    cfiIsUpdate: ''
   },
   {
     name: '基本关系图',
@@ -67,7 +74,8 @@ export const tempArr = [
     cfiName: '',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    cfiIsUpdate: ''
   },
   {
     name: '进度条',
@@ -78,6 +86,7 @@ export const tempArr = [
     cfiName: '',
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
-    cfiConfigId: ''
+    cfiConfigId: '',
+    cfiIsUpdate: ''
   }
 ];
