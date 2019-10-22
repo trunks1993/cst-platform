@@ -1,11 +1,9 @@
 import React, { useState, useContext, useRef } from 'react';
-import { connect } from 'react-redux';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
 import { UserContext } from '@/utils/contexts';
-import { getCSGroup } from '@/redux/actions';
 
 import { Select,Icon } from 'antd';
 import { showConfirm } from '@/utils';
@@ -78,7 +76,7 @@ const operates = [
   }
 ];
 
-const Main = ({ getCSGroup }) => {
+export default () => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
 
@@ -284,11 +282,3 @@ const Main = ({ getCSGroup }) => {
     </div>
   );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getCSGroup: () => dispatch(getCSGroup())
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Main);

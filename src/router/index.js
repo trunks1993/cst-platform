@@ -24,8 +24,7 @@ export default () => (
   </HashRouter>
 );
 
-export const RouteList = ({ match }) => {
-  // const user = useContext(UserContext);
+export const RouteList = () => {
   return (
     <Switch>
       { !isCs && <Route path="/platForm/home" component={Home} /> }

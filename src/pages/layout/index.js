@@ -20,9 +20,9 @@ const StoreLayout = ({ match, user }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ userState }) => {
   return {
-    user: state.user
+    user: userState.user
   };
 };
 

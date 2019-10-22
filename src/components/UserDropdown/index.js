@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown, Icon, Menu } from 'antd';
 import { connect } from 'react-redux';
-import { loginOut } from '@/redux/actions';
+import { actions as userActions } from '@/redux/user';
 import { createHashHistory } from 'history';
 const history = createHashHistory();
 
@@ -36,15 +36,15 @@ const UserDropdown = ({ user, handleLoginOut }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ userState }) => {
   return {
-    user: state.user
+    user: userState.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleLoginOut: () => dispatch(loginOut())
+    handleLoginOut: () => dispatch(userActions.loginOut())
   };
 };
 

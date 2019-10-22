@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Icon, Input, Button } from 'antd';
 import { connect } from 'react-redux';
-import { loginByUsername } from '@/redux/actions';
+import { actions as userActions } from '@/redux/user';
 import { createHashHistory } from 'history';
 const history = createHashHistory();
 
@@ -57,20 +57,14 @@ const LoginPage = ({ handleLogin }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     handleLogin: (name, passworld) => {
-      dispatch(loginByUsername(name, passworld)).then(res => {
+      dispatch(userActions.loginByUsername(name, passworld)).then(res => {
         history.push('/');
       });
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(null, mapDispatchToProps)(LoginPage);
