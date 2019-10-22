@@ -12,15 +12,17 @@
 }
 .ant-select-dropdown-menu-item {
   color: #fff;
+  font-weight: 600;
 }
 .ant-dropdown-menu-item:hover {
   background-color: rgba(0,0,0,0.2) !important;
 }
+
 .ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled) {
   background-color: rgba(0,0,0,0.2) !important;
 }
 .ant-select-dropdown-menu-item:hover {
-  color: #fff;
+  color: #0393FF;
   background-color: rgba(0,0,0,0.4) !important;
 }
 .ant-select-dropdown-menu-item-selected {

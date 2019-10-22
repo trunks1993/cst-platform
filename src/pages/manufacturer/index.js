@@ -6,7 +6,7 @@ import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
 import { UserContext } from '@/utils/contexts';
 import { getCSGroup } from '@/redux/actions';
-import { Select } from 'antd';
+import { Select,Icon } from 'antd';
 // API
 import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 import _ from 'lodash';
@@ -28,6 +28,7 @@ const operates = [
   {
     key: 'build',
     label: '新建分组',
+    iconType: 'plus',
     callback: function(fn, state) {
       fn(!state);
     }
@@ -35,6 +36,7 @@ const operates = [
   {
     key: 'build',
     label: '新建配置',
+    iconType: 'folder-add',
     callback: function(fn, state) {
       fn(!state);
     }
@@ -42,6 +44,7 @@ const operates = [
   {
     key: 'save',
     label: '保存',
+    iconType: 'file-protect',
     callback: function(fn) {
       fn();
     }
@@ -49,6 +52,7 @@ const operates = [
   {
     key: 'delete',
     label: '删除',
+    iconType: 'delete',
     callback: function(a) {
       console.log('删除啊', a);
     }
@@ -56,6 +60,7 @@ const operates = [
   {
     key: 'reset',
     label: '重置',
+    iconType: 'redo',
     callback: function() {
       console.log('重置啊');
     }
@@ -63,6 +68,7 @@ const operates = [
   {
     key: 'publish',
     label: '发布',
+    iconType: 'cloud-upload',
     callback: function() {
       console.log('发布啊');
     }
@@ -204,7 +210,7 @@ const Main = ({ getCSGroup }) => {
                   default:
                     return '';
                 }
-              }}>{item.label}</li>)
+              }}> <Icon type={item.iconType} /> {item.label}</li>)
             }
           </ul>
         </div>
@@ -257,7 +263,7 @@ const Main = ({ getCSGroup }) => {
                   placeholder="请填写分组名"
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item style={{ marginTop: '86px' }}>
                 <button className="global-btn" onClick={() => handleSaveGroup()}>确定</button>
                 <button className="global-btn" onClick={() => handleNewGroupVisible(false)}>取消</button>
               </Form.Item>
