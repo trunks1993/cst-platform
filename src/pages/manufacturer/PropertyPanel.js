@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import { selectByDataSource } from '@/api/cs_api';
 import { tempArr } from '@/config';
-import { Select, Radio, Message, DatePicker } from 'antd';
+import { Select, Radio, DatePicker } from 'antd';
 import { DOM_TYPE_BAR } from '@/utils/const';
+import moment from 'moment';
 import _ from 'lodash';
 const { Option } = Select;
 
@@ -53,7 +54,8 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo, setDsIdOption
       selectByDataSource(o.cfiType, '1', cdsOdbcType).then(res => {
         setDsIdOptions(res.data);
       });
-      setCfiUpdateTime(o.cfiUpdateTime);
+      console.log(o.cfiUpdateTime);
+      setCfiUpdateTime(moment(o.cfiUpdateTime).format('YYYY-MM-DD'));
     }
   }, [cdsOdbcType, formInfo, selectId, setDsIdOptions]);
 
@@ -100,7 +102,8 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo, setDsIdOption
           <div className="property-content" style={{ display: cfiIsUpdate === 2 ? 'flex' : 'none' }}>
             <span className="property-content-btn">更新时间</span>
             {/* <Input addonAfter="秒" defaultValue="mysite" /> */}
-            <DatePicker style={{ width: '138px' }} onChange={(date, dateString) => {
+            <DatePicker style={{ width: '138px' }} value={moment(cfiUpdateTime, 'YYYY-MM-DD')} onChange={(date, dateString) => {
+              console.log(dateString);
               setCfiUpdateTime(dateString);
               const t = _.clone(formInfo);
               const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);

@@ -5,16 +5,21 @@ export function getBarChart() {
     tooltip: {
       trigger: 'axis',
     },
+    grid: {
+      left: '12%',
+      right: '7%'
+    },
     legend: {
-      data: ['外来人员','外来车辆'],
-      right: '10%',
+      right: '6%',
       top: '10%',
-      itemWidth: 10, // 图例的宽度
-      itemHeight: 10, // 图例的高度
-      textStyle: { // 图例文字的样式
-        color: '#ccc',
-        fontSize: 16
-      }
+      itemWidth: 8,
+      itemHeight: 8,
+      itemGap: 30,
+      icon: 'rectangle',
+      textStyle: {
+        color: '#fff'
+      },
+      data: ['外来人员','外来车辆'],
     },
     xAxis: [
       {
@@ -28,6 +33,7 @@ export function getBarChart() {
         axisLine: {
           lineStyle: {
             color: '#054792', // X轴及其文字颜色
+            width: 0.5
           }
         },
         axisTick: {
@@ -36,7 +42,8 @@ export function getBarChart() {
         splitLine: {
           show: true,
           lineStyle: {
-            color: '#054792'
+            color: '#054792',
+            width: 0.5
           }
         }
       }
@@ -44,7 +51,7 @@ export function getBarChart() {
     yAxis: [
       {
         type: 'value',
-        name: '单位：辆/人',
+        name: '',
         min: 0,
         max: 30,
         interval: 5,
@@ -56,6 +63,7 @@ export function getBarChart() {
         axisLine: {
           lineStyle: {
             color: '#054792', // Y轴及其文字颜色
+            width: 0.5
           }
         },
         axisTick: {
@@ -63,7 +71,8 @@ export function getBarChart() {
         },
         splitLine: { // 分割线颜色修改
           lineStyle: {
-            color: '#054792'
+            color: '#054792',
+            width: 0.5
           }
         }
       }
@@ -74,7 +83,6 @@ export function getBarChart() {
         type: 'bar',
         data: [2.0, 4.9, 7.0, 23.2, 25.6, 30, 30, 11, 28],
         barWidth: 12, // 柱子宽度
-
         itemStyle: {
           emphasis: {
             barBorderRadius: 30
@@ -145,16 +153,21 @@ export function getLineChart() {
         return ` ${year}-${month}-${day} <br> 在监警力: ${params[0].value}人`;
       }
     },
+    grid: {
+      left: '12%',
+      right: '7%'
+    },
     legend: {
-      data: ['在监警力','警力配置'],
-      right: '10%',
+      right: '6%',
       top: '10%',
-      itemWidth: 10, // 图例的宽度
-      itemHeight: 10, // 图例的高度
-      textStyle: { // 图例文字的样式
-        color: '#ccc',
-        fontSize: 16
-      }
+      itemWidth: 8,
+      itemHeight: 8,
+      itemGap: 30,
+      icon: 'rectangle',
+      textStyle: {
+        color: '#fff'
+      },
+      data: ['在监警力','警力配置'],
     },
     // grid: {
     //   left: '3%',
@@ -174,6 +187,7 @@ export function getLineChart() {
       axisLine: {
         lineStyle: {
           color: '#054792', // X轴及其文字颜色
+          width: 0.5
         }
       },
       axisTick: {
@@ -182,14 +196,15 @@ export function getLineChart() {
       splitLine: {
         show: true,
         lineStyle: {
-          color: '#054792'
+          color: '#054792',
+          width: 0.5
         }
       },
       data: ['2', '4', '6', '8', '10', '12', '14','16','18','20','22','24']
     },
     yAxis: {
       type: 'value',
-      name: '单位：人',
+      name: '',
       min: 0,
       max: 60,
       interval: 10,
@@ -204,11 +219,13 @@ export function getLineChart() {
       axisLine: {
         lineStyle: {
           color: '#054792', // Y轴及其文字颜色
+          width: 0.5
         }
       },
       splitLine: { // 分割线颜色修改
         lineStyle: {
-          color: '#054792'
+          color: '#054792',
+          width: 0.5
         }
       }
     },
@@ -271,89 +288,105 @@ export function getPieChart() {
     legend: [{
       orient: 'vertical',
       icon: 'circle',
-      x: '50%',
+      x: '55%',
       y: '20%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['在册人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '70%',
+      x: '75%',
       y: '20%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['释放人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '50%',
-      y: '30%',
+      x: '55%',
+      y: '35%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['监内人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '70%',
-      y: '30%',
+      x: '75%',
+      y: '35%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['销册人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '50%',
-      y: '40%',
+      x: '55%',
+      y: '50%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['监外人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '70%',
-      y: '40%',
+      x: '75%',
+      y: '50%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['死亡人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '50%',
-      y: '50%',
+      x: '55%',
+      y: '65%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['调动人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     },{
       orient: 'vertical',
       icon: 'circle',
-      x: '70%',
-      y: '50%',
+      x: '75%',
+      y: '65%',
       align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
       data: ['假释人数'],
       textStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#fff'
       }
     }],
@@ -362,8 +395,8 @@ export function getPieChart() {
       {
         name: '半径模式',
         type: 'pie',
-        radius: [20, 110],
-        center: ['25%', '50%'],
+        radius: [20, 90],
+        center: ['32%', '50%'],
         roseType: 'radius',
         label: {
           normal: {
@@ -450,15 +483,20 @@ export function getVisualMap() {
       [53354,79.1,321773631,'United States',2015]]
   ];
   const option = {
+    grid: {
+      left: '12%',
+      right: '7%'
+    },
     legend: {
       data: ['一级', '二级', '三级'],
-      right: '10%',
+      right: '6%',
       top: '10%',
-      itemWidth: 10, // 图例的宽度
-      itemHeight: 10, // 图例的高度
-      textStyle: { // 图例文字的样式
-        color: '#ccc',
-        fontSize: 16
+      itemWidth: 8,
+      itemHeight: 8,
+      itemGap: 30,
+      icon: 'rectangle',
+      textStyle: {
+        color: '#fff'
       }
     },
     xAxis: {
@@ -472,30 +510,42 @@ export function getVisualMap() {
       axisLine: {
         lineStyle: {
           color: '#054792', // Y轴及其文字颜色
+          fontSize: 12,
+          width: 0.5
         }
+      },
+      axisTick: {
+        show: false
       },
       splitLine: { // 分割线颜色修改
         lineStyle: {
-          color: '#054792'
+          color: '#054792',
+          width: 0.5
         }
       }
     },
     yAxis: {
       type: 'value',
-      name: '单位：次',
+      name: '',
       axisLabel: {
         textStyle: {
           color: '#FFFFFF',
         },
       },
+      axisTick: {
+        show: false
+      },
       axisLine: {
         lineStyle: {
           color: '#054792', // Y轴及其文字颜色
+          fontSize: 12,
+          width: 0.5
         }
       },
       splitLine: { // 分割线颜色修改
         lineStyle: {
-          color: '#054792'
+          color: '#054792',
+          width: 0.5
         }
       }
     },
@@ -658,7 +708,7 @@ export function getGauge(){
         },
         detail: {
           width: 40,
-          height: 18,
+          height: 22,
           rich: {
 
           },
@@ -681,7 +731,7 @@ export function getGauge(){
           ])]],
           borderWidth: 1,
           borderColor: '#07A6FF',
-          fontSize: 15,
+          fontSize: 12,
           color: '#fff',
           offsetCenter: [0, '50%'], // x, y，单位px
           formatter: '{value}%'

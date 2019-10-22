@@ -1,14 +1,15 @@
 import React, { useState, useContext, useRef } from 'react';
-import { connect } from 'react-redux';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
 import { UserContext } from '@/utils/contexts';
-import { getCSGroup } from '@/redux/actions';
-import { Select } from 'antd';
+
+import { Select,Icon } from 'antd';
+import { showConfirm } from '@/utils';
+
 // API
-import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
+import { saveGroupConfig, getSelectParent, queryByConfigId, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 import _ from 'lodash';
 
 import { Modal, Form, Input, Message } from 'antd';
@@ -28,6 +29,7 @@ const operates = [
   {
     key: 'build',
     label: '新建分组',
+    iconType: 'plus',
     callback: function(fn, state) {
       fn(!state);
     }
@@ -35,6 +37,7 @@ const operates = [
   {
     key: 'build',
     label: '新建配置',
+    iconType: 'folder-add',
     callback: function(fn, state) {
       fn(!state);
     }
@@ -42,6 +45,7 @@ const operates = [
   {
     key: 'save',
     label: '保存',
+    iconType: 'file-protect',
     callback: function(fn) {
       fn();
     }
@@ -49,6 +53,7 @@ const operates = [
   {
     key: 'delete',
     label: '删除',
+    iconType: 'delete',
     callback: function(a) {
       console.log('删除啊', a);
     }
@@ -56,6 +61,7 @@ const operates = [
   {
     key: 'reset',
     label: '重置',
+    iconType: 'redo',
     callback: function() {
       console.log('重置啊');
     }
@@ -63,13 +69,14 @@ const operates = [
   {
     key: 'publish',
     label: '发布',
+    iconType: 'cloud-upload',
     callback: function() {
       console.log('发布啊');
     }
   }
 ];
 
-const Main = ({ getCSGroup }) => {
+export default () => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
 
@@ -181,12 +188,27 @@ const Main = ({ getCSGroup }) => {
                     });
                     break;
                   case '删除':
-                    deleteConfig(selectTag.cfgId).then(res => {
-                      Message.success(res.msg);
-                      childRef.current.fqueryConfig();
+                    if (!selectTag.cfgId) return Message.error('请选择要删除的配置');
+                    showConfirm(function() {
+                      deleteConfig(selectTag.cfgId).then(res => {
+                        Message.success(res.msg);
+                        childRef.current.fqueryConfig();
+                      });
                     });
                     break;
+                  case '重置':
+                    if (!selectTag.cfgId) return Message.error('请选择要重置的配置');
+                    const temp = _.clone(formInfo);
+                    setFormInfo([]);
+                    showConfirm(function() {
+                      queryByConfigId(selectTag.cfgId).then(res => {
+                        if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
+                        setFormInfo(res.data);
+                      });
+                    }, () => setFormInfo(temp), '是否重置');
+                    break;
                   case '发布':
+                    if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');
                     updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
                       Message.success(res.msg);
                       childRef.current.fqueryConfig();
@@ -195,7 +217,7 @@ const Main = ({ getCSGroup }) => {
                   default:
                     return '';
                 }
-              }}>{item.label}</li>)
+              }}> <Icon type={item.iconType} /> {item.label}</li>)
             }
           </ul>
         </div>
@@ -204,7 +226,7 @@ const Main = ({ getCSGroup }) => {
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
           <Panel setTags={setTags} tags={tags}
-            setSelectTag={setSelectTag} cRef={childRef} ref={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
+            setSelectTag={setSelectTag} cRef={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
         </div>
         <div
           className="dashboard-container-body-content"
@@ -248,7 +270,7 @@ const Main = ({ getCSGroup }) => {
                   placeholder="请填写分组名"
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item style={{ marginTop: '86px' }}>
                 <button className="global-btn" onClick={() => handleSaveGroup()}>确定</button>
                 <button className="global-btn" onClick={() => handleNewGroupVisible(false)}>取消</button>
               </Form.Item>
@@ -262,11 +284,3 @@ const Main = ({ getCSGroup }) => {
     </div>
   );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getCSGroup: () => dispatch(getCSGroup())
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Main);

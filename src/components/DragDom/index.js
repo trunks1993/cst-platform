@@ -5,7 +5,7 @@ import { DOM_TYPE_BAR, DOM_TYPE_LINE, DOM_TYPE_PIE, DOM_TYPE_VIS, DOM_TYPE_GAUGE
 import { applySingleEchartsInfo } from '@/api/index';
 import TypeProgress from '@/components/TypeProgress';
 
-const map = {
+const types = {
   [DOM_TYPE_BAR]: getBarChart,
   [DOM_TYPE_LINE]: getLineChart,
   [DOM_TYPE_PIE]: getPieChart,
@@ -18,20 +18,18 @@ const map = {
 // eslint-disable-next-line complexity
 export default ({ data, optionList, isCs = true }) => {
   let optionSet = [];
-  console.log(data, 21);
   const handleIsUpdate = (Update = '') => {
     if (Update) {
       const setDate = new Date(Update).getTime();
       const now = new Date().getTime();
       if (setDate === now) {
         applySingleEchartsInfo(data.cufId).then(res => {
-          console.log(res);
           optionSet = res.data;
         });
       }
     }
   };
-  const option = map[data.cfiType]();
+  const option = types[data.cfiType]();
 
   const component = data.cfiType > DOM_TYPE_GAUGE ? (
     <TypeProgress type={data.cfiType}

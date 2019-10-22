@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getUser } from '@/redux/actions';
+import { actions } from '@/redux/user';
 import { getToken } from '@/utils/auth';
 
 const authRoute = ({ component: Component, authTo, user, getUserByToken, ...rest }) => (
@@ -31,13 +31,13 @@ const authRoute = ({ component: Component, authTo, user, getUserByToken, ...rest
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.userState.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUserByToken: token => dispatch(getUser(token))
+    getUserByToken: token => dispatch(actions.getUser(token))
   };
 };
 

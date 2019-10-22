@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews';
-import { Modal, Form, Input, Message } from 'antd';
+import { Modal, Form, Input, Message, Icon } from 'antd';
 import { addStaticTemp, getStaticTemp, getTempDetail, deleteTemp, saveTempGridData, editTempGridData, shareTempGridData, getPublicTemp } from '@/api/index';
 import { getToken } from '@/utils/auth';
 import _ from 'lodash';
@@ -65,7 +65,7 @@ export default () => {
             alt=""
           />
           <ul>
-            <li className="btn-item" onClick={() => { handleShowModel(true); }}>新建</li>
+            <li className="btn-item" onClick={() => { handleShowModel(true); }}> <Icon type="plus" />新建</li>
             <li className="btn-item" onClick={() => {
               console.log(curIndex);
               if (!curIndex) {
@@ -90,7 +90,7 @@ export default () => {
                   }
                 });
               }
-            }}>保存</li>
+            }}><Icon type="file-protect" />保存</li>
             <li className="btn-item" onClick={() => {
               console.log(curIndex);
               if (!curIndex) {
@@ -118,7 +118,7 @@ export default () => {
                   onCancel() {},
                 });
               }
-            }}>删除</li>
+            }}><Icon type="delete" />删除</li>
             {/* <li className="btn-item">重置</li>
             <li className="btn-item">预览</li> */}
             <li className="btn-item" onClick={() => {
@@ -129,7 +129,7 @@ export default () => {
                   Message.success('发布成功');
                 });
               }
-            }}>发布</li>
+            }}><Icon type="cloud-upload" />发布</li>
             <li className="btn-item" onClick={() => {
               if (!curIndex) {
                 Message.warning('请先选择模块');
@@ -142,7 +142,7 @@ export default () => {
                   });
                 });
               }
-            }}>共享</li>
+            }}><Icon type="retweet" />共享</li>
             <li className="btn-item" onClick={() => {
               if (!curIndex) {
                 Message.warning('请先选择模块');
@@ -196,7 +196,7 @@ export default () => {
                   placeholder="请输入模板名称"
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item style={{ marginTop: '86px' }}>
                 <button className="global-btn" onClick={() => { addNewModule(); }}>确定</button>
                 <button className="global-btn" onClick={() => { handleShowModel(false);handleInputValue(''); }}>取消</button>
               </Form.Item>
