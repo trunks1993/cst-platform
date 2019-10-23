@@ -5,6 +5,7 @@ import { Input, Skeleton, Icon, Message } from 'antd';
 import { queryConfig, deleteConfig, queryByConfigId } from '@/api/cs_api';
 import { tempArr } from '@/config';
 import { showConfirm } from '@/utils';
+import { getToken } from '../../utils/auth';
 
 import _ from 'lodash';
 
@@ -29,11 +30,11 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
   };
   useEffect(() => {
     // 查询配置信息
-    aqueryConfig();
+    aqueryConfig('');
   }, [queryConfigState]);
 
-  function aqueryConfig() {
-    queryConfig().then(res => {
+  function aqueryConfig(cfgName) {
+    queryConfig(getToken(), cfgName).then(res => {
       // 左侧配置(组名和组的子节点)
       const g = _.map(res.data, v => {
         v.visible = true;
@@ -47,7 +48,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
   useImperativeHandle(cRef, () => ({
     // changeVal 就是暴露给父组件的方法
     fqueryConfig: () => {
-      aqueryConfig();
+      aqueryConfig('');
     }
   }));
 
@@ -67,7 +68,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
         >
           <Search
             placeholder="请输入模板名称"
-            onSearch={value => console.log(value)}
+            onSearch={value => aqueryConfig(value)}
           />
 
           {

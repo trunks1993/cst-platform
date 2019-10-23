@@ -69,6 +69,6 @@ const tableList = {
 
 Mock.mock(/\/user\/login/, data);
 
-Mock.mock(/\/user\/getUserByToken/, data);
+Mock.mock(/\/user\//, data);
 
 Mock.mock(/\/user\/getTableList/, tableList);

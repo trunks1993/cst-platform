@@ -1,10 +1,16 @@
 import request from '@/utils/request';
 
 // 获取所有配置组以及组的子节点
-export function queryConfig() {
+export function queryConfig(token, cfgName = '') {
   return request({
     url: '/v1/cusConfig/queryConfig',
-    method: 'get'
+    method: 'get',
+    headers: {
+      token
+    },
+    params: {
+      cfgName
+    }
   });
 }
 

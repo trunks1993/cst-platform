@@ -9,7 +9,7 @@ import { Select,Icon } from 'antd';
 import { showConfirm } from '@/utils';
 
 // API
-import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
+import { saveGroupConfig, getSelectParent, queryByConfigId, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 import _ from 'lodash';
 
 import { Modal, Form, Input, Message } from 'antd';
@@ -99,18 +99,9 @@ export default () => {
 
   const [tags, setTags] = useState([]);
 
-  // const callSave = async() => {
-  //   // 组名 (groupName) 不传的话就是新建组，配置名 (configName) 就会当作组名
-  //   // 选择了组名，配置名就是组下的配置名
-  //   if (configName.value) {
-  //     const res = await saveGroupConfig({ configName: configName.value, cfgParentId: groupId.value }, getToken());
-  //     handleShowModel(!showModel);
-  //     // 新建配置后重新请求所有配置
-  //     const allConfigData = await queryConfig(getToken());
-  //     // disptch 保存到 common state
-  //     addConfigData(allConfigData.data);
-  //   }
-  // };
+  // 数据源option
+  const [dsIdOptions, setDsIdOptions] = useState([]);
+
   const childRef = useRef();
 
 
@@ -205,6 +196,17 @@ export default () => {
                       });
                     });
                     break;
+                  case '重置':
+                    if (!selectTag.cfgId) return Message.error('请选择要重置的配置');
+                    const temp = _.clone(formInfo);
+                    setFormInfo([]);
+                    showConfirm(function() {
+                      queryByConfigId(selectTag.cfgId).then(res => {
+                        if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
+                        setFormInfo(res.data);
+                      });
+                    }, () => setFormInfo(temp), '是否重置');
+                    break;
                   case '发布':
                     if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');
                     updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
@@ -224,7 +226,7 @@ export default () => {
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
           <Panel setTags={setTags} tags={tags}
-            setSelectTag={setSelectTag} cRef={childRef} ref={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
+            setSelectTag={setSelectTag} cRef={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
         </div>
         <div
           className="dashboard-container-body-content"
@@ -275,8 +277,8 @@ export default () => {
             </Form>
           </Modal>
           <TagViews tags={tags} setSelectId={setSelectId} setFormInfo={setFormInfo} setTags={setTags} selectTag={selectTag} setSelectTag={setSelectTag} />
-          <Grid tempData={tempData} selectTag={selectTag} setSelectId={setSelectId} selectId={selectId} formInfo={formInfo} setFormInfo={setFormInfo} />
-          <PropertyPanel selectId={selectId} setFormInfo={setFormInfo} formInfo={formInfo} visible />
+          <Grid tempData={tempData} selectTag={selectTag} dsIdOptions={dsIdOptions} setSelectId={setSelectId} selectId={selectId} formInfo={formInfo} setFormInfo={setFormInfo} />
+          <PropertyPanel selectId={selectId} dsIdOptions={dsIdOptions} setDsIdOptions={setDsIdOptions} setFormInfo={setFormInfo} formInfo={formInfo} visible />
         </div>
       </div>
     </div>
