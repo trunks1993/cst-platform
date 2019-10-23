@@ -8,7 +8,7 @@ import { getToken } from '@/utils/auth';
 import _ from 'lodash';
 
 // const { Option } = Select;
-export default () => {
+export default Form.create({})(({ form: { getFieldDecorator, validateFields } }) => {
   const [tempData, setTempData] = useState({});
   const [tags, setTags] = useState([]);
   const [showModel, handleShowModel] = useState(false);
@@ -27,8 +27,8 @@ export default () => {
       handleInputValue('');
     }).then(() => {
       getStaticTemp({ token: getToken() }).then(res => {
-        if (res.data.rows.length) {
-          childRef.current.changeVal(res.data.rows);
+        if (res.data.length) {
+          childRef.current.changeVal(res.data);
         }
       }).catch(err => {
         console.error(err);
@@ -71,24 +71,28 @@ export default () => {
               if (!curIndex) {
                 Message.warning('请先选择模块');
               } else {
-                const matchInfo = _.map(formInfo, e => ({
-                  configId: curIndex,
-                  functionInfoId: e.cfiConfigId,
-                  id: e.cufId,
-                  deleteFalg: '2',
-                  sourceid: e.cfiDatasourceId,
-                  layout: e.cfiLayout
-                }));
-                saveTempGridData(matchInfo).then(res => {
-                  Message.success(res.msg);
-                  if (res.code === '0') {
-                    getStaticTemp({ token: getToken() }).then(res => {
-                      if (res.data.rows.length) {
-                        childRef.current.changeVal(res.data.rows);
-                      }
-                    });
-                  }
-                });
+                if (formInfo.length) {
+                  const matchInfo = _.map(formInfo, e => ({
+                    configId: curIndex,
+                    functionInfoId: e.cfiConfigId,
+                    id: e.cufId,
+                    deleteFalg: '2',
+                    sourceid: e.cfiDatasourceId,
+                    layout: e.cfiLayout
+                  }));
+                  saveTempGridData(matchInfo).then(res => {
+                    Message.success(res.msg);
+                    if (res.code === '0') {
+                      getStaticTemp({ token: getToken() }).then(res => {
+                        if (res.data.length) {
+                          childRef.current.changeVal(res.data);
+                        }
+                      });
+                    }
+                  });
+                } else {
+                  Message.warning('请添加图表配置');
+                }
               }
             }}><Icon type="file-protect" />保存</li>
             <li className="btn-item" onClick={() => {
@@ -106,9 +110,14 @@ export default () => {
                     deleteTemp({ token: getToken(), cucId: curIndex }).then(res => {
                       Message.success(res.msg);
                     }).then(() => {
+                      setTags(tags.filter(ele => {
+                        return ele.cucId !== curIndex;
+                      }));
+                      setFormInfo([]);
+                      handleCurIndex('');
                       getStaticTemp({ token: getToken() }).then(res => {
-                        if (res.data.rows.length) {
-                          childRef.current.changeVal(res.data.rows);
+                        if (res.data.length) {
+                          childRef.current.changeVal(res.data);
                         }
                       }).catch(err => {
                         console.error(err);
@@ -138,7 +147,7 @@ export default () => {
                   Message.success('共享成功');
                 }).then(res => {
                   getPublicTemp(getToken()).then(res => {
-                    childRef.current.changePublic(res.data.rows);
+                    childRef.current.changePublic(res.data);
                   });
                 });
               }
@@ -151,7 +160,7 @@ export default () => {
                   Message.success('取消共享成功');
                 }).then(res => {
                   getPublicTemp(getToken()).then(res => {
-                    childRef.current.changePublic(res.data.rows);
+                    childRef.current.changePublic(res.data);
                   });
                 });
               }
@@ -172,7 +181,7 @@ export default () => {
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel ref={childRef}
+          <Panel
             cRef={childRef}
             setTempData={setTempData}
             tags={tags}
@@ -190,14 +199,33 @@ export default () => {
           >
             <Form {...formItemLayout}>
               <Form.Item label="新建模板">
-                <Input
+                {/* <Input
                   style={{ width: 200 }}
                   onChange={val => { handleInputValue(val.target.value); }}
                   placeholder="请输入模板名称"
-                />
+                /> */}
+                {getFieldDecorator('username', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入模板配置名',
+                    },
+                  ],
+                })(<Input
+                  // prefix={<Icon type="user" style={{ color: '#79A8E0' }} />}
+                  placeholder="模板配置名"
+                  onChange={e => handleInputValue(e.target.value)}
+                  value={InputValue}
+                  autocomplete="off"
+                />)}
               </Form.Item>
               <Form.Item style={{ marginTop: '86px' }}>
-                <button className="global-btn" onClick={() => { addNewModule(); }}>确定</button>
+                <button className="global-btn" onClick={() => {
+                  validateFields(err => {
+                    if (!err) {
+                      addNewModule();
+                    }
+                  }); }}>确定</button>
                 <button className="global-btn" onClick={() => { handleShowModel(false);handleInputValue(''); }}>取消</button>
               </Form.Item>
             </Form>
@@ -208,4 +236,5 @@ export default () => {
       </div>
     </div>
   );
-};
+}
+);

@@ -20,12 +20,13 @@ const ReactGridLayout = WidthProvider(RGL);
 
 export default ({ curIndex, handleCurIndex, formInfo, setFormInfo, tempData, tags, setSelectId, selectId }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
-  const [doing, setDo] = useState(true);
+  const [doing, setDo] = useState(false);
 
   function onLayoutChange(l) {
     if (doing) return;
     const f = _.map(_.clone(formInfo), v => {
       const item = l.find(lv => lv.i === JSON.parse(v.cfiLayout).i);
+      console.log(item);
       v.cfiLayout = JSON.stringify(item);
       return v;
     });
