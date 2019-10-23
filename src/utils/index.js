@@ -18,9 +18,9 @@ function func(tree, arr) {
 
 
 // confirm
-export function showConfirm(success = function() {}, cancel = function() {}) {
+export function showConfirm(success = function() {}, cancel = function() {}, title) {
   confirm({
-    title: '确认删除',
+    title: title || '确认删除',
     // content: 'When clicked the OK button, this dialog will be closed after 1 second',
     onOk() {
       success();

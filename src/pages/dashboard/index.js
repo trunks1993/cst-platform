@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews';
-import { Modal, Form, Input, Message,Icon } from 'antd';
-import { addStaticTemp, getStaticTemp, deleteTemp, saveTempGridData, editTempGridData, shareTempGridData, getPublicTemp } from '@/api/index';
+import { Modal, Form, Input, Message, Icon } from 'antd';
+import { addStaticTemp, getStaticTemp, getTempDetail, deleteTemp, saveTempGridData, editTempGridData, shareTempGridData, getPublicTemp } from '@/api/index';
 import { getToken } from '@/utils/auth';
 import _ from 'lodash';
 
@@ -75,7 +75,8 @@ export default () => {
                   configId: curIndex,
                   functionInfoId: e.cfiConfigId,
                   id: e.cufId,
-                  cufSourceid: e.cfiDatasourceId,
+                  deleteFalg: '2',
+                  sourceid: e.cfiDatasourceId,
                   layout: e.cfiLayout
                 }));
                 saveTempGridData(matchInfo).then(res => {
@@ -136,13 +137,35 @@ export default () => {
                 shareTempGridData('1', curIndex).then(res => {
                   Message.success('共享成功');
                 }).then(res => {
-                  getPublicTemp().then(res => {
+                  getPublicTemp(getToken()).then(res => {
                     childRef.current.changePublic(res.data.rows);
                   });
                 });
               }
             }}><Icon type="retweet" />共享</li>
-            {/* <li className="btn-item">关闭</li> */}
+            <li className="btn-item" onClick={() => {
+              if (!curIndex) {
+                Message.warning('请先选择模块');
+              } else {
+                editTempGridData('2', curIndex).then(res => {
+                  Message.success('取消共享成功');
+                }).then(res => {
+                  getPublicTemp(getToken()).then(res => {
+                    childRef.current.changePublic(res.data.rows);
+                  });
+                });
+              }
+            }}>取消共享</li>
+            <li className="btn-item" onClick={() => {
+              if (!curIndex) {
+                Message.warning('请先选择模块');
+              } else {
+                getTempDetail(curIndex).then(res => {
+                  // _.map(res.data, v => v.cusFunctionInfo)
+                  setFormInfo(res.data);
+                });
+              }
+            }}>重置</li>
           </ul>
         </div>
       </div>

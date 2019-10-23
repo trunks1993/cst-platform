@@ -3,20 +3,20 @@ import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
 import DragDom from '@/components/DragDom';
 
-const generateDOM = (formInfo, selectId, setSelectId) => {
+const generateDOM = (formInfo, selectId, setSelectId, dsIdOptions) => {
   // eslint-disable-next-line complexity
   return _.map(formInfo, (l, i) => {
     const nl = JSON.parse(l.cfiLayout);
     return (
-      <div key={nl.i} style={{ overflow: 'hidden', border: nl.i === selectId ? '2px solid #03ccff' : '' }} data-grid={nl} onClick={() => setSelectId(nl.i)}>
-        <DragDom key={nl.i} data={l} />
+      <div key={nl.i} style={{ overflow: 'hidden', border: nl.i === selectId ? '1px solid #ecdbdb' : '' }} data-grid={nl} onClick={() => setSelectId(nl.i)}>
+        <DragDom key={nl.i} data={l} isCs optionList={dsIdOptions} />
       </div>
     );
   });
 };
 
 const ReactGridLayout = WidthProvider(RGL);
-export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selectId }) => {
+export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selectId, dsIdOptions }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
   const [doing, setDo] = useState(false);
 
@@ -33,10 +33,10 @@ export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selec
   const onDrop = e => {
     e.i = new Date().getTime() + '';
     tempData.cfiConfigId = selectTag.cfgId;
-    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiId } = tempData;
+    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiId, cfiUpdateTime } = tempData;
     const l = _.assign(e, JSON.parse(cfiLayout));
     setSelectId(e.i);
-    setFormInfo(formInfo.concat({ cfiId, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }) }));
+    setFormInfo(formInfo.concat({ cfiId, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }), cfiUpdateTime }));
     setDo(false);
   };
 
@@ -51,7 +51,7 @@ export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selec
         onDrop={e => onDrop(e)}
         isDroppable={ !!selectTag.cfgId }
       >
-        {generateDOM(formInfo, selectId, setSelectId)}
+        {generateDOM(formInfo, selectId, setSelectId, dsIdOptions)}
       </ReactGridLayout>
     </div>
   );

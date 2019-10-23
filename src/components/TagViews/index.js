@@ -11,10 +11,12 @@ export default ({ tags, setTags, curIndex, handleCurIndex, setFormInfo }) => {
           tags.map((item, index) => {
             return (
               <li className={ curIndex === item.cucId ? 'tag-views-item active-tag-views' : 'tag-views-item' } style={{ cursor: 'pointer' }} key={index} onClick={ () => {
+                if (curIndex !== item.cucId) {
+                  getTempDetail(item.cucId).then(res => {
+                    setFormInfo(res.data);
+                  });
+                }
                 handleCurIndex(item.cucId);
-                getTempDetail(item.cucId).then(res => {
-                  setFormInfo(res.data);
-                });
               } }>
                 {item.cucName }
                 <Icon type="close" style={{ marginLeft: '5px' }}

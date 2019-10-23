@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import { selectByDataSource } from '@/api/cs_api';
 import { tempArr } from '@/config';
-import { Select, Radio } from 'antd';
+import { Select, Radio, DatePicker } from 'antd';
 import { DOM_TYPE_BAR } from '@/utils/const';
-
+import moment from 'moment';
 import _ from 'lodash';
 const { Option } = Select;
 
 // eslint-disable-next-line complexity
-const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
+const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo, setDsIdOptions, dsIdOptions }) => {
   // const TYPE = tempData.type;
   // 点击面板标题进行收缩
   const dom1 = document.getElementsByClassName('expand-active');
@@ -35,9 +35,8 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
   // 数据源id
   const [cfiDatasourceId, setCfiDatasourceId] = useState('0');
 
-  // 数据源option
-  const [dsIdOptions, setDsIdOptions] = useState([]);
-
+  // 修改时间
+  const [cfiUpdateTime, setCfiUpdateTime] = useState('');
   // 数据源绑定
   // const [cusDataSource, setCusDataSource] = useState({ cdsOdbcType: 1, cdsOdbcValue: [], cdsRemark: '' });
 
@@ -55,8 +54,10 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
       selectByDataSource(o.cfiType, '1', cdsOdbcType).then(res => {
         setDsIdOptions(res.data);
       });
+      console.log(o.cfiUpdateTime);
+      setCfiUpdateTime(moment(o.cfiUpdateTime).format('YYYY-MM-DD'));
     }
-  }, [cdsOdbcType, formInfo, selectId]);
+  }, [cdsOdbcType, formInfo, selectId, setDsIdOptions]);
 
   return (
     <div className="property-panel" style={{ transform: `translate(${ visible ? 0 : '300px'})`, padding: visible ? '40px 0 8px 0' : '40px 6px 8px 6px' }}>
@@ -98,7 +99,19 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo }) => {
               <Option value={2}>定时更新</Option>
             </Select>
           </div>
-
+          <div className="property-content" style={{ display: cfiIsUpdate === 2 ? 'flex' : 'none' }}>
+            <span className="property-content-btn">更新时间</span>
+            {/* <Input addonAfter="秒" defaultValue="mysite" /> */}
+            <DatePicker style={{ width: '138px' }} value={moment(cfiUpdateTime, 'YYYY-MM-DD')} onChange={(date, dateString) => {
+              console.log(dateString);
+              setCfiUpdateTime(dateString);
+              const t = _.clone(formInfo);
+              const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
+              console.log(item);
+              item.cfiUpdateTime = dateString;
+              setFormInfo(t);
+            }} />
+          </div>
           <div className="property-content">
             <span className="property-content-btn">数据源</span>
             <Select className="select" disabled={!selectId} value={cdsOdbcType} onChange={e => {

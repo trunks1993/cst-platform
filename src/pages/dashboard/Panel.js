@@ -62,7 +62,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
       console.error(err);
     });
     // 公共模板
-    getPublicTemp().then(res => {
+    getPublicTemp(getToken()).then(res => {
       handlePublicTemp(res.data.rows);
       ShowPublicTemp(false);
     }).catch(err => {
@@ -136,7 +136,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
               <Icon type="caret-down" />
             </span>
           </div>
-          <ul className="temp-list" style={{ height: visible5 ? 0 : '200px' }}>
+          <ul className="temp-list" style={{ maxHeight: visible5 ? 0 : '1000px' }}>
             {
               echartsList.map((item,index) => (
                 <Skeleton key={index} title={false} loading={ isShowSingleTemp } active>
