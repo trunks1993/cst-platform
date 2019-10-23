@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 
-const TokenKey = 'USERTOKEN';
+const isCs = (process.env.REACT_APP_ENV === 'cs');
+
+const TokenKey = isCs ? 'CSTOKEN' : 'USERTOKEN';
 
 export const getToken = () => Cookies.get(TokenKey);
 

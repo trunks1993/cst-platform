@@ -3,68 +3,86 @@ import { Form, Icon, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import { actions as userActions } from '@/redux/user';
 import { createHashHistory } from 'history';
+import md5 from 'js-md5';
 const history = createHashHistory();
 
-const LoginPage = ({ handleLogin }) => {
-  const [userNameObj, setUserName] = useState({
-    value: 'admin'
-  });
+const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDecorator, validateFields } }) => {
+  const [username, setUsername] = useState('');
+  const [passwordCopy, setPasswordCopy] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [passworldObj, setPassworld] = useState({
-    value: 'e10adc3949ba59abbe56e057f20f883e'
-  });
+  const formItemLayout = {
+    // labelCol: { span: 8 },
+    wrapperCol: { span: 24 }
+  };
+
 
   return (
     <div className="login-container">
-      <Form className="login-form">
+      <div className="login-container-form">
         <h2>登录系统</h2>
-        <Form.Item>
-          <Input
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
-            onChange={e => {
-              setUserName({
-                value: e.target.value
+        <Form>
+          <Form.Item {...formItemLayout}>
+            {getFieldDecorator('username', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入用户名',
+                },
+              ],
+            })(<Input
+              prefix={<Icon type="user" style={{ color: '#79A8E0' }} />}
+              placeholder="用户名"
+              onChange={e => setUsername(e.target.value)}
+              value={username}
+            />)}
+          </Form.Item>
+          <Form.Item {...formItemLayout}>
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入密码',
+                },
+              ],
+            })(<Input
+              prefix={<Icon type="lock" style={{ color: '#79A8E0' }} />}
+              type="password"
+              placeholder="密码"
+              value={passwordCopy}
+              onChange={e => {
+                setPasswordCopy(e.target.value);
+                setPassword(e.target.value);
+              }}
+            />)}
+          </Form.Item>
+          <Form.Item {...formItemLayout}>
+            <Button type="primary" onClick={() => {
+              validateFields(err => {
+                if (!err) {
+                  handleLogin(username, md5(password)).then(() => history.push('/'));
+                }
               });
-            }}
-            value={userNameObj.value}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            placeholder="Password"
-            value={passworldObj.value}
-            onChange={e => {
-              setPassworld({
-                value: e.target.value
-              });
-            }}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" onClick={() => {
-            if (userNameObj.value && passworldObj.value) {
-              handleLogin(userNameObj.value, passworldObj.value);
-            }
-          }} className="login-form-button">
+            }} block loading={isFetching} className="login-form-button">
             登录
-          </Button>
-        </Form.Item>
-      </Form>
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
+});
+
+const mapStateToProps = ({ userState }) => {
+  return {
+    isFetching: userState.isFetching
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleLogin: (name, passworld) => {
-      dispatch(userActions.loginByUsername(name, passworld)).then(res => {
-        history.push('/');
-      });
-    }
+    handleLogin: (name, passworld) => dispatch(userActions.loginByUsername(name, passworld))
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

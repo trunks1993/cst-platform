@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { actions } from '@/redux/user';
 import { getToken } from '@/utils/auth';
 
-const authRoute = ({ component: Component, authTo, user, getUserByToken, ...rest }) => (
+const authRoute = ({ component: Component, authTo, user = {}, getUserByToken, ...rest }) => (
   // eslint-disable-next-line complexity
   <Route {...rest} render={props => {
     const isLogin = props.match.path === '/login';
