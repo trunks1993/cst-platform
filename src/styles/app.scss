@@ -13,7 +13,6 @@ $customizeWhite: #fff;
   background: url(../assets/images/bg-body.png);
 }
 
-
 @mixin grid-box-common {
   background: url(../assets/images/bd-gridbox.png);
   background-repeat: no-repeat;
@@ -77,35 +76,18 @@ $customizeWhite: #fff;
       bottom: -8px;
       left: 0;
     }
-    // .ant-form-item {
-    //   .ant-form-item-control-wrapper {
-    //     width: 330px;
-    //     height: 30px;
-    //     background-size: 100% 100%;
-    //     margin-left: 42px;
-    //     .anticon {
-    //       color: #79A8E0 !important;
-    //       font-size: 16px;
-    //     }
-    //     .ant-input {
-    //       border: none;
-    //       line-height: 30px;
-    //       height: 30px;
-    //       padding-left: 35px;
-    //       font-size: 16px;
-    //       color: #79A8E0;
-    //       background-color: #05254B;
-    //       border: 1px solid #02439D;
-    //     }
-    //   }
-    // }
-    // .ant-form-item:nth-child(3) {
-    //   .ant-form-item-control-wrapper {
-    //     background: none !important;
-    //   }
-    // }
+
+    .ant-input {
+      border: none;
+      line-height: 30px;
+      height: 30px;
+      padding-left: 35px;
+      font-size: 14px;
+      color: #79a8e0;
+      border: 1px solid #02439d;
+    }
   }
-  
+
   .login-form-button {
     background: url(../assets/images/login.png);
     background-size: 100% 100%;
@@ -170,7 +152,7 @@ $customizeWhite: #fff;
     right: 0;
     left: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
     .content-box {
       position: relative;
       width: 480px;
@@ -250,13 +232,13 @@ $customizeWhite: #fff;
       background: url(../assets/images/property-config-bg.png);
       background-repeat: no-repeat;
       background-size: 100% 100%;
-      right:30px;
+      right: 30px;
       top: 0;
       bottom: 15px;
       height: calc(100% - 15px);
       color: #fff;
       padding: 40px 6px 8px 6px;
-      transition: transform .5s;
+      transition: transform 0.5s;
       overflow-x: hidden;
       .panel-box {
         width: 230px;
@@ -272,20 +254,19 @@ $customizeWhite: #fff;
       }
       .text-area {
         margin-top: 14px;
-        background: #05254B;
-        border-color: #05254B;
-        color: #0393FF;
+        background: #05254b;
+        border-color: #05254b;
+        color: #0393ff;
       }
       .property-container {
         padding: 0 8px 0 14px;
         overflow: hidden;
-        transition: max-height .3s;
-
+        transition: max-height 0.3s;
 
         // 单选框的样式
         .ant-radio-inner {
-          background: #05254B !important;
-          border: 1px solid #0EBFE6 !important;
+          background: #05254b !important;
+          border: 1px solid #0ebfe6 !important;
         }
 
         .application-config {
@@ -295,11 +276,11 @@ $customizeWhite: #fff;
           flex-wrap: nowrap;
           font-size: 14px;
           justify-content: space-between;
-          background-color: #05254B;
+          background-color: #05254b;
           padding: 20px 15px;
           margin-top: 14px;
           align-items: center;
-          background-image: linear-gradient(to right, #051D40, #05254B, #051D40);
+          background-image: linear-gradient(to right, #051d40, #05254b, #051d40);
           .radio-title {
             font-size: 12px;
             font-weight: bolder;
@@ -319,12 +300,12 @@ $customizeWhite: #fff;
           &-btn {
             height: 28px;
             font-size: 12px;
-            background: #063C79;
+            background: #063c79;
             color: #fff;
             width: 68px;
             text-align: center;
             display: block;
-            border-radius:2px;
+            border-radius: 2px;
             line-height: 28px;
             position: relative;
             z-index: 1;
@@ -332,7 +313,7 @@ $customizeWhite: #fff;
             font-weight: bolder;
           }
           &-disable {
-            color: #0393FF;
+            color: #0393ff;
             background: #05254b;
             height: 28px;
             line-height: 28px;
@@ -346,7 +327,7 @@ $customizeWhite: #fff;
           .select {
             width: calc(100% - 68px);
             height: 28px;
-            color: #0393FF;
+            color: #0393ff;
           }
           .ant-select-selection {
             height: 28px;
@@ -355,11 +336,11 @@ $customizeWhite: #fff;
             .ant-select-selection__rendered {
               line-height: 28px;
               font-weight: bolder;
-              color: #0393FF;
+              color: #0393ff;
             }
           }
           input {
-            color: #0393FF;
+            color: #0393ff;
             background: #05254b;
             height: 28px;
             border: none;
@@ -376,7 +357,6 @@ $customizeWhite: #fff;
           svg {
             color: #0963df;
           }
-          
         }
       }
     }
@@ -432,7 +412,7 @@ $customizeWhite: #fff;
                 right: 15px;
                 top: -4px;
                 opacity: 0;
-                transition: all .3s;
+                transition: all 0.3s;
                 cursor: pointer;
               }
             }
@@ -458,7 +438,7 @@ $customizeWhite: #fff;
                 }
               }
               .active-li {
-                color: #0393FF;
+                color: #0393ff;
               }
             }
 
@@ -553,7 +533,7 @@ $customizeWhite: #fff;
             right: 10px;
             top: 50%;
             transform: translate(0, -50%);
-            transition: all .3s;
+            transition: all 0.3s;
             &:hover {
               background: rgba(255, 255, 255, 0.2);
               color: #fff;
