@@ -138,6 +138,19 @@
                 }
             }
         }
+        .ant-btn {
+            width: 100px;
+            height: 50px;
+            border: none;
+            outline: none;
+            background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
+            color: #fff;
+            &:hover {
+                color: #03AFFF;
+                background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
+                border-color: none;
+            }
+        }
     }
 }
 
@@ -193,22 +206,6 @@
 .ant-modal-confirm-btns {
     float: none !important;
     margin-left: 0 !important;
-}
-
-.ant-btn {
-    width: 100px;
-    height: 50px;
-    border: none;
-    outline: none;
-    background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
-    color: #fff;
-}
-
-.ant-btn:hover,
-.ant-btn:focus {
-    color: #03AFFF;
-    background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
-    border-color: none;
 }
 
 .ant-dropdown-menu-item-divider {

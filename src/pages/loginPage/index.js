@@ -5,7 +5,7 @@ import { actions as userActions } from '@/redux/user';
 import { createHashHistory } from 'history';
 const history = createHashHistory();
 
-const LoginPage = ({ handleLogin }) => {
+const LoginPage = ({ handleLogin, isFetching }) => {
   const [userNameObj, setUserName] = useState({
     value: 'admin'
   });
@@ -48,13 +48,19 @@ const LoginPage = ({ handleLogin }) => {
             if (userNameObj.value && passworldObj.value) {
               handleLogin(userNameObj.value, passworldObj.value);
             }
-          }} className="login-form-button">
+          }} block loading={isFetching} className="login-form-button">
             登录
           </Button>
         </Form.Item>
       </Form>
     </div>
   );
+};
+
+const mapStateToProps = ({ userState }) => {
+  return {
+    isFetching: userState.isFetching
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -67,4 +73,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
