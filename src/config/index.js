@@ -14,7 +14,7 @@ export const tempArr = [
     cfiDatasourceId: '0',
     cfiConfigId: '',
     // eslint-disable-next-line no-dupe-keys
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   },
   {
     name: '基本柱状图',
@@ -27,7 +27,7 @@ export const tempArr = [
     cfiDatasourceId: '0',
     cfiConfigId: '',
     // eslint-disable-next-line no-dupe-keys
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   },
   {
     name: '基本饼图',
@@ -39,7 +39,7 @@ export const tempArr = [
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
     cfiConfigId: '',
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   },
   {
     name: '基本散点图',
@@ -51,7 +51,7 @@ export const tempArr = [
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
     cfiConfigId: '',
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   },
   {
     name: '单仪表盘',
@@ -63,7 +63,7 @@ export const tempArr = [
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
     cfiConfigId: '',
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   },
   {
     name: '基本条形图',
@@ -75,7 +75,7 @@ export const tempArr = [
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
     cfiConfigId: '',
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   },
   {
     name: '堆叠条形图',
@@ -87,6 +87,6 @@ export const tempArr = [
     cfiIsUpdate: 1,
     cfiDatasourceId: '0',
     cfiConfigId: '',
-    cfiUpdateTime: ''
+    cfiUpdateHz: ''
   }
 ];

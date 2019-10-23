@@ -18,18 +18,17 @@ const types = {
 // eslint-disable-next-line complexity
 export default ({ data, optionList, isCs = true }) => {
   let optionSet = [];
-  const handleIsUpdate = (Update = '') => {
-    if (Update) {
-      const setDate = new Date(Update).getTime();
-      const now = new Date().getTime();
-      if (setDate === now) {
+  console.log(optionList,21);
+  const handleIsUpdate = (UpdateHz) => {
+    if (UpdateHz) {
+      setInterval(() => {
         applySingleEchartsInfo(data.cufId).then(res => {
           optionSet = res.data;
         });
-      }
+      }, +UpdateHz * 1000);
     }
   };
-  const option = types[data.cfiType]();
+  const option = types[data.cfiType](optionSet);
 
   const component = data.cfiType > DOM_TYPE_GAUGE ? (
     <TypeProgress type={data.cfiType}
@@ -41,7 +40,7 @@ export default ({ data, optionList, isCs = true }) => {
     style={{ width: '100%',height: '100%',paddingTop: '30px' }}
   />);
   useEffect(() => {
-    !isCs && handleIsUpdate(data.cfiIsUpdate === 1);
+    !isCs && handleIsUpdate(data.cfiUpdateHz);
   });
   return (
     <>

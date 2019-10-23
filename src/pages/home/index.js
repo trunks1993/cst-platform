@@ -13,7 +13,7 @@ const generateDOM = (formInfo) => {
 
     return (
       <div key={nl.i} style={{ overflow: 'hidden' }} data-grid={nl}>
-        <DragDom key={nl.i} data={l} />
+        <DragDom key={nl.i} data={l} isCs={false} />
       </div>
     );
   });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { Input, Skeleton, message } from 'antd';
 // eslint-disable-next-line no-unused-vars
-import { getPublicTemp, getStaticTemp, getUserDetail, getTempDetail, getEchartsList } from '@/api/index';
+import { getPublicTemp, getStaticTemp, fuzzyQueryTemp, getUserDetail, getTempDetail, getEchartsList } from '@/api/index';
 import { getToken } from '@/utils/auth';
 import { Icon } from 'antd';
 import _ from 'lodash';
@@ -51,10 +51,10 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
     });
     // 个人模板
     getStaticTemp({ token: getToken() }).then(res => {
-      if (res.data.rows.length) {
+      if (res.data.length) {
         // setTimeout(() => {
-        console.log(res.data.rows);
-        handleSingleTemp(res.data.rows);
+        console.log(res.data);
+        handleSingleTemp(res.data);
         ShowSingleTemp(false);
         // }, 20000);
       }
@@ -63,7 +63,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
     });
     // 公共模板
     getPublicTemp(getToken()).then(res => {
-      handlePublicTemp(res.data.rows);
+      handlePublicTemp(res.data);
       ShowPublicTemp(false);
     }).catch(err => {
       console.error(err);
@@ -79,7 +79,12 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
           <Icon style={{ marginLeft: '10px' }} type="double-left" />
         </div>
         <div className="content" style={{ paddingTop: visible1 ? 0 : '10px', maxHeight: visible1 ? 0 : '1000px' }}>
-          <Search placeholder="请输入模板名称" onSearch={value => console.log(value)} />
+          <Search placeholder="请输入模板名称" onSearch={value => {
+            fuzzyQueryTemp(value).then(res => {
+              handlePublicTemp(res.data.userCommonConfig);
+              handleSingleTemp(res.data.userSingleConfig);
+            });
+          }} />
           <div className="group-btn" onClick={() => setVisible2(!visible2)}>
             公共模板
             <span className="group-btn-iconbox">
