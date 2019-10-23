@@ -45,21 +45,26 @@ $customizeWhite: #fff;
   height: $fullHeight;
   @extend .common-imgurl-1;
   @extend .common-flex;
-  .login-form {
-    width: 604px;
-    height: 356px;
+  &-form {
+    text-align: center;
+    width: 600px;
+    height: 350px;
     background: url(../assets/images/login-bk.png);
     background-size: 100% 100%;
-    padding: 63px 95px;
+    padding-top: 38px;
+    form {
+      width: 330px;
+      margin: auto;
+    }
     h2 {
       width: 87px;
       color: #fff;
       margin: 0 auto;
       font-size: 21px;
       margin-bottom: 34px;
-      text-shadow:0px 0px 8px #006def;
+      text-shadow: 0px 0px 8px #006def;
       position: relative;
-      font-family:Adobe Heiti Std;
+      font-family: Adobe Heiti Std;
     }
     h2::after {
       content: "";
@@ -72,37 +77,35 @@ $customizeWhite: #fff;
       bottom: -8px;
       left: 0;
     }
-    .ant-form-item {
-      .ant-form-item-control-wrapper {
-        width: 330px;
-        height: 30px;
-        background-size: 100% 100%;
-        margin-left: 42px;
-        .anticon {
-          color: #79A8E0 !important;
-          font-size: 16px;
-        }
-        .ant-input {
-          border: none;
-          line-height: 30px;
-          height: 30px;
-          padding-left: 35px;
-          font-size: 16px;
-          color: #79A8E0;
-          background-color: #05254B;
-          border: 1px solid #02439D;
-        }
-      }
-    }
-    .ant-form-item:nth-child(3) {
-      .ant-form-item-control-wrapper {
-        background: none !important;
-      }
-    }
+    // .ant-form-item {
+    //   .ant-form-item-control-wrapper {
+    //     width: 330px;
+    //     height: 30px;
+    //     background-size: 100% 100%;
+    //     margin-left: 42px;
+    //     .anticon {
+    //       color: #79A8E0 !important;
+    //       font-size: 16px;
+    //     }
+    //     .ant-input {
+    //       border: none;
+    //       line-height: 30px;
+    //       height: 30px;
+    //       padding-left: 35px;
+    //       font-size: 16px;
+    //       color: #79A8E0;
+    //       background-color: #05254B;
+    //       border: 1px solid #02439D;
+    //     }
+    //   }
+    // }
+    // .ant-form-item:nth-child(3) {
+    //   .ant-form-item-control-wrapper {
+    //     background: none !important;
+    //   }
+    // }
   }
-  .login-form-forgot {
-    float: right;
-  }
+  
   .login-form-button {
     background: url(../assets/images/login.png);
     background-size: 100% 100%;

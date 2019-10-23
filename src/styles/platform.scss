@@ -81,15 +81,6 @@
     color: #fff;
 }
 
-.ant-form-explain {
-    display: none;
-}
-
-.has-error .ant-input,
-.has-error .ant-input:hover {
-    background: none;
-}
-
 .droppable-element {
     background: #fff;
     width: 100px;
@@ -154,16 +145,16 @@
     }
 }
 
-.ant-form-item-label {
-    height: 32px;
-    line-height: 40px;
-}
+// .ant-form-item-label {
+//     height: 32px;
+//     line-height: 40px;
+// }
 
-.ant-form-item-label>label {
-    font-weight: bolder;
-    font-size: 14px;
-    color: #0393FF;
-}
+// .ant-form-item-label>label {
+//     font-weight: bolder;
+//     font-size: 14px;
+//     color: #0393FF;
+// }
 
 .ant-col {
     position: relative;
