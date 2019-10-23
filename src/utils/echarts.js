@@ -1,6 +1,6 @@
 import Echarts from 'echarts';
 
-export function getBarChart() {
+export function getBarChart(optionSet) {
   const option = {
     tooltip: {
       trigger: 'axis',
@@ -139,7 +139,7 @@ export function getBarChart() {
   return option;
 }
 
-export function getLineChart() {
+export function getLineChart(optionSet) {
   // option
   const option = {
     // color: ['#D53A35'],
@@ -277,7 +277,7 @@ export function getLineChart() {
   return option;
 }
 
-export function getPieChart() {
+export function getPieChart(optionSet) {
   // option
   const option = {
     color: ['#00FFFF', '#556FB5', '#FACD89', '#0068B7', '#F29B76', '#22AC38', '#AA89BD', '#004986'],
@@ -447,7 +447,7 @@ export function getPieChart() {
   return option;
 }
 
-export function getVisualMap() {
+export function getVisualMap(optionSet) {
   const data = [
     [[28604,77,17096869,'Australia',1990],
       [31163,77.4,27662440,'Canada',1990],
@@ -629,7 +629,7 @@ export function getVisualMap() {
   return option;
 }
 
-export function getGauge(){
+export function getGauge(optionSet){
   const option = {
     title: {
       text: '安全指数',
