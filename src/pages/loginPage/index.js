@@ -3,11 +3,12 @@ import { Form, Icon, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import { actions as userActions } from '@/redux/user';
 import { createHashHistory } from 'history';
+import md5 from 'js-md5';
 const history = createHashHistory();
 
 const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDecorator, validateFields } }) => {
   const [username, setUsername] = useState('');
-
+  const [passwordCopy, setPasswordCopy] = useState('');
   const [password, setPassword] = useState('');
 
   const formItemLayout = {
@@ -48,15 +49,18 @@ const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDe
               prefix={<Icon type="lock" style={{ color: '#79A8E0' }} />}
               type="password"
               placeholder="密码"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={passwordCopy}
+              onChange={e => {
+                setPasswordCopy(e.target.value);
+                setPassword(e.target.value);
+              }}
             />)}
           </Form.Item>
           <Form.Item {...formItemLayout}>
             <Button type="primary" onClick={() => {
               validateFields(err => {
                 if (!err) {
-                  handleLogin(username, password).then(() => history.push('/'));
+                  handleLogin(username, md5(password)).then(() => history.push('/'));
                 }
               });
             }} block loading={isFetching} className="login-form-button">

@@ -3,7 +3,7 @@ import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
 import DragDom from '@/components/DragDom';
 import { getHomeDetail } from '@/api/index';
-
+import { getToken } from '@/utils/auth';
 const ReactGridLayout = WidthProvider(RGL);
 const generateDOM = (formInfo) => {
   // eslint-disable-next-line complexity
@@ -22,7 +22,7 @@ export default () => {
   const [layout, setLayout] = useState([]);
 
   useEffect(() => {
-    getHomeDetail().then(res => {
+    getHomeDetail(getToken()).then(res => {
       setLayout(res.data);
     });
   }, []);

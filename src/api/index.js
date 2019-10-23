@@ -82,9 +82,12 @@ export const deleteTemp = (par) => request({
 });
 
 // home首页详情
-export const getHomeDetail = () => request({
+export const getHomeDetail = (token) => request({
   url: '/v1/userConfigTopic/userConfigTopic/list',
   method: 'GET',
+  headers: {
+    token
+  }
 });
 
 // 发布
