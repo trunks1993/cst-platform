@@ -1,6 +1,6 @@
 import { login, getUserByToken } from '@/api/index';
 
-import { setToken, removeToken, getToken } from '@/utils/auth';
+import { setToken, removeToken } from '@/utils/auth';
 
 // action types
 export const types = {

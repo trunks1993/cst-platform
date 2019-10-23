@@ -6,7 +6,7 @@ import { createHashHistory } from 'history';
 import md5 from 'js-md5';
 const history = createHashHistory();
 
-const LoginPage = ({ handleLogin }) => {
+const LoginPage = ({ handleLogin, isFetching }) => {
   const [userNameObj, setUserName] = useState({
     value: ''
   });
@@ -50,13 +50,19 @@ const LoginPage = ({ handleLogin }) => {
             if (userNameObj.value && passworldObj.value) {
               handleLogin(userNameObj.value, md5(passworldObj.value));
             }
-          }} className="login-form-button">
+          }} block loading={isFetching} className="login-form-button">
             登录
           </Button>
         </Form.Item>
       </Form>
     </div>
   );
+};
+
+const mapStateToProps = ({ userState }) => {
+  return {
+    isFetching: userState.isFetching
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -69,4 +75,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

@@ -138,6 +138,19 @@
                 }
             }
         }
+        .ant-btn {
+            width: 100px;
+            height: 50px;
+            border: none;
+            outline: none;
+            background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
+            color: #fff;
+            &:hover {
+                color: #03AFFF;
+                background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
+                border-color: none;
+            }
+        }
     }
 }
 
@@ -193,22 +206,6 @@
 .ant-modal-confirm-btns {
     float: none !important;
     margin-left: 0 !important;
-}
-
-.ant-btn {
-    width: 100px;
-    height: 50px;
-    border: none;
-    outline: none;
-    background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
-    color: #fff;
-}
-
-.ant-btn:hover,
-.ant-btn:focus {
-    color: #03AFFF;
-    background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
-    border-color: none;
 }
 
 .ant-dropdown-menu-item-divider {
@@ -290,7 +287,7 @@
     padding: 50px 50px;
     height: 92%;
     display: flex;
-
+    flex-wrap: wrap;
     .crime-content-pro {
         display: flex;
         height: 38px;
@@ -312,6 +309,7 @@
             width: 50%;
 
             .number {
+                // margin-left: 20px;
                 font-size: 12px;
                 color: #01B9F6;
             }
@@ -348,4 +346,7 @@
             }
         }
     }
+}
+.ant-calendar-picker-input {
+    width: 138px!important;
 }

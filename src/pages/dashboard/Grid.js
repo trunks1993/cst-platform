@@ -9,7 +9,7 @@ const generateDOM = (formInfo, selectId, setSelectId) => {
     const nl = JSON.parse(l.cfiLayout);
     return (
       <div key={nl.i} style={{ overflow: 'hidden' }} data-grid={nl}>
-        <DragDom key={nl.i} data={l} />
+        <DragDom key={nl.i} data={l} isCs={false} />
       </div>
     );
   });
