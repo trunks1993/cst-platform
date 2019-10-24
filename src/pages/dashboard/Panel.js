@@ -73,10 +73,10 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
 
   return (
     <div className="panel-box" >
-      <div className="panel-box-item">
+      <div className="panel-box-item" style={{ height: '40%',overflow: 'auto' }}>
         <div className="btn" onClick={() => setVisible1(!visible1)}>
           <span>工作台模板</span>
-          <Icon style={{ marginLeft: '10px' }} type="double-left" />
+          <img src={require('../../assets/images/open.png')} alt="" />
         </div>
         <div className="content" style={{ paddingTop: visible1 ? 0 : '10px', maxHeight: visible1 ? 0 : '1000px' }}>
           <Search placeholder="请输入模板名称" onSearch={value => {
@@ -88,7 +88,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
           <div className="group-btn" onClick={() => setVisible2(!visible2)}>
             公共模板
             <span className="group-btn-iconbox">
-              <Icon type="caret-down" />
+              <img src={require('../../assets/images/openselect.png')} alt="" />
             </span>
           </div>
           <ul className="group-list" style={{ paddingBottom: visible2 ? 0 : '10px', maxHeight: visible2 ? 0 : '1000px' }}>
@@ -109,7 +109,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
             </Skeleton>
           </ul>
 
-          <div className="group-btn" onClick={() => setVisible3(!visible3)}>个人模板<span className="group-btn-iconbox"><Icon type="caret-down" /></span></div>
+          <div className="group-btn" onClick={() => setVisible3(!visible3)}>个人模板<span className="group-btn-iconbox"><img src={require('../../assets/images/openselect.png')} alt="" /></span></div>
           <ul className="group-list" style={{ paddingBottom: visible3 ? 0 : '10px', maxHeight: visible3 ? 0 : '1000px' }}>
             <Skeleton key={1} title={false} loading={ isShowSingleTemp } active>
               {
@@ -132,8 +132,8 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
         </div>
       </div>
       <img style={{ margin: '10px 0' }} src={require('../../assets/images/l-panel.png')} alt="" />
-      <div className="panel-box-item">
-        <div className="btn" onClick={() => setVisible4(!visible4)}>应用套件<Icon style={{ marginLeft: '10px' }} type="double-left" /></div>
+      <div className="panel-box-item" style={{ height: '57%',overflow: 'auto' }}>
+        <div className="btn" onClick={() => setVisible4(!visible4)}>应用套件<img src={require('../../assets/images/open.png')} alt="" /></div>
         <div className="content" style={{ paddingTop: visible4 ? 0 : '10px', maxHeight: visible4 ? 0 : '1000px' }}>
           <div className="temp-btn" onClick={() => setVisible5(!visible5)}>
             <span>大数据平台</span>
@@ -151,7 +151,7 @@ export default ({ setTempData, setTags, setFormInfo, tags, handleCurIndex, curIn
                     } else {
                       setTempData(item);
                     } }} unselectable="on" >
-                    <img src={require('../../assets/images/tempIcons/1.png')} alt="" />
+                    <img src={require('../../assets/images/tempIcons/' + item.type + '.png')} alt="" />
                     <div className="title">{item.name}</div>
                   </li>
                 </Skeleton>

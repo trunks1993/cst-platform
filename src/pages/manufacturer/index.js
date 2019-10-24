@@ -194,7 +194,7 @@ export default () => {
                         Message.success(res.msg);
                         childRef.current.fqueryConfig();
                       });
-                    });
+                    }, () => setFormInfo(temp), '请问是否删除当前模块?');
                     break;
                   case '重置':
                     if (!selectTag.cfgId) return Message.error('请选择要重置的配置');
@@ -205,7 +205,7 @@ export default () => {
                         if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
                         setFormInfo(res.data);
                       });
-                    }, () => setFormInfo(temp), '是否重置');
+                    }, () => setFormInfo(temp), '请问是否重置当前配置?');
                     break;
                   case '发布':
                     if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');

@@ -55,6 +55,7 @@
 
     .title-box {
         height: 30px;
+        line-height: 24px;
         width: 360px;
         max-width: 75%;
         background: url(../assets/images/temp/bg-title.png);
@@ -64,8 +65,9 @@
         left: 50%;
         transform: translate(-50%, 0);
         text-align: center;
-        font-size: 14px;
+        font-size: 12px;
         color: #fff;
+        font-weight: bolder;
     }
 }
 
@@ -141,6 +143,23 @@
                 background: url('../assets/images/temp/global-btn.png') 0 0 no-repeat;
                 border-color: none;
             }
+            span {
+                line-height: 50px;
+            }
+        }
+        .ant-modal-confirm-body-wrapper {
+            .ant-modal-confirm-body {
+                .anticon-question-circle {
+                    display: none;
+                }
+                .ant-modal-confirm-title {
+                    text-align: center;
+                    font-weight: 600;
+                    font-size: 15px;
+                    letter-spacing: 1px;
+                    text-shadow: 0px 0px 8px #006def
+                }
+            }
         }
     }
 }
@@ -168,7 +187,24 @@
     border: 1px solid #0393FF;
     color: #fff;
 }
-
+// 输入框获取错误焦点
+.has-error {
+    .ant-input {
+        background: transparent !important;
+        &:hover {
+            background: transparent !important;
+        }
+    }
+}
+//弹框表单lable字
+.ant-form-item-label {
+    label {
+        color: #fff !important;
+    }
+}
+.ant-form-explain {
+    text-align: left;
+}
 .ant-select-arrow-icon,
 .ant-select-clear-icon {
     color: #0393FF;
@@ -197,6 +233,7 @@
 .ant-modal-confirm-btns {
     float: none !important;
     margin-left: 0 !important;
+    margin-top: 50px !important;
 }
 
 .ant-dropdown-menu-item-divider {
@@ -290,14 +327,14 @@
         }
 
         .crime-content-title {
-            border-right: 1px solid rgba(18, 195, 249, 1);
+            border-right: 2px solid rgba(18, 195, 249, 1);
             padding-right: 10px;
             line-height: 38px;
             display: inline-block;
         }
 
         .crime-content-pro-box {
-            width: 50%;
+            width: 75%;
 
             .number {
                 // margin-left: 20px;

@@ -54,10 +54,10 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
 
   return (
     <div className="panel-box">
-      <div className="panel-box-item">
+      <div className="panel-box-item" style={{ height: '40%',overflow: 'auto' }}>
         <div className="btn" onClick={() => setVisible1(!visible1)}>
           <span>工作台模板</span>
-          <Icon style={{ marginLeft: '10px' }} type="double-left" />
+          <img src={require('../../assets/images/open.png')} alt="" />
         </div>
         <div
           className="content"
@@ -94,7 +94,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                       <Icon type="delete" />
                     </span>
                     <span className="group-btn-iconbox">
-                      <Icon type="caret-down" />
+                      <img src={require('../../assets/images/openselect.png')} alt="" />
                     </span>
                   </div>
                   <ul
@@ -134,10 +134,10 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
         src={require('../../assets/images/l-panel.png')}
         alt=""
       />
-      <div className="panel-box-item">
+      <div className="panel-box-item" style={{ height: '57%',overflow: 'auto' }}>
         <div className="btn" onClick={() => setVisible4(!visible4)}>
           应用套件
-          <Icon style={{ marginLeft: '10px' }} type="double-left" />
+          <img src={require('../../assets/images/open.png')} alt="" />
         </div>
         <div
           className="content"
@@ -149,7 +149,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
           <div className="temp-btn" onClick={() => setVisible5(!visible5)}>
             <span>大数据平台</span>
             <span className="temp-btn-iconbox">
-              <Icon type="caret-down" />
+              <Icon type="down" />
             </span>
           </div>
           <ul
