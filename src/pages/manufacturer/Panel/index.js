@@ -1,56 +1,30 @@
 /* eslint-disable no-alert */
-import React, { useState, useEffect, useImperativeHandle } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Skeleton, Icon, Message } from 'antd';
-// import { SaveGroupData } from '../../redux/actions';
-import { queryConfig, deleteConfig, queryByConfigId } from '@/api/cs_api';
+import { connect } from 'react-redux';
+// actions
+import { actions as configGroupActions } from '@/redux/configGroup';
+import { actions as gridActions } from '@/redux/grid';
+import { actions as appActions } from '@/redux/app';
+
+import { deleteConfig } from '@/api/cs_api';
 import { tempArr } from '@/config';
 import { showConfirm } from '@/utils';
-import { getToken } from '../../utils/auth';
+import { types } from '@/utils/const';
 
 import _ from 'lodash';
 
 const { Search } = Input;
 // eslint-disable-next-line complexity
-export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId, cRef, setTags, tags }) => {
+const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGroup, configGroupState, setVisibleIds, queryByConfigId, byConfigId }) => {
   const [visible1, setVisible1] = useState(false);
-  const [groupDatas, setGroupDatas] = useState([]);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
-  const [queryConfigState, setQueryState] = useState(false);
 
-  const addTag = tag => {
-    console.log(tag);
-    const fi = _.findIndex(tags, o => o.cfgId === tag.cfgId);
-    setSelectTag(tag.cfgId);
-    if (fi < 0) {
-      const t = _.clone(tags);
-      t.push(tag);
-      setTags(t);
-    }
-  };
   useEffect(() => {
     // 查询配置信息
-    aqueryConfig('');
-  }, [queryConfigState]);
-
-  function aqueryConfig(cfgName) {
-    queryConfig(getToken(), cfgName).then(res => {
-      // 左侧配置(组名和组的子节点)
-      const g = _.map(res.data, v => {
-        v.visible = true;
-        return v;
-      });
-      setGroupDatas(g);
-      setQueryState(true);
-    });
-  }
-
-  useImperativeHandle(cRef, () => ({
-    // changeVal 就是暴露给父组件的方法
-    fqueryConfig: () => {
-      aqueryConfig('');
-    }
-  }));
+    getConfigGroup('');
+  }, [getConfigGroup]);
 
   return (
     <div className="panel-box">
@@ -68,26 +42,22 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
         >
           <Search
             placeholder="请输入模板名称"
-            onSearch={value => aqueryConfig(value)}
+            onSearch={value => getConfigGroup(value)}
           />
-
           {
-            !queryConfigState ? <Skeleton active /> : groupDatas.map((group, index, arrs) => {
+            configGroupState.isFetching ? <Skeleton active /> : configGroupState.configGroup.map((group, index) => {
               return (
                 <div key={index}>
-                  <div className="group-btn" onClick={() => {
-                    const t = _.clone(groupDatas);
-                    t[index].visible = !group.visible;
-                    setGroupDatas(t);
-                  }}>
+                  <div className="group-btn" onClick={() => setVisibleIds(group.cfgId)}>
                     {group.cfgName}
                     <span className="group-btn-del" onClick={e => {
                       e.stopPropagation();
-                      showConfirm(function() {
-                        console.log(group);
+                      showConfirm(`是否删除分组 ${group.cfgName}`, function() {
                         deleteConfig(group.cfgId).then(res => {
-                          Message.success('删除成功');
-                          aqueryConfig();
+                          Message.success(res.msg);
+                          // 删除分组打开的tags
+                          _.map(group.children, v => deleteTag(v.cfgId));
+                          getConfigGroup('');
                         });
                       });
                     }}>
@@ -100,27 +70,23 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                   <ul
                     className="group-list"
                     style={{
-                      paddingBottom: !group.visible ? 0 : '10px',
-                      maxHeight: !group.visible ? 0 : '1000px'
+                      paddingBottom: _.findIndex(configGroupState.visibleIds, id => id === group.cfgId) === -1 ? 0 : '10px',
+                      maxHeight: _.findIndex(configGroupState.visibleIds, id => id === group.cfgId) === -1 ? 0 : '1000px'
                     }}
                   >
                     {
                       // eslint-disable-next-line complexity
-                      group.children.map((child,idx_) => (<li
-                        key={idx_}
+                      _.map(group.children, child => (<li
+                        key={child.cfgId}
                         onClick = {() => {
-                          addTag(child);
-                          setSelectTag(child);
-                          queryByConfigId(child.cfgId).then(res => {
-                            if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
-                            setFormInfo(res.data);
-                          });
+                          if (activeTagId === child.cfgId) return;
+                          setTagViews({ [child.cfgId]: child });
+                          queryByConfigId(child.cfgId, byConfigId);
                         }}
-                        style={{ color: selectTag.cfgId === child.cfgId ? '#03AFFF' : null }}
+                        style={{ color: activeTagId === child.cfgId ? '#03AFFF' : null }}
                       >
-                        {child.cfgName}{child.cfgStatus === 3 ? '(已发布)' : (child.state === 2 ? '(已保存)' : '(编辑中)')}
-                      </li>)
-                      )
+                        {child.cfgName}{types[child.cfgStatus]}
+                      </li>))
                     }
                   </ul>
                 </div>
@@ -129,11 +95,7 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
           }
         </div>
       </div>
-      <img
-        style={{ margin: '10px 0' }}
-        src={require('../../assets/images/l-panel.png')}
-        alt=""
-      />
+      <img style={{ margin: '10px 0' }} src={require('@/assets/images/l-panel.png')} alt="" />
       <div className="panel-box-item">
         <div className="btn" onClick={() => setVisible4(!visible4)}>
           应用套件
@@ -163,12 +125,13 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
                   key={i}
                   draggable
                   onDragStart={() => {
-                    if (!selectTag.cfgId) Message.warning('请先选择模板');
+                    if (activeTagId === '') Message.warning('请先选择模板');
                     setTempData(v);
                   }}
                   unselectable="on"
                 >
-                  <img src={require('@/assets/images/tempIcons/' + v.icon)} alt="" />
+                  <div className="drag-mask" />
+                  <img draggable={ false } src={require('@/assets/images/tempIcons/' + v.icon)} alt="" />
                   <div className="title">{v.name}</div>
                 </li>)
               )
@@ -180,16 +143,22 @@ export default ({ setTempData, setSelectTag, selectTag, setFormInfo, setSelectId
   );
 };
 
-// const mapStateToProps = ({ user: { data } }) => {
-//   return {
-//     configData: data
-//   };
-// };
+const mapStateToProps = ({ configGroupState, appState, gridState }) => {
+  return {
+    configGroupState,
+    activeTagId: appState.activeTagId,
+    byConfigId: gridState.byConfigId
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     addGroupConfigData: data => dispatch(SaveGroupData(data))
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    getConfigGroup: cfgName => dispatch(configGroupActions.getConfigGroup(cfgName)),
+    setVisibleIds: id => dispatch(configGroupActions.setVisibleIds(id)),
+    queryByConfigId: (id, byConfigId) => dispatch(gridActions.queryByConfigId(id, byConfigId)),
+    setTagViews: tag => dispatch(appActions.setTagViews(tag)),
+    deleteTag: tag => dispatch(appActions.deleteTag(tag)),
+  };
+};
 
-// export default connect(mapStateToProps, null)(Panel);
+export default connect(mapStateToProps, mapDispatchToProps)(Panel);

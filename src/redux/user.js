@@ -25,7 +25,9 @@ export const actions = {
         setToken(res.data.token);
         return dispatch(actions.setToken(res.data.token));
       },
-      error => dispatch(actions.setError(error))
+      error => {
+        dispatch(actions.setError(error));
+      }
     );
   },
   getUser: token => dispatch => {

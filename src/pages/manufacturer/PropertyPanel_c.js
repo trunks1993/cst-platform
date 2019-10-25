@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import { selectByDataSource } from '@/api/cs_api';
 import { tempArr } from '@/config';
-import { Select, Radio, DatePicker } from 'antd';
+import { Select, Radio, Message, Form } from 'antd';
 import { DOM_TYPE_BAR } from '@/utils/const';
-import moment from 'moment';
 import _ from 'lodash';
 const { Option } = Select;
 
@@ -36,7 +35,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo, setDsIdOption
   const [cfiDatasourceId, setCfiDatasourceId] = useState('0');
 
   // 修改时间
-  const [cfiUpdateTime, setCfiUpdateTime] = useState('');
+  const [cfiUpdateHz, setCfiUpdateHz] = useState('');
   // 数据源绑定
   // const [cusDataSource, setCusDataSource] = useState({ cdsOdbcType: 1, cdsOdbcValue: [], cdsRemark: '' });
 
@@ -54,8 +53,7 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo, setDsIdOption
       selectByDataSource(o.cfiType, '1', cdsOdbcType).then(res => {
         setDsIdOptions(res.data);
       });
-      console.log(o.cfiUpdateTime);
-      setCfiUpdateTime(moment(o.cfiUpdateTime).format('YYYY-MM-DD'));
+      setCfiUpdateHz(o.cfiUpdateHz ? o.cfiUpdateHz : '');
     }
   }, [cdsOdbcType, formInfo, selectId, setDsIdOptions]);
 
@@ -101,16 +99,21 @@ const PropertyPanel = ({ visible, formInfo, selectId, setFormInfo, setDsIdOption
           </div>
           <div className="property-content" style={{ display: cfiIsUpdate === 2 ? 'flex' : 'none' }}>
             <span className="property-content-btn">更新时间</span>
-            {/* <Input addonAfter="秒" defaultValue="mysite" /> */}
-            <DatePicker style={{ width: '138px' }} value={moment(cfiUpdateTime, 'YYYY-MM-DD')} onChange={(date, dateString) => {
-              console.log(dateString);
-              setCfiUpdateTime(dateString);
-              const t = _.clone(formInfo);
-              const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
-              console.log(item);
-              item.cfiUpdateTime = dateString;
-              setFormInfo(t);
-            }} />
+            <input value={cfiUpdateHz} style={{ width: 'calc(100% - 90px)' }} disabled={!selectId} onChange={e => {
+              if (isNaN(e.target.value)) {
+                Message.warning('请输入正确的格式');
+                setCfiUpdateHz('');
+              } else if (e.target.value <= 0){
+                Message.warning('请输入大于0的正整数');
+                setCfiUpdateHz('');
+              } else {
+                setCfiUpdateHz(+e.target.value);
+                const t = _.clone(formInfo);
+                const item = t.find(v => JSON.parse(v.cfiLayout).i === selectId);
+                item.cfiUpdateHz = +e.target.value;
+                setFormInfo(t);
+              }
+            }} /> <span style={{ marginLeft: '10px' }}>秒</span>
           </div>
           <div className="property-content">
             <span className="property-content-btn">数据源</span>

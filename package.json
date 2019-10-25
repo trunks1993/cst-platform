@@ -11,6 +11,7 @@
     "js-md5": "^0.7.3",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "normalizr": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-grid-layout": "^0.16.6",

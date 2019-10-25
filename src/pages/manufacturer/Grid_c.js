@@ -3,6 +3,8 @@ import RGL, { WidthProvider } from '@/components/Draggler';
 import _ from 'lodash';
 import DragDom from '@/components/DragDom';
 
+const ReactGridLayout = WidthProvider(RGL);
+
 const generateDOM = (formInfo, selectId, setSelectId, dsIdOptions) => {
   // eslint-disable-next-line complexity
   return _.map(formInfo, (l, i) => {
@@ -15,7 +17,6 @@ const generateDOM = (formInfo, selectId, setSelectId, dsIdOptions) => {
   });
 };
 
-const ReactGridLayout = WidthProvider(RGL);
 export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selectId, dsIdOptions }) => {
   // onDragEnter={() => setDo(true)} fix bug: 拖入一个item还没放置的时候触发onLayoutChange导致页面白板
   const [doing, setDo] = useState(false);
@@ -33,10 +34,10 @@ export default ({ formInfo, setFormInfo, tempData, selectTag, setSelectId, selec
   const onDrop = e => {
     e.i = new Date().getTime() + '';
     tempData.cfiConfigId = selectTag.cfgId;
-    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiId, cfiUpdateTime } = tempData;
+    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiId, cfiUpdateHz } = tempData;
     const l = _.assign(e, JSON.parse(cfiLayout));
     setSelectId(e.i);
-    setFormInfo(formInfo.concat({ cfiId, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }), cfiUpdateTime }));
+    setFormInfo(formInfo.concat({ cfiId, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId, cfiDatasourceId, cfiLayout: JSON.stringify({ ...l }), cfiUpdateHz }));
     setDo(false);
   };
 

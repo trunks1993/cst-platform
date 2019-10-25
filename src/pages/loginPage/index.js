@@ -34,7 +34,7 @@ const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDe
               prefix={<Icon type="user" style={{ color: '#79A8E0' }} />}
               placeholder="用户名"
               onChange={e => setUsername(e.target.value)}
-              value={username}
+              // value={username}
             />)}
           </Form.Item>
           <Form.Item {...formItemLayout}>
@@ -49,7 +49,7 @@ const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDe
               prefix={<Icon type="lock" style={{ color: '#79A8E0' }} />}
               type="password"
               placeholder="密码"
-              value={passwordCopy}
+              // value={passwordCopy}
               onChange={e => {
                 setPasswordCopy(e.target.value);
                 setPassword(e.target.value);

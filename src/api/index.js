@@ -13,25 +13,16 @@ export function login(username, password) {
 }
 
 // 获取当前用户信息
-export function getUserByToken(token) {
+export function getUserByToken() {
   return request({
     url: '/cas/user',
-    method: 'get',
-    headers: {
-      token
-    }
+    method: 'get'
   });
 }
 // 获取公共模板列表
-export const getPublicTemp = token => request({
+export const getPublicTemp = () => request({
   url: '/v1/userConfigInfo/CusUserConfig/list',
-  method: 'get',
-  params: {
-    cucIsShare: '1'
-  },
-  headers: {
-    token
-  }
+  method: 'get'
 });
 
 // 获取个人模板列表
@@ -44,14 +35,15 @@ export const getStaticTemp = params => request({
 export const addStaticTemp = par => request({
   url: '/v1/userConfigInfo/CusUserConfig/add',
   method: 'post',
-  params: {
+  data: {
     cucName: par.cucName,
     cucStatus: par.cucStatus,
-    cucRemake: '1'
+    cucRemake: ''
   }
 });
+
 // 获取左下角echarts配置
-export const getEchartsList = token => request({
+export const getEchartsList = () => request({
   url: '/v1/functionInfo/functionInfo/list',
   method: 'get'
 });
@@ -82,12 +74,9 @@ export const deleteTemp = (par) => request({
 });
 
 // home首页详情
-export const getHomeDetail = (token) => request({
+export const getHomeDetail = () => request({
   url: '/v1/userConfigTopic/userConfigTopic/list',
-  method: 'GET',
-  headers: {
-    token
-  }
+  method: 'GET'
 });
 
 // 发布
@@ -116,5 +105,14 @@ export const applySingleEchartsInfo = (cufId) => request({
   method: 'get',
   params: {
     cufId
+  }
+});
+
+// 模糊查询
+export const fuzzyQueryTemp = (configName) => request({
+  url: '/v1/userConfigInfo/CusUserConfig/queryByName',
+  method: 'get',
+  params: {
+    configName
   }
 });

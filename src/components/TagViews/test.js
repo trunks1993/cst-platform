@@ -1,38 +1,29 @@
 import React from 'react';
 import { Icon } from 'antd';
 import _ from 'lodash';
-import { queryByConfigId } from '@/api/cs_api';
+// import { queryByConfigId } from '@/api/cs_api';
+import { connect } from 'react-redux';
+import { actions as appActions } from '@/redux/app';
+import { actions as gridActions } from '@/redux/grid';
 
-export default ({ tags, setTags, setFormInfo, selectTag, setSelectTag, setSelectId }) => {
-
-
-  // useEffect(() => {
-  //   const index = _.findIndex(tags, v => v.cfgId === selectTag.cfgId);
-  //   if (index === -1 && selectTag.cfgId) setTags([...tags, selectTag]);
-  // }, [selectTag, tags]);
+const TagViews = ({ deleteTag, changeActiveTag, ids, tagById, removeCfgId, activeTagId }) => {
 
   return (
     <div className="tag-views">
       <ul >
         {
-          tags.map((item, index) => {
+          ids.map(id => {
             return (
-              <li className={ selectTag.cfgId === item.cfgId ? 'tag-views-item active-tag-views' : 'tag-views-item' } key={index} onClick={() => {
-                setSelectTag(item);
-                queryByConfigId(item.cfgId).then(res => {
-                  if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
-                  setFormInfo(res.data);
-                }); }} >
-                {item.cfgName }
+              <li className={ activeTagId === id ? 'tag-views-item active-tag-views' : 'tag-views-item' } key={id} onClick={() => {
+                changeActiveTag(id);
+              }} >
+                {tagById[id].cfgName }
                 <Icon type="close" style={{ marginLeft: '5px' }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    e.nativeEvent.stopImmediatePropagation();
-                    const newViews = _.filter(tags, v => item.cfgId !== v.cfgId);
-                    setTags(newViews);
-                    setSelectTag({});
-                    setFormInfo([]);
-                    setSelectId('');
+                    // e.nativeEvent.stopImmediatePropagation();
+                    deleteTag(id);
+                    removeCfgId(id);
                   }
                   } />
               </li>
@@ -43,3 +34,21 @@ export default ({ tags, setTags, setFormInfo, selectTag, setSelectTag, setSelect
     </div>
   );
 };
+
+const mapStateToProps = ({ appState }) => {
+  return {
+    tagById: appState.tagViews.byId,
+    ids: appState.tagViews.ids,
+    activeTagId: appState.activeTagId
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeActiveTag: id => dispatch(appActions.changeActiveTag(id)),
+    deleteTag: id => dispatch(appActions.deleteTag(id)),
+    removeCfgId: id => dispatch(gridActions.removeCfgId(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TagViews);
