@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Skeleton, Icon, Message, Form, Radio } from 'antd';
+import React from 'react';
+import { Form, Radio } from 'antd';
 import { connect } from 'react-redux';
 // actions
-import { actions as configGroupActions } from '@/redux/configGroup';
-import { actions as gridActions } from '@/redux/grid';
-import { actions as appActions } from '@/redux/app';
-
-import { deleteConfig } from '@/api/cs_api';
-import { tempArr } from '@/config';
-import { showConfirm } from '@/utils';
-import { types } from '@/utils/const';
-
-import _ from 'lodash';
 
 const InputForm = Form.create({})(({ form: { getFieldDecorator, validateFields } }) => {
   return (

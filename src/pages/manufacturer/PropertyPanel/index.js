@@ -18,12 +18,12 @@ import InputForm from './InputForm';
 import RadioForm from './RadioForm';
 
 // eslint-disable-next-line complexity
-export default () => {
+const PropertyPanel = ({ activeLayId }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
 
   return (
-    <div className="property-panel">
+    <div className="property-panel" style={{ right: activeLayId ? '30px' : '-270px' }}>
       <div className="property-panel-item">
         <div className="btn" onClick={() => setVisible1(!visible1)}>
           <span>属性面板</span>
@@ -46,3 +46,18 @@ export default () => {
     </div>
   );
 };
+
+
+const mapStateToProps = ({ gridState: { activeLayId } }) => {
+  return {
+    activeLayId
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     handleLogin: (name, passworld) => dispatch(formActions.loginByUsername(name, passworld))
+//   };
+// };
+
+export default connect(mapStateToProps, null)(PropertyPanel);

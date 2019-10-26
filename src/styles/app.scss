@@ -453,7 +453,7 @@ $customizeWhite: #fff;
   top: 0;
   bottom: 15px;
   padding: 40px 10px 20px 15px;
-  transition: transform 0.5s;
+  transition: all 0.5s;
   &-item {
     .btn {
       @include panel-title();

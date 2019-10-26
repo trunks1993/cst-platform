@@ -51,14 +51,14 @@ export function saveInfo(arr) {
 }
 
 // 查询数据源id /v1/cusDataSource/selectByDataSource
-export function selectByDataSource(cdsChartId, cdsSystemId, cdsOdbcType) {
+export function selectByDataSource(cdsChartId, cdsOdbcType, cdsSystemId) {
   return request({
     url: '/v1/cusDataSource/selectByDataSource',
     method: 'get',
     params: {
       cdsChartId,
-      cdsSystemId,
-      cdsOdbcType
+      cdsOdbcType,
+      cdsSystemId
     }
   });
 }

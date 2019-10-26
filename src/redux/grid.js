@@ -22,9 +22,10 @@ export const actions = {
   selectLayout: id => ({ type: types.SET_ACTIVE_LAYID, id }),
   restLayouts: () => ({ type: types.REST_LAYOUTS }),
   removeCfgId: cfgId => ({ type: types.REMOVE_CFGID, cfgId }),
-  queryByConfigId: (cfgId, byConfigId) => dispatch => {
+  queryByConfigId: cfgId => (dispatch, getState) => {
     // 首次 dispatch：更新应用的 state 来通知API 请求发起了
     // 如果需要再次請求清楚byConfigId中的对应cfgId
+    const { gridState: { byConfigId } } = getState();
     const flag = _.has(byConfigId, cfgId);
     if (flag) return dispatch(actions.setData({ layIds: byConfigId[cfgId], cfgId }));
     dispatch(actions.startFetch());

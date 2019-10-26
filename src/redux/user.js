@@ -1,5 +1,4 @@
 import { login, getUserByToken } from '@/api/index';
-
 import { setToken, removeToken } from '@/utils/auth';
 
 // action types
@@ -62,7 +61,7 @@ export default function reducer(state = initialState, action) {
     case types.START_FETCH:
       return { ...state, isFetching: true };
     case types.SET_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, isFetching: false, error: action.payload };
     case types.RECEIVE_TOKEN:
       return { ...state, isFetching: false, token: action.token };
     default: return state;

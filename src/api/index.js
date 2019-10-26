@@ -1,13 +1,14 @@
 import request from '@/utils/request';
+import md5 from 'js-md5';
 
 // 登陆
-export function login(username, password) {
+export function login({ username, password }) {
   return request({
     url: '/cas/login',
     method: 'post',
     params: {
       username,
-      password
+      password: md5(password)
     }
   });
 }

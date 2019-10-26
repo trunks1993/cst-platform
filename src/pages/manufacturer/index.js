@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews/test';
@@ -23,18 +23,7 @@ import _ from 'lodash';
 
 import { Modal, Form, Input, Message, Select } from 'antd';
 
-// const formItemLayout = {
-//   labelCol: {
-//     xs: { span: 24 },
-//     sm: { span: 8 },
-//   },
-//   wrapperCol: {
-//     xs: { span: 24 },
-//     sm: { span: 12 },
-//   },
-// };
-
-const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, restLayouts }) => {
+const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, restLayouts, activeLayId }) => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
   const [newGroupVisible, handleNewGroupVisible] = useState(false);
@@ -45,14 +34,10 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   // 新建分组
   const [cfgName, setCfgName] = useState('');
 
-  const [formInfo, setFormInfo] = useState([]);// layouts
-
   const [groupParents, setGroupParents] = useState([]);
 
   // 数据源option
   const [dsIdOptions, setDsIdOptions] = useState([]);
-
-  const childRef = useRef();
 
   // 顶部工具栏数据
   const btnList = [
@@ -76,7 +61,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       icon: 'file-protect',
       disabled: disabled,
       fn: () => {
-        saveInfo(formInfo).then(res => {
+        saveInfo().then(res => {
           getConfigGroup();
           Message.success(res.msg);
         });
@@ -159,12 +144,9 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setTempData={setTempData} setFormInfo={setFormInfo} />
+          <Panel setTempData={setTempData} />
         </div>
-        <div
-          className="dashboard-container-body-content"
-          style={{ position: 'relative' }}
-        >
+        <div className="dashboard-container-body-content" style={{ width: activeLayId ? '' : 'calc(100% - 28px)' }}>
           <Modal centered visible={newModelVisible} footer={null} closable={false}>
             <Form>
               <Form.Item>
@@ -193,7 +175,6 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
               </Form.Item>
             </Form>
           </Modal>
-
           <Modal centered visible={newGroupVisible} footer={null} closable={false}>
             <Form>
               <Form.Item>
@@ -209,8 +190,8 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
               </Form.Item>
             </Form>
           </Modal>
-          <TagViews setFormInfo={setFormInfo} />
-          <Grid tempData={tempData} dsIdOptions={dsIdOptions} formInfo={formInfo} setFormInfo={setFormInfo} />
+          <TagViews />
+          <Grid tempData={tempData} dsIdOptions={dsIdOptions} />
           <PropertyPanel />
         </div>
       </div>
@@ -218,13 +199,14 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   );
 };
 
-const mapStateToProps = ({ configGroupState, appState }) => {
+const mapStateToProps = ({ configGroupState, appState, girdState: { activeLayId } }) => {
   const tag = appState.tagViews.byId[appState.activeTagId];
   return {
     configGroupState,
     cfgStatus: tag && tag.cfgStatus,
     disabled: appState.activeTagId === '',
-    tag
+    tag,
+    activeLayId
   };
 };
 
