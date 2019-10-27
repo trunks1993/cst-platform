@@ -1,18 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import DragDom from '@/components/DragDom';
+import { DOM_TYPE_GAUGE } from '@/utils/const';
 
-const GridItem = ({ id, entities }) => {
+const GridItem = ({ data }) => {
   return (
-    <div>
-      {/* <DragDom key={id} data={entities.grids[id]} /> */}
-    </div>
+    <>
+      <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+      <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+      <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+      <img className="bg-icon" src={require('@/assets/images/temp/1.png')} alt="" />
+      <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+      <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
+      { data.cfiType === DOM_TYPE_GAUGE && <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> }
+      <div className="title-box">{ data.cfiName }</div>
+    </>
   );
 };
 
 const mapStateToProps = ({ gridState }) => {
   return {
-    entities: gridState.currentData.entities
+    gridState
   };
 };
 

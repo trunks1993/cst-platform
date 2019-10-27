@@ -16,7 +16,7 @@ import _ from 'lodash';
 
 const { Search } = Input;
 // eslint-disable-next-line complexity
-const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGroup, configGroupState, setVisibleIds, queryByConfigId }) => {
+const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, configGroupState, setVisibleIds, queryByConfigId }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible4, setVisible4] = useState(false);
   const [visible5, setVisible5] = useState(false);
@@ -80,8 +80,7 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
                         key={child.cfgId}
                         onClick = {() => {
                           if (activeTagId === child.cfgId) return;
-                          setTagViews({ [child.cfgId]: child });
-                          queryByConfigId(child.cfgId);
+                          queryByConfigId(child);
                         }}
                         style={{ color: activeTagId === child.cfgId ? '#03AFFF' : null }}
                       >
@@ -155,7 +154,6 @@ const mapDispatchToProps = dispatch => {
     getConfigGroup: cfgName => dispatch(configGroupActions.getConfigGroup(cfgName)),
     setVisibleIds: id => dispatch(configGroupActions.setVisibleIds(id)),
     queryByConfigId: id => dispatch(gridActions.queryByConfigId(id)),
-    setTagViews: tag => dispatch(appActions.setTagViews(tag)),
     deleteTag: tag => dispatch(appActions.deleteTag(tag)),
   };
 };

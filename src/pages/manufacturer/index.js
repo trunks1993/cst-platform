@@ -23,7 +23,7 @@ import _ from 'lodash';
 
 import { Modal, Form, Input, Message, Select } from 'antd';
 
-const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, restLayouts, activeLayId }) => {
+const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, queryByConfigId, currentDataForSave }) => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
   const [newGroupVisible, handleNewGroupVisible] = useState(false);
@@ -61,8 +61,11 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       icon: 'file-protect',
       disabled: disabled,
       fn: () => {
-        saveInfo().then(res => {
+        saveInfo(currentDataForSave).then(res => {
           getConfigGroup();
+          // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
+          removeCfgId(tag.cfgId);
+          queryByConfigId(tag);
           Message.success(res.msg);
         });
       }
@@ -87,7 +90,14 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
     {
       label: '重置',
       icon: 'redo',
-      disabled: disabled
+      disabled: disabled,
+      fn: () => {
+        showConfirm(`是否重置配置项 ${tag.cfgName}`, () => {
+          removeCfgId(tag.cfgId);
+          queryByConfigId(tag);
+          Message.success('操作成功');
+        });
+      }
     },
     {
       label: cfgStatus === CONF_STATUS_PUBLISH ? '取消发布' : '发布',
@@ -146,7 +156,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
           <Panel setTempData={setTempData} />
         </div>
-        <div className="dashboard-container-body-content" style={{ width: activeLayId ? '' : 'calc(100% - 28px)' }}>
+        <div className="dashboard-container-body-content">
           <Modal centered visible={newModelVisible} footer={null} closable={false}>
             <Form>
               <Form.Item>
@@ -199,21 +209,28 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   );
 };
 
-const mapStateToProps = ({ configGroupState, appState, girdState: { activeLayId } }) => {
-  const tag = appState.tagViews.byId[appState.activeTagId];
+const mapStateToProps = ({ configGroupState, appState: { tagViews: { byId }, activeTagId }, gridState: { byConfigId, currentData } }) => {
+  const tag = byId[activeTagId];
+  const layIds = _.get(byConfigId, activeTagId, []);
+  const currentDataForSave = _.map(layIds, id => {
+    const data = _.clone(currentData[id]);
+    data.cfiLayout = JSON.stringify(data.cfiLayout);
+    data.cfiEvent = JSON.stringify(data.cfiEvent);
+    return data;
+  });
   return {
+    currentDataForSave,
     configGroupState,
     cfgStatus: tag && tag.cfgStatus,
-    disabled: appState.activeTagId === '',
-    tag,
-    activeLayId
+    disabled: activeTagId === '',
+    tag
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    restLayouts: () => dispatch(gridActions.restLayouts()),
     getConfigGroup: () => dispatch(configGroupActions.getConfigGroup()),
+    queryByConfigId: tag => dispatch(gridActions.queryByConfigId(tag)),
     removeCfgId: id => dispatch(gridActions.removeCfgId(id)),
     deleteTag: id => dispatch(appActions.deleteTag(id))
   };

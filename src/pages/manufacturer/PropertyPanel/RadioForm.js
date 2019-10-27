@@ -1,56 +1,94 @@
 import React from 'react';
 import { Form, Radio } from 'antd';
 import { connect } from 'react-redux';
-// actions
+import _ from 'lodash';
 
-const InputForm = Form.create({})(({ form: { getFieldDecorator, validateFields } }) => {
+// actions
+import { actions as gridActions } from '@/redux/grid';
+
+const Component = Form.create({})(({ form: { getFieldDecorator, validateFields } }) => {
   return (
     <Form>
       <div className="application-config expand-active">
         <span className="radio-title">放大</span>
-        <Radio.Group>
-          <Radio className="radio-style" value={1}>启用</Radio>
-          <Radio className="radio-style" value={2}>禁用</Radio>
-        </Radio.Group>
+        {getFieldDecorator('glass', {})(
+          <Radio.Group>
+            <Radio className="radio-style" value={1}>启用</Radio>
+            <Radio className="radio-style" value={2}>禁用</Radio>
+          </Radio.Group>
+        )}
       </div>
 
       <div className="application-config">
         <span className="radio-title">过滤</span>
-        <Radio.Group>
-          <Radio className="radio-style" value={1}>启用</Radio>
-          <Radio className="radio-style" value={2}>禁用</Radio>
-        </Radio.Group>
+        {getFieldDecorator('filter', {})(
+          <Radio.Group>
+            <Radio className="radio-style" value={1}>启用</Radio>
+            <Radio className="radio-style" value={2}>禁用</Radio>
+          </Radio.Group>
+        )}
       </div>
 
       <div className="application-config">
         <span className="radio-title">导出</span>
-        <Radio.Group>
-          <Radio className="radio-style" value={1} >启用</Radio>
-          <Radio className="radio-style" value={2}>禁用</Radio>
-        </Radio.Group>
+        {getFieldDecorator('export', {})(
+          <Radio.Group>
+            <Radio className="radio-style" value={1}>启用</Radio>
+            <Radio className="radio-style" value={2}>禁用</Radio>
+          </Radio.Group>
+        )}
       </div>
 
       <div className="application-config">
         <span className="radio-title">明细</span>
-        <Radio.Group>
-          <Radio className="radio-style" value={1}>启用</Radio>
-          <Radio className="radio-style" value={2}>禁用</Radio>
-        </Radio.Group>
+        {getFieldDecorator('detail', {})(
+          <Radio.Group>
+            <Radio className="radio-style" value={1}>启用</Radio>
+            <Radio className="radio-style" value={2}>禁用</Radio>
+          </Radio.Group>
+        )}
       </div>
     </Form>
   );
 });
 
-// const mapStateToProps = ({ userState }) => {
-//   return {
-//     isFetching: userState.isFetching
-//   };
-// };
+const RadioForm = Form.create({
+  mapPropsToFields(props){
+    return props.formData ? {
+      glass: Form.createFormField({
+        value: props.formData.cfiEvent.glass
+      }),
+      filter: Form.createFormField({
+        value: props.formData.cfiEvent.filter
+      }),
+      export: Form.createFormField({
+        value: props.formData.cfiEvent.export
+      }),
+      detail: Form.createFormField({
+        value: props.formData.cfiEvent.detail
+      })
+    } : {};
+  },
+  onFieldsChange({ setFormField }, changedFields){},
+  onValuesChange({ setFormField }, changedValues, allValues){
+    const key = _.findKey(changedValues);
+    const field = { [`cfiEvent.${key}`]: changedValues[key] };
+    setFormField(field);
+  }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     handleLogin: (name, passworld) => dispatch(formActions.loginByUsername(name, passworld))
-//   };
-// };
+})(Component);
 
-export default connect(null, null)(InputForm);
+const mapStateToProps = ({ gridState: { activeLayId, currentData } }) => {
+  const formData = currentData[activeLayId];
+  return {
+    formData
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setFormField: field => dispatch(gridActions.setFormField(field))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RadioForm);
