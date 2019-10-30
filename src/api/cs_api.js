@@ -1,13 +1,10 @@
 import request from '@/utils/request';
 
 // 获取所有配置组以及组的子节点
-export function queryConfig(token, cfgName = '') {
+export function queryConfig(cfgName = '') {
   return request({
     url: '/v1/cusConfig/queryConfig',
     method: 'get',
-    headers: {
-      token
-    },
     params: {
       cfgName
     }
@@ -54,14 +51,14 @@ export function saveInfo(arr) {
 }
 
 // 查询数据源id /v1/cusDataSource/selectByDataSource
-export function selectByDataSource(cdsChartId, cdsSystemId, cdsOdbcType) {
+export function selectByDataSource(cdsChartId, cdsOdbcType, cdsSystemId) {
   return request({
     url: '/v1/cusDataSource/selectByDataSource',
     method: 'get',
     params: {
       cdsChartId,
-      cdsSystemId,
-      cdsOdbcType
+      cdsOdbcType,
+      cdsSystemId
     }
   });
 }
@@ -84,6 +81,18 @@ export function deleteConfig(id) {
     method: 'delete',
     params: {
       id
+    }
+  });
+}
+
+// GET /v1/cusFunctionInfo/selectRepeat
+export function selectRepeat(cfiName, cfiId) {
+  return request({
+    url: '/v1/cusFunctionInfo/selectRepeat',
+    method: 'get',
+    params: {
+      cfiName,
+      cfiId
     }
   });
 }

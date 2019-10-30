@@ -1,29 +1,27 @@
 import request from '@/utils/request';
+import md5 from 'js-md5';
 
 // 登陆
-export function login(username, password) {
+export function login({ username, password }) {
   return request({
     url: '/cas/login',
     method: 'post',
     params: {
       username,
-      password
+      password: md5(password)
     }
   });
 }
 
 // 获取当前用户信息
-export function getUserByToken(token) {
+export function getUserByToken() {
   return request({
     url: '/cas/user',
-    method: 'get',
-    headers: {
-      token
-    }
+    method: 'get'
   });
 }
 // 获取公共模板列表
-export const getPublicTemp = token => request({
+export const getPublicTemp = () => request({
   url: '/v1/userConfigInfo/CusUserConfig/list',
   method: 'get'
 });
@@ -44,8 +42,9 @@ export const addStaticTemp = par => request({
     cucRemake: ''
   }
 });
+
 // 获取左下角echarts配置
-export const getEchartsList = token => request({
+export const getEchartsList = () => request({
   url: '/v1/functionInfo/functionInfo/list',
   method: 'get'
 });
@@ -76,12 +75,9 @@ export const deleteTemp = (par) => request({
 });
 
 // home首页详情
-export const getHomeDetail = (token) => request({
+export const getHomeDetail = () => request({
   url: '/v1/userConfigTopic/userConfigTopic/list',
-  method: 'GET',
-  headers: {
-    token
-  }
+  method: 'GET'
 });
 
 // 发布

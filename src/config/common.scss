@@ -109,6 +109,9 @@ $customizeWhite: #fff;
 }
 
 @media screen and (max-device-width: 1366px) {
+  .scale {
+    transform:scale(0.8);
+  }
   .app-container {
     .header-container {
       height: headerHight(30) !important;
@@ -176,6 +179,9 @@ $customizeWhite: #fff;
               .temp-list {
                 li {
                   width: tempListWidth(31);
+                  .title {
+                    transform:scale(0.8);
+                  }
                 }
               }
             }

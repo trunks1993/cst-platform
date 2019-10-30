@@ -1,139 +1,138 @@
-import React, { useState, useContext, useRef } from 'react';
+/* eslint-disable complexity */
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useContext } from 'react';
 import Grid from './Grid';
 import Panel from './Panel';
 import TagViews from '@/components/TagViews/test';
 import PropertyPanel from './PropertyPanel';
 import { UserContext } from '@/utils/contexts';
-
-import { Select,Icon } from 'antd';
+import BtnTools from '@/components/BtnTools';
 import { showConfirm } from '@/utils';
 
+import { connect } from 'react-redux';
+import { actions as gridActions } from '@/redux/grid';
+import { actions as appActions } from '@/redux/app';
+import { actions as configGroupActions } from '@/redux/configGroup';
+
+// 字符串常量
+import { CONF_STATUS_PUBLISH, CONF_STATUS_SAVED } from '@/utils/const';
+
 // API
-import { saveGroupConfig, getSelectParent, queryByConfigId, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
+import { saveGroupConfig, getSelectParent, deleteConfig, saveInfo, updateStauts } from '@/api/cs_api';
 import _ from 'lodash';
 
-import { Modal, Form, Input, Message } from 'antd';
-// const { Option } = AutoComplete;
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 12 },
-  },
-};
+import { Modal, Form, Input, Message, Select } from 'antd';
 
-const operates = [
-  {
-    key: 'build',
-    label: '新建分组',
-    iconType: 'plus',
-    callback: function(fn, state) {
-      fn(!state);
-    }
-  },
-  {
-    key: 'build',
-    label: '新建配置',
-    iconType: 'folder-add',
-    callback: function(fn, state) {
-      fn(!state);
-    }
-  },
-  {
-    key: 'save',
-    label: '保存',
-    iconType: 'file-protect',
-    callback: function(fn) {
-      fn();
-    }
-  },
-  {
-    key: 'delete',
-    label: '删除',
-    iconType: 'delete',
-    callback: function(a) {
-      console.log('删除啊', a);
-    }
-  },
-  {
-    key: 'reset',
-    label: '重置',
-    iconType: 'redo',
-    callback: function() {
-      console.log('重置啊');
-    }
-  },
-  {
-    key: 'publish',
-    label: '发布',
-    iconType: 'cloud-upload',
-    callback: function() {
-      console.log('发布啊');
-    }
-  }
-];
-
-export default () => {
+const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, queryByConfigId, currentDataForSave, validateFields }) => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
-
   const [newGroupVisible, handleNewGroupVisible] = useState(false);
 
   // 选择组
   const [groupId, setGroupId] = useState('');
-  // 新建配置
+
+  // 新建分组
   const [cfgName, setCfgName] = useState('');
-
-  // 新建组
-  // const [groupName, setGroupName] = useState('');
-
-  const [formInfo, setFormInfo] = useState([]);// layouts
-  const [selectId, setSelectId] = useState('');// layouts选中Id
-
-  const [selectTag, setSelectTag] = useState({});// tags选中Id
 
   const [groupParents, setGroupParents] = useState([]);
 
-  const [tags, setTags] = useState([]);
-
-  // 数据源option
-  const [dsIdOptions, setDsIdOptions] = useState([]);
-
-  const childRef = useRef();
-
+  // 顶部工具栏数据
+  const btnList = [
+    {
+      label: '新建分组',
+      icon: 'plus',
+      fn: () => handleNewGroupVisible(!newGroupVisible)
+    },
+    {
+      label: '新建配置',
+      icon: 'folder-add',
+      fn: () => {
+        handleNewModelVisible(!newModelVisible);
+        getSelectParent().then(res => {
+          setGroupParents(res.data);
+        });
+      }
+    },
+    {
+      label: '保存',
+      icon: 'file-protect',
+      disabled: disabled,
+      fn: () => {
+        validateFields((err, res) => {
+          if (!err) {
+            saveInfo(currentDataForSave).then(res => {
+              getConfigGroup();
+              // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
+              removeCfgId(tag.cfgId);
+              queryByConfigId(tag);
+              Message.success(res.msg);
+            });
+          } else {
+            Message.error('提交验证未通过, 请检查属性面板表单数据');
+          }
+        });
+      }
+    },
+    {
+      label: '删除',
+      icon: 'delete',
+      disabled: disabled,
+      fn: () => {
+        showConfirm(`是否删除配置项 ${tag.cfgName}`, () => {
+          deleteConfig(tag.cfgId).then(res => {
+            Message.success(res.msg);
+            // 移除tag和layout的数据关联
+            removeCfgId(tag.cfgId);
+            // 删除标签
+            deleteTag(tag.cfgId);
+            getConfigGroup();
+          });
+        });
+      }
+    },
+    {
+      label: '重置',
+      icon: 'redo',
+      disabled: disabled,
+      fn: () => {
+        showConfirm(`是否重置配置项 ${tag.cfgName}`, () => {
+          removeCfgId(tag.cfgId);
+          queryByConfigId(tag);
+          Message.success('操作成功');
+        });
+      }
+    },
+    {
+      label: cfgStatus === CONF_STATUS_PUBLISH ? '取消发布' : '发布',
+      icon: 'cloud-upload',
+      disabled: disabled,
+      fn: () => {
+        const label = cfgStatus === CONF_STATUS_PUBLISH ? '取消发布' : '发布';
+        showConfirm(`${label}配置项 ${tag.cfgName}`, () => {
+          const status = cfgStatus === CONF_STATUS_PUBLISH ? CONF_STATUS_SAVED : CONF_STATUS_PUBLISH;
+          updateStauts(tag.cfgId, status, user.surUserId).then(res => {
+            Message.success(res.msg);
+            getConfigGroup();
+          });
+        });
+      }
+    }
+  ];
 
   const handleSave = () => {
-    // const isNum = (typeof +groupId === 'number' && !isNaN(+groupId));
-    // const id = isNum ? groupId : '';
     saveGroupConfig(groupId, cfgName).then(res => {
-      Message.success('保存成功');
-      childRef.current.fqueryConfig();
+      Message.success(res.msg);
+      getConfigGroup();
       handleNewModelVisible(false);
     });
   };
 
   const handleSaveGroup = () => {
-    // const isNum = (typeof +groupId === 'number' && !isNaN(+groupId));
-    // const id = isNum ? groupId : '';
     saveGroupConfig('', cfgName).then(res => {
-      Message.success('保存成功');
-      childRef.current.fqueryConfig();
+      Message.success(res.msg);
+      getConfigGroup();
       handleNewGroupVisible(false);
     });
-  };
-
-  const openNewModel = () => {
-    handleNewModelVisible(!newModelVisible);
-    getSelectParent().then(res => {
-      setGroupParents(res.data);
-    });
-  };
-
-  const openNewGroupModel = () => {
-    handleNewGroupVisible(!newGroupVisible);
   };
 
   const user = useContext(UserContext);
@@ -152,6 +151,7 @@ export default () => {
             src={require('../../assets/images/bg-dashboard-header.png')}
             alt=""
           />
+          {/* <<<<<<< HEAD
           <ul>
             {
               // eslint-disable-next-line complexity
@@ -220,34 +220,32 @@ export default () => {
               }}> <Icon type={item.iconType} /> {item.label}</li>)
             }
           </ul>
+======= */}
+          <BtnTools btnList={btnList} />
         </div>
       </div>
       <div className="dashboard-container-body">
         <div className="dashboard-container-body-panel">
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
-          <Panel setTags={setTags} tags={tags}
-            setSelectTag={setSelectTag} cRef={childRef} selectTag={selectTag} setSelectId={setSelectId} setTempData={setTempData} setFormInfo={setFormInfo} />
+          <Panel setTempData={setTempData} />
         </div>
-        <div
-          className="dashboard-container-body-content"
-          style={{ position: 'relative' }}
-        >
-          <Modal centered visible={newModelVisible} footer={null}>
-            <Form {...formItemLayout}>
-              <Form.Item label="选择加组：">
+        <div className="dashboard-container-body-content">
+          <Modal centered visible={newModelVisible} footer={null} closable={false}>
+            <Form>
+              <Form.Item>
                 <Select
                   style={{ width: 200 }}
-                  placeholder="请选择组名"
                   optionFilterProp="children"
                   onChange={e => setGroupId(e)}
                   value={groupId}
                 >
+                  <Select.Option value="">请选择组名</Select.Option>
                   {
                     groupParents.map(item => <Select.Option key={item.cfgId} value={item.cfgId}>{item.cfgName}</Select.Option>)
                   }
                 </Select>
               </Form.Item>
-              <Form.Item label="配置名">
+              <Form.Item>
                 <Input
                   style={{ width: 200 }}
                   onChange={e => setCfgName(e.target.value)}
@@ -255,32 +253,60 @@ export default () => {
                 />
               </Form.Item>
               <Form.Item>
-                <button className="global-btn" onClick={() => handleSave()}>确定</button>
+                <button className="global-btn" onClick={() => handleSave()}>保存</button>
                 <button className="global-btn" onClick={() => { handleNewModelVisible(false); }}>取消</button>
               </Form.Item>
             </Form>
           </Modal>
-
-          <Modal centered visible={newGroupVisible} footer={null}>
-            <Form {...formItemLayout}>
-              <Form.Item label="分组名">
+          <Modal centered visible={newGroupVisible} footer={null} closable={false}>
+            <Form>
+              <Form.Item>
                 <Input
                   style={{ width: 200 }}
                   onChange={e => setCfgName(e.target.value)}
                   placeholder="请填写分组名"
                 />
               </Form.Item>
-              <Form.Item style={{ marginTop: '86px' }}>
-                <button className="global-btn" onClick={() => handleSaveGroup()}>确定</button>
+              <Form.Item>
+                <button className="global-btn" onClick={() => handleSaveGroup()}>保存</button>
                 <button className="global-btn" onClick={() => handleNewGroupVisible(false)}>取消</button>
               </Form.Item>
             </Form>
           </Modal>
-          <TagViews tags={tags} setSelectId={setSelectId} setFormInfo={setFormInfo} setTags={setTags} selectTag={selectTag} setSelectTag={setSelectTag} />
-          <Grid tempData={tempData} selectTag={selectTag} dsIdOptions={dsIdOptions} setSelectId={setSelectId} selectId={selectId} formInfo={formInfo} setFormInfo={setFormInfo} />
-          <PropertyPanel selectId={selectId} dsIdOptions={dsIdOptions} setDsIdOptions={setDsIdOptions} setFormInfo={setFormInfo} formInfo={formInfo} visible />
+          <TagViews />
+          <Grid tempData={tempData} />
+          <PropertyPanel />
         </div>
       </div>
     </div>
   );
 };
+
+const mapStateToProps = ({ configGroupState: { configGroup }, appState: { activeTagId }, gridState: { byConfigId, currentData }, propertyState: { validateFields } }) => {
+  const tag = _.get(configGroup, activeTagId, {});
+  const layIds = _.get(byConfigId, activeTagId, []);
+  const currentDataForSave = _.map(layIds, id => {
+    const data = _.clone(currentData[id]);
+    data.cfiLayout = JSON.stringify(data.cfiLayout);
+    data.cfiEvent = JSON.stringify(data.cfiEvent);
+    return data;
+  });
+  return {
+    currentDataForSave,
+    cfgStatus: tag && tag.cfgStatus,
+    disabled: activeTagId === '',
+    tag,
+    validateFields
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getConfigGroup: () => dispatch(configGroupActions.getConfigGroup()),
+    queryByConfigId: tag => dispatch(gridActions.queryByConfigId(tag)),
+    removeCfgId: id => dispatch(gridActions.removeCfgId(id)),
+    deleteTag: id => dispatch(appActions.deleteTag(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(manufacturer);

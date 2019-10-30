@@ -18,12 +18,12 @@ function func(tree, arr) {
 
 
 // confirm
-export function showConfirm(success = function() {}, cancel = function() {}, title) {
+export function showConfirm(title, success = function() {}, cancel = function() {}) {
   confirm({
     title: title || '确认删除',
-    centered: true,
-    okText: '确认',
+    okText: '确定',
     cancelText: '取消',
+    centered: true,
     // content: 'When clicked the OK button, this dialog will be closed after 1 second',
     onOk() {
       success();
