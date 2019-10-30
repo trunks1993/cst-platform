@@ -29,17 +29,31 @@ export const actions = {
 // 初始化state
 const initialState = {
   isFetching: false,
-  configGroup: [],
+  configGroup: {},
+  cfgIdsByPId: {},
   visibleIds: [],
   error: null,
 };
+function formatConf(data) {
+  const configGroup = {};
+  const cfgIdsByPId = {};
+  _.map(data, v => {
+    configGroup[v.cfgId] = v;
+    cfgIdsByPId[v.cfgId] = _.map(v.children, c => {
+      configGroup[c.cfgId] = c;
+      return c.cfgId;
+    });
+  });
 
+  return { configGroup, cfgIdsByPId };
+}
 // reducer
 // eslint-disable-next-line complexity
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case types.RECEIVE_DATA:
-      return { ...state, isFetching: false, configGroup: action.configGroup };
+      const { configGroup, cfgIdsByPId } = formatConf(action.configGroup);
+      return { ...state, isFetching: false, configGroup, cfgIdsByPId };
     case types.START_FETCH:
       return { ...state, isFetching: true };
     case types.SET_ERROR:

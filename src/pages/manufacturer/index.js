@@ -23,7 +23,7 @@ import _ from 'lodash';
 
 import { Modal, Form, Input, Message, Select } from 'antd';
 
-const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, queryByConfigId, currentDataForSave }) => {
+const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, queryByConfigId, currentDataForSave, validateFields }) => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
   const [newGroupVisible, handleNewGroupVisible] = useState(false);
@@ -35,9 +35,6 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   const [cfgName, setCfgName] = useState('');
 
   const [groupParents, setGroupParents] = useState([]);
-
-  // 数据源option
-  const [dsIdOptions, setDsIdOptions] = useState([]);
 
   // 顶部工具栏数据
   const btnList = [
@@ -61,12 +58,18 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       icon: 'file-protect',
       disabled: disabled,
       fn: () => {
-        saveInfo(currentDataForSave).then(res => {
-          getConfigGroup();
-          // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
-          removeCfgId(tag.cfgId);
-          queryByConfigId(tag);
-          Message.success(res.msg);
+        validateFields((err, res) => {
+          if (!err) {
+            saveInfo(currentDataForSave).then(res => {
+              getConfigGroup();
+              // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
+              removeCfgId(tag.cfgId);
+              queryByConfigId(tag);
+              Message.success(res.msg);
+            });
+          } else {
+            Message.error('提交验证未通过, 请检查属性面板表单数据');
+          }
         });
       }
     },
@@ -201,7 +204,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
             </Form>
           </Modal>
           <TagViews />
-          <Grid tempData={tempData} dsIdOptions={dsIdOptions} />
+          <Grid tempData={tempData} />
           <PropertyPanel />
         </div>
       </div>
@@ -209,8 +212,8 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   );
 };
 
-const mapStateToProps = ({ configGroupState, appState: { tagViews: { byId }, activeTagId }, gridState: { byConfigId, currentData } }) => {
-  const tag = byId[activeTagId];
+const mapStateToProps = ({ configGroupState: { configGroup }, appState: { activeTagId }, gridState: { byConfigId, currentData }, propertyState: { validateFields } }) => {
+  const tag = _.get(configGroup, activeTagId, {});
   const layIds = _.get(byConfigId, activeTagId, []);
   const currentDataForSave = _.map(layIds, id => {
     const data = _.clone(currentData[id]);
@@ -220,10 +223,10 @@ const mapStateToProps = ({ configGroupState, appState: { tagViews: { byId }, act
   });
   return {
     currentDataForSave,
-    configGroupState,
     cfgStatus: tag && tag.cfgStatus,
     disabled: activeTagId === '',
-    tag
+    tag,
+    validateFields
   };
 };
 

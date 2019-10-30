@@ -2,7 +2,7 @@
 import { DOM_TYPE_BAR, DOM_TYPE_LINE, DOM_TYPE_PIE, DOM_TYPE_VIS, DOM_TYPE_GAUGE, DOM_TYPE_PRO6, DOM_TYPE_PRO7 } from '@/utils/const';
 
 // 组件配置
-export const tempArr = [
+export const dragModels = [
   {
     name: '基本折线图',
     icon: '5.png',

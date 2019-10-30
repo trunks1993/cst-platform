@@ -33,3 +33,11 @@ export const types = {
   [CONF_STATUS_SAVED]: '（已保存）',
   [CONF_STATUS_PUBLISH]: '（已发布）'
 };
+
+
+// 拖动组件类型
+export const DRAG_TYPE_ECHART = '1'; // 图表类型
+
+export const dragTypes = {
+  [DRAG_TYPE_ECHART]: require('@/config').dragModels
+};

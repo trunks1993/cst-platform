@@ -61,7 +61,7 @@ const Grid = ({ tempData, activeTagId, layIds, currentData, addLayout, selectLay
             const { cfiLayout } = data;
             return (
               <div key={id} data-grid={cfiLayout} style={{ overflow: 'hidden', border: id === activeLayId ? '2px solid #03ccff' : '' }} onClick={() => selectLayout(id)}>
-                <GridItem data={ data } />
+                {id && <GridItem id={ id } />}
               </div>
             );
           })

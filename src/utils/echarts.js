@@ -1,6 +1,24 @@
 import Echarts from 'echarts';
+import _ from 'lodash';
 
-export function getBarChart(optionSet) {
+export function getBarChart(optionSet = []) {
+  let optionData = [],xAxisData = [], seriesData1 = [], seriesData2 = [],maxYAxis = 0;
+  if (optionSet.length) {
+    optionData = optionSet.map(i => {
+      return i.label;
+    });
+    xAxisData = optionSet[0].data.map(e => {
+      return e.key;
+    });
+    seriesData1 = optionSet[0].data.map(e => {
+      return +e.value;
+    });
+    seriesData2 = optionSet[1].data.map(e => {
+      return +e.value;
+    });
+    maxYAxis = Math.max.apply(Math, seriesData1.concat(seriesData2));
+  }
+
   const option = {
     tooltip: {
       trigger: 'axis',
@@ -19,12 +37,12 @@ export function getBarChart(optionSet) {
       textStyle: {
         color: '#fff'
       },
-      data: ['外来人员','外来车辆'],
+      data: optionData,
     },
     xAxis: [
       {
         type: 'category',
-        data: ['0-6','8','10','12','14','16','18','20','22-0'],
+        data: xAxisData,
         axisLabel: {
           textStyle: {
             color: '#FFFFFF',
@@ -53,8 +71,8 @@ export function getBarChart(optionSet) {
         type: 'value',
         name: '',
         min: 0,
-        max: 30,
-        interval: 5,
+        max: maxYAxis,
+        interval: 10,
         axisLabel: {
           textStyle: {
             color: '#FFFFFF',
@@ -79,9 +97,9 @@ export function getBarChart(optionSet) {
     ],
     series: [
       {
-        name: '外来人员',
+        name: optionData[0],
         type: 'bar',
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 30, 30, 11, 28],
+        data: seriesData1,
         barWidth: 12, // 柱子宽度
         itemStyle: {
           emphasis: {
@@ -107,9 +125,9 @@ export function getBarChart(optionSet) {
         }
       },
       {
-        name: '外来车辆',
+        name: optionData[1],
         type: 'bar',
-        data: [2.0, 4.9, 7.0, 26.2, 21.6, 27, 30, 11, 28],
+        data: seriesData2,
         barWidth: 12, // 柱子宽度
         itemStyle: {
           emphasis: {
@@ -139,7 +157,20 @@ export function getBarChart(optionSet) {
   return option;
 }
 
-export function getLineChart(optionSet) {
+export function getLineChart(optionSet = []) {
+  let optionData = [], seriesData1 = [], seriesData2 = [],maxYAxis = 0;
+  if (optionSet.length) {
+    optionData = optionSet.map(i => {
+      return i.label;
+    });
+    seriesData1 = optionSet[0].data.map(e => {
+      return +e.value;
+    });
+    seriesData2 = optionSet[1].data.map(e => {
+      return +e.value;
+    });
+    maxYAxis = Math.max.apply(Math, seriesData1.concat(seriesData2));
+  }
   // option
   const option = {
     // color: ['#D53A35'],
@@ -167,7 +198,7 @@ export function getLineChart(optionSet) {
       textStyle: {
         color: '#fff'
       },
-      data: ['在监警力','警力配置'],
+      data: optionData,
     },
     // grid: {
     //   left: '3%',
@@ -200,13 +231,13 @@ export function getLineChart(optionSet) {
           width: 0.5
         }
       },
-      data: ['2', '4', '6', '8', '10', '12', '14','16','18','20','22','24']
+      data: []
     },
     yAxis: {
       type: 'value',
       name: '',
       min: 0,
-      max: 60,
+      max: maxYAxis,
       interval: 10,
       axisLabel: {
         textStyle: {
@@ -230,7 +261,7 @@ export function getLineChart(optionSet) {
       }
     },
     series: [{
-      name: '在监警力',
+      name: optionData[0],
       type: 'line',
       // symbol: 'circle',
       smooth: true,
@@ -241,9 +272,9 @@ export function getLineChart(optionSet) {
           color: '#91C50F'
         }
       },
-      data: [10, 20, 32, 11, 34, 9, 23, 21, 8, 2, 9, 21, 20]
+      data: seriesData1
     },{
-      name: '警力配置',
+      name: optionData[1],
       type: 'line',
       // symbol: 'circle',
       smooth: true,
@@ -270,126 +301,40 @@ export function getLineChart(optionSet) {
           }],
         }
       },
-      data: [12, 32, 9, 23, 21, 8, 21, 10, 12, 21, 8, 20, 9]
+      data: seriesData2
     }
     ]
   };
   return option;
 }
 
-export function getPieChart(optionSet) {
-  // option
+export function getPieChart(optionSet = []) {
+
+  // eslint-disable-next-line array-callback-return
+  const legendArr = optionSet.map((e,i) => {
+    const x = i % 2 === 0 ? '55%' : '75%';
+    return {
+      orient: 'vertical',
+      icon: 'circle',
+      x: x,
+      y: 20 + parseInt(i / 2) * 15 + '%', // 0 1 => 20,2 3 => 35, 4 5 => 50, 6 7 => 65
+      align: 'left',
+      itemWidth: 10,
+      itemHeight: 10,
+      data: [e.name],
+      textStyle: {
+        fontSize: 12,
+        color: '#fff'
+      }
+    };
+  });
   const option = {
     color: ['#00FFFF', '#556FB5', '#FACD89', '#0068B7', '#F29B76', '#22AC38', '#AA89BD', '#004986'],
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)'
+      formatter: '<br/>{b} : {c} ({d}%)'
     },
-    legend: [{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '55%',
-      y: '20%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['在册人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '75%',
-      y: '20%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['释放人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '55%',
-      y: '35%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['监内人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '75%',
-      y: '35%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['销册人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '55%',
-      y: '50%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['监外人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '75%',
-      y: '50%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['死亡人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '55%',
-      y: '65%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['调动人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    },{
-      orient: 'vertical',
-      icon: 'circle',
-      x: '75%',
-      y: '65%',
-      align: 'left',
-      itemWidth: 10,
-      itemHeight: 10,
-      data: ['假释人数'],
-      textStyle: {
-        fontSize: 12,
-        color: '#fff'
-      }
-    }],
+    legend: legendArr,
     calculable: true,
     series: [
       {
@@ -414,81 +359,62 @@ export function getPieChart(optionSet) {
             show: true
           }
         },
-        data: [
-          { value: 10, name: '在册人数' },
-          { value: 5, name: '释放人数' },
-          { value: 15, name: '监内人数' },
-          { value: 25, name: '销册人数' },
-          { value: 20, name: '监外人数' },
-          { value: 35, name: '死亡人数' },
-          { value: 30, name: '调动人数' },
-          { value: 40, name: '假释人数' }
-        ]
-      },
-      // {
-      //   name: '面积模式',
-      //   type: 'pie',
-      //   radius: [30, 110],
-      //   center: ['75%', '50%'],
-      //   roseType: 'area',
-      //   data: [
-      //     { value: 10, name: 'rose1' },
-      //     { value: 5, name: 'rose2' },
-      //     { value: 15, name: 'rose3' },
-      //     { value: 25, name: 'rose4' },
-      //     { value: 20, name: 'rose5' },
-      //     { value: 35, name: 'rose6' },
-      //     { value: 30, name: 'rose7' },
-      //     { value: 40, name: 'rose8' }
-      //   ]
-      // }
+        data: optionSet
+      }
     ]
   };
   return option;
 }
 
-export function getVisualMap(optionSet) {
-  const data = [
-    [[28604,77,17096869,'Australia',1990],
-      [31163,77.4,27662440,'Canada',1990],
-      [1516,68,1154605773,'China',1990],
-      [13670,74.7,10582082,'Cuba',1990],
-      [28599,75,4986705,'Finland',1990],
-      [29476,77.1,56943299,'France',1990],
-      [31476,75.4,78958237,'Germany',1990],
-      [28666,78.1,254830,'Iceland',1990],
-      [1777,57.7,870601776,'India',1990],
-      [29550,79.1,122249285,'Japan',1990],
-      [2076,67.9,20194354,'North Korea',1990],
-      [12087,72,42972254,'South Korea',1990],
-      [24021,75.4,3397534,'New Zealand',1990]],
-    [[44056,81.8,23968973,'Australia',2015],
-      [43294,81.7,35939927,'Canada',2015],
-      [13334,76.9,1376048943,'China',2015],
-      [21291,78.5,11389562,'Cuba',2015],
-      [38923,80.8,5503457,'Finland',2015],
-      [37599,81.9,64395345,'France',2015],
-      [44053,81.1,80688545,'Germany',2015],
-      [42182,82.8,329425,'Iceland',2015],
-      [5903,66.8,1311050527,'India',2015],
-      [36162,83.5,126573481,'Japan',2015],
-      [1390,71.4,25155317,'North Korea',2015]],
-    [[34644,80.7,50293439,'South Korea',2015],
-      [34186,80.6,4528526,'New Zealand',2015],
-      [64304,81.6,5210967,'Norway',2015],
-      [24787,77.3,38611794,'Poland',2015],
-      [23038,73.13,143456918,'Russia',2015],
-      [19360,76.5,78665830,'Turkey',2015],
-      [38225,81.4,64715810,'United Kingdom',2015],
-      [53354,79.1,321773631,'United States',2015]]
-  ];
+export function getVisualMap(optionSet = []) {
+  const ary = _.flattenDepth(_.map(optionSet, item => {
+    const o = item.data;
+    const pary = [];
+    pary.push(_.map(o, v => {
+      const ary = _.map(_.keys(v), k => v[k]);
+      return ary;
+    }));
+    return pary;
+  }), 1);
+
+  console.log(ary);
+  const legendData = optionSet.map(e => {
+    return e.label;
+  });
+  const colorArr = ['#F86AC8','#F3BA0B','#75D385'];
+  const seriesData = ary.map((e, i) => {
+    console.log(e);
+    return {
+      name: optionSet[i].label,
+      data: e,
+      type: 'scatter',
+      label: {
+        emphasis: {
+          show: true,
+          formatter: function(param) {
+            return '设备报警类别：\n'
+            + param.data[i + 1];
+          },
+          position: 'top'
+        }
+      },
+      itemStyle: {
+        normal: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(120, 36, 50, 0.5)',
+          shadowOffsetY: 5,
+          color: colorArr[i]
+        }
+      }
+    };
+  });
   const option = {
     grid: {
       left: '12%',
       right: '7%'
     },
     legend: {
-      data: ['一级', '二级', '三级'],
+      data: legendData,
       right: '6%',
       top: '10%',
       itemWidth: 8,
@@ -549,87 +475,20 @@ export function getVisualMap(optionSet) {
         }
       }
     },
-    series: [{
-      name: '一级',
-      data: data[0],
-      type: 'scatter',
-      symbolSize: function(data) {
-        return Math.sqrt(data[2]) / 5e2;
-      },
-      label: {
-        emphasis: {
-          show: true,
-          formatter: function(param) {
-            return '设备报警类别：\n'
-            + param.data[3];
-          },
-          position: 'top'
-        }
-      },
-      itemStyle: {
-        normal: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(120, 36, 50, 0.5)',
-          shadowOffsetY: 5,
-          color: '#F86AC8'
-        }
+    visualMap: {
+      show: false,
+      max: 100,
+      inRange: {
+        symbolSize: [1, 10]
       }
-    }, {
-      name: '二级',
-      data: data[1],
-      type: 'scatter',
-      symbolSize: function(data) {
-        return Math.sqrt(data[2]) / 5e2;
-      },
-      label: {
-        emphasis: {
-          show: true,
-          formatter: function(param) {
-            return '设备报警类别：\n'
-            + param.data[3];
-          },
-          position: 'top'
-        }
-      },
-      itemStyle: {
-        normal: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(25, 100, 150, 0.5)',
-          shadowOffsetY: 5,
-          color: '#F3BA0B'
-        }
-      }
-    },{
-      name: '三级',
-      data: data[2],
-      type: 'scatter',
-      symbolSize: function(data) {
-        return Math.sqrt(data[2]) / 5e2;
-      },
-      label: {
-        emphasis: {
-          show: true,
-          formatter: function(param) {
-            return '设备报警类别：\n'
-            + param.data[3];
-          },
-          position: 'top'
-        }
-      },
-      itemStyle: {
-        normal: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(25, 100, 150, 0.5)',
-          shadowOffsetY: 5,
-          color: '#75D385'
-        }
-      }
-    }]
+    },
+    series: seriesData
   };
   return option;
 }
 
-export function getGauge(optionSet){
+export function getGauge(optionSet = 0){
+  console.log(optionSet);
   const option = {
     title: {
       text: '安全指数',
@@ -736,10 +595,16 @@ export function getGauge(optionSet){
           offsetCenter: [0, '50%'], // x, y，单位px
           formatter: '{value}%'
         },
-        data: [ { value: 40 } ]
+        data: [ { value: optionSet } ]
       }
     ]
   };
   return option;
 }
 
+export function getProgress6(optionSet = []){
+  console.log(optionSet);
+};
+export function getProgress7(optionSet = []){
+  console.log(optionSet);
+};

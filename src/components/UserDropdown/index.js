@@ -19,12 +19,12 @@ const UserDropdown = ({ user, handleLoginOut }) => {
           handleLoginOut();
         }
       }}>
-        <Menu.Item key="0">
+        {/* <Menu.Item key="0">
           <Link to="#">系统设置</Link>
         </Menu.Item>
         <Menu.Item key="1">
           <a href="#">个人中心</a>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Divider />
         <Menu.Item key="3">退出登录</Menu.Item>
       </Menu>

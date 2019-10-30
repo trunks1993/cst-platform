@@ -84,3 +84,15 @@ export function deleteConfig(id) {
     }
   });
 }
+
+// GET /v1/cusFunctionInfo/selectRepeat
+export function selectRepeat(cfiName, cfiId) {
+  return request({
+    url: '/v1/cusFunctionInfo/selectRepeat',
+    method: 'get',
+    params: {
+      cfiName,
+      cfiId
+    }
+  });
+}

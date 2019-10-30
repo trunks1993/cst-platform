@@ -12,7 +12,8 @@ export const types = {
   SET_ACTIVE_LAYID: 'grid/SET_ACTIVE_LAYId', // 设置选中layout
   SET_LAYOUTS_BY_ID: 'grid/SET_LAYOUTS_BY_ID', // 根据id更新layout布局信息
   REMOVE_CFGID: 'grid/REMOVE_CFGID', //
-  FORM_FIELD: 'grid/FORM_FIELD'
+  FORM_FIELD: 'grid/FORM_FIELD',
+  REMOVE_LAYITEM: 'grid/REMOVE_LAYITEM'
 };
 
 // action creators
@@ -25,6 +26,11 @@ export const actions = {
     dispatch(actions._addLayout(layout));
     const id = _.findKey(layout);
     dispatch(actions.selectLayout(id));
+  },
+  _removeLayItem: layByCfg => ({ type: types.REMOVE_LAYITEM, layByCfg }),
+  removeLayItem: layId => (dispatch, getState) => {
+    const { appState: { activeTagId } } = getState();
+    dispatch(actions._removeLayItem({ layId, cfgId: activeTagId }));
   },
 
   changeLayouts: layouts => ({ type: types.SET_LAYOUTS_BY_ID, layouts }),
@@ -123,7 +129,7 @@ const getLayerIdMap = (data) => {
     t.cfiLayout = cfiLayout;
     t.cfiEvent = cfiEvent;
     t.cdsOdbcType = t.cusDataSource.cdsOdbcType;
-
+    t.cdsOdbcValue = t.cusDataSource.cdsOdbcValue;
     currentData[cfiLayout.i] = t;
 
     return cfiLayout.i;
@@ -143,7 +149,6 @@ export default function reducer(state = initialState, action) {
         ...state.byConfigId,
         [action.data.cfgId]: layIds
       };
-
       return { ...state, isFetching: false, byConfigId, currentData: { ...state.currentData, ...currentData }, prevData: currentData };
 
     case types.START_FETCH:
@@ -193,6 +198,11 @@ export default function reducer(state = initialState, action) {
       const cloneCurrentData = _.clone(_currentData);
       _.set(cloneCurrentData, `${_activeLayId}.${name}`, value);
       return { ...state, currentData: cloneCurrentData };
+
+    case types.REMOVE_LAYITEM:
+      const { layId, cfgId } = action.layByCfg;
+      const arr = _.filter(state.byConfigId[cfgId], id => id !== layId);
+      return { ...state, byConfigId: { ...state.byConfigId, [cfgId]: arr } };
 
     default: return state;
   }

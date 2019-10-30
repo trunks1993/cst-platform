@@ -5,6 +5,7 @@ import { selectByDataSource } from '@/api/cs_api';
 export const types = {
   START_FETCH: 'property/START_FETCH',
   RECEIVE_DATA: 'property/RECEIVE_DATA',
+  CURRENT_VALIDATE: 'property/CURRENT_VALIDATE'
 };
 
 // action creators
@@ -22,7 +23,8 @@ export const actions = {
         [key]: res.data
       }));
     });
-  }
+  },
+  setCurrentValidate: fn => ({ type: types.CURRENT_VALIDATE, fn }),
 };
 
 // 初始化state
@@ -30,7 +32,8 @@ export const actions = {
 const initialState = {
   isFetching: false,
   dsOptions: {},
-  optionsKey: []
+  optionsKey: [],
+  validateFields: function() {}
 };
 
 // reducer
@@ -46,6 +49,8 @@ export default function reducer(state = initialState, action) {
       };
       const optionsKey = _.concat(state.optionsKey, _.findKey(action.data));
       return { ...state, isFetching: false, dsOptions, optionsKey };
+    case types.CURRENT_VALIDATE:
+      return { ...state, validateFields: action.fn };
     default: return state;
   }
 }

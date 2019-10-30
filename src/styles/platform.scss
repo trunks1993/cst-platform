@@ -2,7 +2,23 @@
   background: url(../assets/images/temp/bd.png);
   background-size: 100% 100%;
   position: relative;
-
+  &:hover .bg-close {
+    opacity: 1;
+  }
+  .echarts-for-react {
+    position: absolute;
+    top: 0;
+  }
+  .bg-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    width: 24px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all .3s;
+  }
   .bg-icon {
     &:nth-child(1) {
       position: absolute;
