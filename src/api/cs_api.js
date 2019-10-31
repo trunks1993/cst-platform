@@ -42,10 +42,13 @@ export function getSelectParent() {
   });
 }
 
-export function saveInfo(arr) {
+export function saveInfo(arr, cfgId) {
   return request({
     url: '/v1/cusFunctionInfo/saveInfo',
     method: 'post',
+    headers: {
+      cfgId
+    },
     data: arr
   });
 }

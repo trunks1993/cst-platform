@@ -28,7 +28,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
   };
   return (
     <Form {...formItemLayout} style={{ marginTop: '10px' }}>
-      <Form.Item labelAlign="right" label="数据绑定" className="property-content">
+      <Form.Item labelAlign="right" label="功能名称" className="property-content">
         {getFieldDecorator('cfiName', {
           rules: [
             {

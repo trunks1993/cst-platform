@@ -5,7 +5,7 @@ import { getToken, removeToken } from './auth';
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API+'/api', // api的base_url
-  baseURL: process.env.REACT_APP_ENV === 'cs' ? 'http://192.168.0.110:9092/bpm' : 'http://192.168.0.110:9093/userbpm',
+  baseURL: process.env.REACT_APP_ENV === 'cs' ? 'http://192.168.0.81:110/bpm' : 'http://192.168.0.110:9093/userbpm',
   timeout: 5000 // 请求超时时间
 });
 

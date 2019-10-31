@@ -60,7 +60,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       fn: () => {
         validateFields((err, res) => {
           if (!err) {
-            saveInfo(currentDataForSave).then(res => {
+            saveInfo(currentDataForSave, tag.cfgId).then(res => {
               getConfigGroup();
               // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
               removeCfgId(tag.cfgId);
