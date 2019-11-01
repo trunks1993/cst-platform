@@ -1,5 +1,7 @@
 import React from 'react';
+// import RGL, { WidthProvider } from '@/components/Draggler';
 import RGL, { WidthProvider } from '@/components/Draggler';
+
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { actions as gridActions } from '@/redux/grid';
@@ -41,8 +43,9 @@ const Grid = ({ tempData, activeTagId, layIds, currentData, addLayout, selectLay
   // 如果布局变化有调用接口则需要函数节流防抖
   const onLayoutChange = e => {
     // 过滤掉正在拖拽时触发的bug
-    const index = _.findIndex(e, l => l.i === '__dropping-elem__');
-    if (index === -1) changeLayouts(e);
+    // const index = _.findIndex(e, l => l.i === '__dropping-elem__');
+    const cl = _.filter(e, item => typeof item.i * 1 === 'number');
+    changeLayouts(cl);
   };
 
   return (

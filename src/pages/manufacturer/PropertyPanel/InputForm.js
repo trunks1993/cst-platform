@@ -76,6 +76,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
         {getFieldDecorator('cdsOdbcType', {})(<Select className="select" onChange={e => {
           setDsOptions(cfiType, e, 1);
           setFormField({ cfiDatasourceId: '' });
+          setFormField({ cdsOdbcValue: JSON.stringify('') });
         }}>
           <Select.Option value={'1'}>自定义</Select.Option>
           <Select.Option value={'2'}>URL</Select.Option>

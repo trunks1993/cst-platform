@@ -65,7 +65,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
               // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
               removeCfgId(tag.cfgId);
               queryByConfigId(tag);
-              Message.success(res.msg);
+              Message[res.code === '1' ? 'error' : 'success'](res.msg);
             });
           } else {
             Message.error('提交验证未通过, 请检查属性面板表单数据');

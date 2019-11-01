@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.62d59003.chunk.css",
-    "main.js": "/static/js/main.39858c1e.chunk.js",
-    "main.js.map": "/static/js/main.39858c1e.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/css/2.1a3160e0.chunk.css": "/static/css/2.1a3160e0.chunk.css",
-    "static/js/2.82f70da0.chunk.js": "/static/js/2.82f70da0.chunk.js",
-    "static/js/2.82f70da0.chunk.js.map": "/static/js/2.82f70da0.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.c47d118c1b0313281070a07e830b87ac.js": "/precache-manifest.c47d118c1b0313281070a07e830b87ac.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.1a3160e0.chunk.css.map": "/static/css/2.1a3160e0.chunk.css.map",
-    "static/css/main.62d59003.chunk.css.map": "/static/css/main.62d59003.chunk.css.map",
-    "static/media/index.scss": "/static/media/property-config-bg.d9bf57c4.png",
-    "static/media/bg-dashboard-header.png": "/static/media/bg-dashboard-header.f33d793c.png",
-    "static/media/bg-dashboard-headerl.png": "/static/media/bg-dashboard-headerl.64580e80.png",
-    "static/media/bg-img.png": "/static/media/bg-img.6a06cad0.png"
+    "main.css": "./static/css/main.65294f2c.chunk.css",
+    "main.js": "./static/js/main.eb4569b3.chunk.js",
+    "main.js.map": "./static/js/main.eb4569b3.chunk.js.map",
+    "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
+    "runtime~main.js.map": "./static/js/runtime~main.d653cc00.js.map",
+    "static/css/2.1a3160e0.chunk.css": "./static/css/2.1a3160e0.chunk.css",
+    "static/js/2.45321584.chunk.js": "./static/js/2.45321584.chunk.js",
+    "static/js/2.45321584.chunk.js.map": "./static/js/2.45321584.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.8db4378cb03642e613a33e592e78bf9f.js": "./precache-manifest.8db4378cb03642e613a33e592e78bf9f.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.1a3160e0.chunk.css.map": "./static/css/2.1a3160e0.chunk.css.map",
+    "static/css/main.65294f2c.chunk.css.map": "./static/css/main.65294f2c.chunk.css.map",
+    "static/media/index.scss": "./static/media/property-config-bg.d9bf57c4.png",
+    "static/media/bg-dashboard-header.png": "./static/media/bg-dashboard-header.f33d793c.png",
+    "static/media/bg-dashboard-headerl.png": "./static/media/bg-dashboard-headerl.64580e80.png",
+    "static/media/bg-img.png": "./static/media/bg-img.6a06cad0.png"
   }
 }
