@@ -44,14 +44,12 @@
       right: 0;
       transform: rotate(-180deg);
     }
-
     &:nth-child(6) {
       position: absolute;
       top: 50%;
       left: 0;
       transform: translate(0, -50%);
     }
-
     &:nth-child(7) {
       position: absolute;
       top: 50%;
@@ -81,6 +79,25 @@
   text-align: center;
   font-size: 14px;
   color: #fff;
+}
+.kitBtn {
+  height: 30px;
+  background: #05254b;
+  border: 1px solid #02439d;
+  border-radius: 4px;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 9999;
+  span {
+    width: 32px;
+    display: inline-block;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    transform: scale(0.8);
+  }
 }
 .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
   background: none;

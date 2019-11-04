@@ -96,7 +96,7 @@ const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, visibleIds
           }
         </div>
       </div>
-      <img style={{ margin: '10px 0', height: '10px' }} src={require('@/assets/images/l-panel.png')} alt="" />
+      <img style={{ margin: '10px 0', height: '10px', width: '100%' }} src={require('@/assets/images/l-panel.png')} alt="" />
       <div className="panel-box-item" style={{ height: 'calc(65% - 30px)' }}>
         <div className="btn" onClick={() => setVisible4(!visible4)}>
           <span className="scale">应用套件</span>
