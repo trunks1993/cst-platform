@@ -21,9 +21,9 @@ const UserDropdown = ({ user, handleLoginOut }) => {
             handleLoginOut();
           }
         }}>
-          <Menu.Item key="0">
+          {/* <Menu.Item key="0">
             <Link to="#">个人中心</Link>
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Divider />
           <Menu.Item key="1">退出登录</Menu.Item>
         </Menu>

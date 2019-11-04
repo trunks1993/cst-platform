@@ -60,12 +60,12 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       fn: () => {
         validateFields((err, res) => {
           if (!err) {
-            saveInfo(currentDataForSave).then(res => {
+            saveInfo(currentDataForSave, tag.cfgId).then(res => {
               getConfigGroup();
               // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
               removeCfgId(tag.cfgId);
               queryByConfigId(tag);
-              Message.success(res.msg);
+              Message[res.code === '1' ? 'error' : 'success'](res.msg);
             });
           } else {
             Message.error('提交验证未通过, 请检查属性面板表单数据');
@@ -151,76 +151,6 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
             src={require('../../assets/images/bg-dashboard-header.png')}
             alt=""
           />
-          {/* <<<<<<< HEAD
-          <ul>
-            {
-              // eslint-disable-next-line complexity
-              operates.map((item, idx) => <li key={idx} className="btn-item" onClick={(e) => {
-                switch (e.target.innerText) {
-                  case '新建分组':
-                    // item.callback(handleShowModel, showModel);
-                    openNewGroupModel();
-                    break;
-                  case '新建配置':
-                    // item.callback(handleShowModel, showModel);
-                    openNewModel();
-                    break;
-                  // eslint-disable-next-line no-duplicate-case
-                  case '保存':
-                    // 选择标签 模块不能为空
-                    if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');
-                    // 名字不能为空
-                    let o = _.find(formInfo, v => _.trim(v.cfiName) === '');
-                    if (o !== undefined) {
-                      Message.error('功能名不能为空');
-                      return setSelectId(JSON.parse(o.cfiLayout).i);
-                    }
-
-                    // 数据源未绑定
-                    o = _.find(formInfo, v => v.cfiDatasourceId === '0');
-                    if (o !== undefined) {
-                      Message.error('请绑定数据');
-                      return setSelectId(JSON.parse(o.cfiLayout).i);
-                    }
-                    saveInfo(formInfo).then(res => {
-                      childRef.current.fqueryConfig();
-                      Message.success(res.msg);
-                    });
-                    break;
-                  case '删除':
-                    if (!selectTag.cfgId) return Message.error('请选择要删除的配置');
-                    showConfirm(function() {
-                      deleteConfig(selectTag.cfgId).then(res => {
-                        Message.success(res.msg);
-                        childRef.current.fqueryConfig();
-                      });
-                    }, () => setFormInfo(temp), '请问是否删除当前模块?');
-                    break;
-                  case '重置':
-                    if (!selectTag.cfgId) return Message.error('请选择要重置的配置');
-                    const temp = _.clone(formInfo);
-                    setFormInfo([]);
-                    showConfirm(function() {
-                      queryByConfigId(selectTag.cfgId).then(res => {
-                        if (res.data.length) setSelectId(JSON.parse(res.data[0].cfiLayout).i);
-                        setFormInfo(res.data);
-                      });
-                    }, () => setFormInfo(temp), '请问是否重置当前配置?');
-                    break;
-                  case '发布':
-                    if (!selectTag.cfgId || formInfo.length === 0) return Message.error('系统未找到可用模板');
-                    updateStauts(selectTag.cfgId, 3, user.surUserId).then(res => {
-                      Message.success(res.msg);
-                      childRef.current.fqueryConfig();
-                    });
-                    break;
-                  default:
-                    return '';
-                }
-              }}> <Icon type={item.iconType} /> {item.label}</li>)
-            }
-          </ul>
-======= */}
           <BtnTools btnList={btnList} />
         </div>
       </div>

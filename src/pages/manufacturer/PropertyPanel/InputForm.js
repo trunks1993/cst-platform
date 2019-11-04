@@ -28,7 +28,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
   };
   return (
     <Form {...formItemLayout} style={{ marginTop: '10px' }}>
-      <Form.Item labelAlign="right" label={<span className="scale">数据绑定</span>} className="property-content">
+      <Form.Item labelAlign="right" label={<span className="scale">功能名称</span>} className="property-content">
         {getFieldDecorator('cfiName', {
           rules: [
             {
@@ -76,6 +76,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
         {getFieldDecorator('cdsOdbcType', {})(<Select className="select" onChange={e => {
           setDsOptions(cfiType, e, 1);
           setFormField({ cfiDatasourceId: '' });
+          setFormField({ cdsOdbcValue: JSON.stringify('') });
         }}>
           <Select.Option value={'1'}>自定义</Select.Option>
           <Select.Option value={'2'}>URL</Select.Option>
