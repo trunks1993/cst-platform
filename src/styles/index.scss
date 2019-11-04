@@ -14,12 +14,16 @@
   color: #fff;
   font-weight: 600;
 }
-.ant-dropdown-menu-item:hover {
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-item:hover a {
   background-color: rgba(0,0,0,0.2) !important;
+  color: #0393FF;
+  font-weight: bolder;
 }
 
 .ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled) {
   background-color: rgba(0,0,0,0.2) !important;
+  color: #0393FF;
 }
 .ant-select-dropdown-menu-item:hover {
   color: #0393FF;
@@ -30,12 +34,20 @@
 }
 .ant-dropdown-menu-item {
   color: #fff;
+  font-weight: bolder;
 }
 .ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
   color: #fff;
+  font-weight: bolder;
 }
 .ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title {
-  padding: 5px 15px;;
+  padding: 5px 15px;
+  text-align: center;
+  font-size: 12px;
+}
+// 单选框禁选文字样式
+.ant-radio-disabled + span {
+  color: #0393FF;
 }
 // ----------------------------------------------------
 

@@ -1,5 +1,5 @@
 $fullHeight: 100vh;
-$headerHight: 90px;
+$headerHight: 84px;
 $antdMenuSelectedColor: #0acbee;
 $customizeBlack: #131c2e;
 $customizeWhite: #fff;
@@ -26,12 +26,18 @@ $customizeWhite: #fff;
   background: url(../assets/images/bg-panel-btn.png);
   background-size: 100% 100%;
   font-size: 16px;
-  color: #00ccff;
+  color: #0391FB;
   font-weight: bolder;
   display: flex;
   align-items: center;
   padding-left: 15px;
   cursor: pointer;
+}
+
+@mixin img {
+  margin-right: 4px;
+  width: 14px;
+  height: 14px;
 }
 
 // layout
@@ -85,6 +91,9 @@ $customizeWhite: #fff;
       font-size: 14px;
       color: #79a8e0;
       border: 1px solid #02439d;
+      &:hover {
+        background: transparent !important;
+      }
     }
   }
 
@@ -106,17 +115,36 @@ $customizeWhite: #fff;
   height: $headerHight;
   position: relative;
   text-align: center;
+  &-system {
+    position: absolute;
+    right: 148px;
+    top: 34%;
+    transform: translate(0, -50%);
+    font-family: ArialMT;
+    font-size: 12px;
+    color: #fff;
+    font-weight: bolder;
+    img {
+      @include img();
+    }
+  }
   &-title {
-    font-size: 36px;
+    font-size: 34px;
     font-weight: bold;
     color: #fff;
-    line-height: 80px;
+    line-height: 70px;
+    letter-spacing: 2px;
   }
   .user-dropdown {
     @extend .user-dropdown;
-    top: 33% !important;
+    top: 22% !important;
     font-size: 24px;
     color: rgba(72, 88, 119, 1);
+    height: 45px !important;
+    font-weight: bolder;
+    img {
+      @include img();
+    }
   }
 }
 
@@ -134,7 +162,7 @@ $customizeWhite: #fff;
   top: 50%;
   transform: translate(0, -50%);
   font-family: ArialMT;
-  font-size: 14px;
+  font-size: 12px;
   color: #fff;
 }
 
@@ -177,7 +205,7 @@ $customizeWhite: #fff;
       vertical-align: top;
       .label {
         font-size: 24px;
-        color: #00ccff;
+        color: #0391FB;
         font-weight: bolder;
         position: absolute;
         top: 50%;
@@ -231,7 +259,7 @@ $customizeWhite: #fff;
     &-panel {
       background: url(../assets/images/bd-dashboard-tools.png);
       background-size: 100% 100%;
-      padding: 40px 20px;
+      padding: 30px 22px 30px 27px;
       width: 268px;
       font-size: 0;
       .panel-box {
@@ -241,11 +269,15 @@ $customizeWhite: #fff;
           overflow: auto;
           .btn {
             @include panel-title();
+            img {
+              margin-left: 14px;
+            }
           }
           .content {
             padding-top: 10px;
             transition: max-height 0.3s;
             overflow: hidden;
+            margin-right: 5px;
             .group-btn {
               font-size: 14px;
               color: #0393ff;
@@ -264,11 +296,15 @@ $customizeWhite: #fff;
                 width: 12px;
                 height: 12px;
                 border-radius: 50%;
-                background-color: #0393ff;
                 margin-left: 5px;
                 display: flex;
                 justify-content: center;
                 cursor: pointer;
+                img {
+                  width: 11px;
+                  height: 11px;
+                  margin-top: 1px;
+                }
                 i {
                   color: #fff;
                   transform: scale(0.8);
@@ -354,8 +390,8 @@ $customizeWhite: #fff;
             .temp-list {
               display: flex;
               flex-wrap: wrap;
-              padding: 0 20px;
               font-size: 12px;
+              padding: 0 8px;
               color: #fff;
               transition: max-height 0.3s;
               li {
@@ -382,6 +418,9 @@ $customizeWhite: #fff;
                   font-weight: bolder;
                 }
               }
+             li:nth-child(2n) {
+               margin-left: 12px;
+             }
             }
 
             .ant-input {
@@ -429,8 +468,9 @@ $customizeWhite: #fff;
           padding: 0 6px;
           text-align: center;
           line-height: 28px;
-          min-width: 160px;
+          min-width: 112px;
           position: relative;
+          font-weight: bolder;
           i {
             // background: blue;
             position: absolute;

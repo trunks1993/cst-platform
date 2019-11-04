@@ -182,7 +182,24 @@
   border: 1px solid #0393ff;
   color: #fff;
 }
-
+// 输入框获取错误焦点
+.has-error {
+    .ant-input {
+        background: transparent !important;
+        &:hover {
+            background: transparent !important;
+        }
+    }
+}
+//弹框表单lable字
+.ant-form-item-label {
+    label {
+        color: #fff !important;
+    }
+}
+.ant-form-explain {
+    text-align: left;
+}
 .ant-select-arrow-icon,
 .ant-select-clear-icon {
   color: #0393ff;

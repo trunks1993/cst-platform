@@ -1,4 +1,3 @@
-import loadable from '@/utils/loadable';
 import { Modal } from 'antd';
 
 const { confirm } = Modal;
