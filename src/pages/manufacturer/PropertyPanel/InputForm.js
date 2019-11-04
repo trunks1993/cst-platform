@@ -28,7 +28,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
   };
   return (
     <Form {...formItemLayout} style={{ marginTop: '10px' }}>
-      <Form.Item labelAlign="right" label="功能名称" className="property-content">
+      <Form.Item labelAlign="right" label={<span className="scale">功能名称</span>} className="property-content">
         {getFieldDecorator('cfiName', {
           rules: [
             {
@@ -51,16 +51,16 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
           ]
         })(<Input />)}
       </Form.Item>
-      <Form.Item label="图表类型" className="property-content">
+      <Form.Item label={<span className="scale">图表类型</span>} className="property-content">
         {getFieldDecorator('cfiType', {})(<Input disabled />)}
       </Form.Item>
-      <Form.Item label="数据更新" className="property-content">
+      <Form.Item label={<span className="scale">数据更新</span>} className="property-content">
         {getFieldDecorator('cfiIsUpdate', {})(<Select className="select" >
           <Select.Option value={1}>不更新</Select.Option>
           <Select.Option value={2}>定时更新</Select.Option>
         </Select>)}
       </Form.Item>
-      <Form.Item label="更新时间" className="property-content" style={{ display: cfiIsUpdate === 1 ? 'none' : null }}>
+      <Form.Item label={<span className="scale">更新时间</span>} className="property-content" style={{ display: cfiIsUpdate === 1 ? 'none' : null }}>
         {getFieldDecorator('cfiUpdateHz', {
           rules: [
             {
@@ -72,7 +72,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
         <span style={{ marginLeft: '5px' }}>秒</span>
       </Form.Item>
 
-      <Form.Item label="数据源" className="property-content">
+      <Form.Item label={<span className="scale">数据源</span>} className="property-content">
         {getFieldDecorator('cdsOdbcType', {})(<Select className="select" onChange={e => {
           setDsOptions(cfiType, e, 1);
           setFormField({ cfiDatasourceId: '' });
@@ -83,7 +83,7 @@ const Component = ({ form: { getFieldDecorator, validateFields, setFieldsValue }
           <Select.Option value={'3'}>SQL</Select.Option>
         </Select>)}
       </Form.Item>
-      <Form.Item className="property-content" label="数据绑定">
+      <Form.Item className="property-content" label={<span className="scale">数据绑定</span>} >
         {getFieldDecorator('cfiDatasourceId', {
           rules: [
             {

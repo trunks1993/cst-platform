@@ -9,30 +9,30 @@ const history = createHashHistory();
 
 const UserDropdown = ({ user, handleLoginOut }) => {
   return (
-    <Dropdown className="user-dropdown" overlay={
-      <Menu onClick={({ item, key, keyPath, domEvent }) => {
-        if (key === '0') {
-          history.push('/platForm/config');
-        } else if (key === '1') {
-          history.push('/platForm/home');
-        } else {
-          handleLoginOut();
-        }
-      }}>
-        {/* <Menu.Item key="0">
-          <Link to="#">系统设置</Link>
-        </Menu.Item>
-        <Menu.Item key="1">
-          <a href="#">个人中心</a>
-        </Menu.Item> */}
-        <Menu.Divider />
-        <Menu.Item key="3">退出登录</Menu.Item>
-      </Menu>
-    } trigger={['click']}>
-      <a className="ant-dropdown-link" href="#">
-        hello, {user.surUserName} <Icon type="caret-down" />
-      </a>
-    </Dropdown>
+    <div>
+      <a className="header-container-system" href="#" onclick={ () => {
+        history.push('/platForm/config');
+      }}><img src={require('../../assets/images/system.png')} alt="" /><span className="scale">系统设置</span></a>
+      <Dropdown className="user-dropdown" overlay={
+        <Menu onClick={({ item, key, keyPath, domEvent }) => {
+          if (key === '0') {
+            history.push('/platForm/home');
+          } else {
+            handleLoginOut();
+          }
+        }}>
+          {/* <Menu.Item key="0">
+            <Link to="#">个人中心</Link>
+          </Menu.Item> */}
+          <Menu.Divider />
+          <Menu.Item key="1">退出登录</Menu.Item>
+        </Menu>
+      } trigger={['click']}>
+        <a className="ant-dropdown-link" href="#">
+          <img src={require('../../assets/images/user.png')} alt="" /> {user.surUserName} <Icon type="caret-down" />
+        </a>
+      </Dropdown>
+    </div>
   );
 };
 

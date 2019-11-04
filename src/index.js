@@ -7,6 +7,12 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import '@/styles/index.scss';
 // import '@/mock/index';
+if (window.screen.width >= 1400) {
+  import('@/config/commonMax.scss');
+  console.log(window.screen.width);
+} else if (window.screen.width <= 1366){
+  import('@/config/commonMin.scss');
+}
 
 const store = createStore(appStore, applyMiddleware(thunk));
 console.log(store.getState());

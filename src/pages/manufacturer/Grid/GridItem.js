@@ -46,7 +46,15 @@ const GridItem = ({ id, currentData, removeLayItem }) => {
       <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
       <img className="bg-icon" src={require('@/assets/images/temp/2.png')} alt="" />
       { data.cfiType === DOM_TYPE_GAUGE && <img className="bg-eGauge" src={require('@/assets/images/temp/bg-img.png')} alt="" /> }
-      <div className="title-box">{ data.cfiName }</div>
+      <div className="title-box"><span className="scale">{ data.cfiName }</span></div>
+      <div className="kitBtn">
+        <span onClick={e => {
+          console.log('放大');
+        }} >放大</span>
+        <span>过滤</span>
+        <span>导出</span>
+        <span>明细</span>
+      </div>
       {component}
     </>
   );

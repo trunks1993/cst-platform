@@ -232,6 +232,9 @@ $customizeWhite: #fff;
           width: 110px;
           height: 42px;
           color: #fff;
+          font-size: 12px;
+          font-weight: 600;
+          @extend .common-flex;
           transition: all 0.3s;
           background: url(../assets/images/temp/bg-btn.png);
           &:hover {
@@ -334,6 +337,7 @@ $customizeWhite: #fff;
                 padding-left: 18px;
                 cursor: pointer;
                 background: url(../assets/images/bg-panel-li.png);
+                background-size: 100% 100%;
                 margin: auto;
                 font-weight: bolder;
                 &:not(:first-child) {

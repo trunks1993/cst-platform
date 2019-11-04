@@ -24,23 +24,25 @@ const PropertyPanel = ({ activeLayId }) => {
 
   return (
     <div className="property-panel" style={{ right: activeLayId ? '30px' : '-270px' }}>
-      <div className="property-panel-item">
-        <div className="btn" onClick={() => setVisible1(!visible1)}>
-          <span>属性面板</span>
-          <Icon style={{ marginLeft: '10px' }} type="double-left" />
+      <div style={{ height: '100%', overflow: 'auto' }}>
+        <div className="property-panel-item">
+          <div className="btn" onClick={() => setVisible1(!visible1)}>
+            <span className="scale">属性面板</span>
+            <Icon style={{ marginLeft: '10px' }} type="double-left" />
+          </div>
+          <div className="content" style={{ maxHeight: visible1 ? 0 : '1000px' }}>
+            <InputForm />
+          </div>
         </div>
-        <div className="content" style={{ maxHeight: visible1 ? 0 : '1000px' }}>
-          <InputForm />
-        </div>
-      </div>
-      <img style={{ margin: '10px 0' }} src={require('@/assets/images/l-panel.png')} alt="" />
-      <div className="property-panel-item">
-        <div className="btn" onClick={() => setVisible2(!visible2)}>
-          <span>应用套件</span>
-          <Icon style={{ marginLeft: '10px' }} type="double-left" />
-        </div>
-        <div className="content" style={{ maxHeight: visible2 ? 0 : '1000px' }}>
-          <RadioForm />
+        <img style={{ margin: '10px 0' ,width: '100%' }} src={require('@/assets/images/l-panel.png')} alt="" />
+        <div className="property-panel-item">
+          <div className="btn" onClick={() => setVisible2(!visible2)}>
+            <span className="scale">应用套件</span>
+            <Icon style={{ marginLeft: '10px' }} type="double-left" />
+          </div>
+          <div className="content" style={{ maxHeight: visible2 ? 0 : '1000px' }}>
+            <RadioForm />
+          </div>
         </div>
       </div>
     </div>
