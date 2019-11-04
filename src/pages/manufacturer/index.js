@@ -23,7 +23,7 @@ import _ from 'lodash';
 
 import { Modal, Form, Input, Message, Select } from 'antd';
 
-const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, restLayouts, activeLayId }) => {
+const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getConfigGroup, queryByConfigId, currentDataForSave, validateFields }) => {
   const [tempData, setTempData] = useState({});
   const [newModelVisible, handleNewModelVisible] = useState(false);
   const [newGroupVisible, handleNewGroupVisible] = useState(false);
@@ -35,9 +35,6 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   const [cfgName, setCfgName] = useState('');
 
   const [groupParents, setGroupParents] = useState([]);
-
-  // 数据源option
-  const [dsIdOptions, setDsIdOptions] = useState([]);
 
   // 顶部工具栏数据
   const btnList = [
@@ -61,9 +58,18 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
       icon: 'file-protect',
       disabled: disabled,
       fn: () => {
-        saveInfo().then(res => {
-          getConfigGroup();
-          Message.success(res.msg);
+        validateFields((err, res) => {
+          if (!err) {
+            saveInfo(currentDataForSave, tag.cfgId).then(res => {
+              getConfigGroup();
+              // 移除byConfigId中cfgId对应的layIds数组才能清空缓存重新请求
+              removeCfgId(tag.cfgId);
+              queryByConfigId(tag);
+              Message[res.code === '1' ? 'error' : 'success'](res.msg);
+            });
+          } else {
+            Message.error('提交验证未通过, 请检查属性面板表单数据');
+          }
         });
       }
     },
@@ -87,7 +93,14 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
     {
       label: '重置',
       icon: 'redo',
-      disabled: disabled
+      disabled: disabled,
+      fn: () => {
+        showConfirm(`是否重置配置项 ${tag.cfgName}`, () => {
+          removeCfgId(tag.cfgId);
+          queryByConfigId(tag);
+          Message.success('操作成功');
+        });
+      }
     },
     {
       label: cfgStatus === CONF_STATUS_PUBLISH ? '取消发布' : '发布',
@@ -146,7 +159,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
           {/* <div className="droppable-element" draggable unselectable="on" /> */}
           <Panel setTempData={setTempData} />
         </div>
-        <div className="dashboard-container-body-content" style={{ width: activeLayId ? '' : 'calc(100% - 28px)' }}>
+        <div className="dashboard-container-body-content">
           <Modal centered visible={newModelVisible} footer={null} closable={false}>
             <Form>
               <Form.Item>
@@ -191,7 +204,7 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
             </Form>
           </Modal>
           <TagViews />
-          <Grid tempData={tempData} dsIdOptions={dsIdOptions} />
+          <Grid tempData={tempData} />
           <PropertyPanel />
         </div>
       </div>
@@ -199,21 +212,28 @@ const manufacturer = ({ cfgStatus, tag, disabled, removeCfgId, deleteTag, getCon
   );
 };
 
-const mapStateToProps = ({ configGroupState, appState, girdState: { activeLayId } }) => {
-  const tag = appState.tagViews.byId[appState.activeTagId];
+const mapStateToProps = ({ configGroupState: { configGroup }, appState: { activeTagId }, gridState: { byConfigId, currentData }, propertyState: { validateFields } }) => {
+  const tag = _.get(configGroup, activeTagId, {});
+  const layIds = _.get(byConfigId, activeTagId, []);
+  const currentDataForSave = _.map(layIds, id => {
+    const data = _.clone(currentData[id]);
+    data.cfiLayout = JSON.stringify(data.cfiLayout);
+    data.cfiEvent = JSON.stringify(data.cfiEvent);
+    return data;
+  });
   return {
-    configGroupState,
+    currentDataForSave,
     cfgStatus: tag && tag.cfgStatus,
-    disabled: appState.activeTagId === '',
+    disabled: activeTagId === '',
     tag,
-    activeLayId
+    validateFields
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    restLayouts: () => dispatch(gridActions.restLayouts()),
     getConfigGroup: () => dispatch(configGroupActions.getConfigGroup()),
+    queryByConfigId: tag => dispatch(gridActions.queryByConfigId(tag)),
     removeCfgId: id => dispatch(gridActions.removeCfgId(id)),
     deleteTag: id => dispatch(appActions.deleteTag(id))
   };

@@ -4,9 +4,8 @@ import _ from 'lodash';
 // import { queryByConfigId } from '@/api/cs_api';
 import { connect } from 'react-redux';
 import { actions as appActions } from '@/redux/app';
-import { actions as gridActions } from '@/redux/grid';
 
-const TagViews = ({ deleteTag, changeActiveTag, ids, tagById, removeCfgId, activeTagId }) => {
+const TagViews = ({ deleteTag, changeActiveTag, ids, tagById, activeTagId }) => {
 
   return (
     <div className="tag-views">
@@ -23,7 +22,6 @@ const TagViews = ({ deleteTag, changeActiveTag, ids, tagById, removeCfgId, activ
                     e.stopPropagation();
                     // e.nativeEvent.stopImmediatePropagation();
                     deleteTag(id);
-                    removeCfgId(id);
                   }
                   } />
               </li>
@@ -46,8 +44,7 @@ const mapStateToProps = ({ appState }) => {
 const mapDispatchToProps = dispatch => {
   return {
     changeActiveTag: id => dispatch(appActions.changeActiveTag(id)),
-    deleteTag: id => dispatch(appActions.deleteTag(id)),
-    removeCfgId: id => dispatch(gridActions.removeCfgId(id))
+    deleteTag: id => dispatch(appActions.deleteTag(id))
   };
 };
 

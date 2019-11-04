@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { actions as gridActions } from './grid';
 
 // action types
 export const types = {
@@ -8,11 +9,33 @@ export const types = {
   DELETE_TAG: 'app/DELETE_TAG'
 };
 
+// 判断此配置id对应的layIds数据是否存在 存在则选中第一个
+const selectLayout = (gridActions, getState, dispatch) => {
+  const { appState: { activeTagId }, gridState: { byConfigId } } = getState();
+  const layIds = byConfigId[activeTagId];
+  const layIdsNotEmpty = Array.isArray(layIds) && layIds.length > 0;
+  const activeLayId = layIdsNotEmpty ? layIds[0] : '';
+  dispatch(gridActions.selectLayout(activeLayId));
+};
+
 // action creators
 export const actions = {
-  setTagViews: tag => ({ type: types.SET_TAGVIEWS, tag }),
-  changeActiveTag: id => ({ type: types.CHANGE_ACTIVE_TAG, id }),
-  deleteTag: id => ({ type: types.DELETE_TAG, id })
+  _setTagViews: tag => ({ type: types.SET_TAGVIEWS, tag }),
+  _changeActiveTag: id => ({ type: types.CHANGE_ACTIVE_TAG, id }),
+  _deleteTag: id => ({ type: types.DELETE_TAG, id }),
+  setTagViews: tag => (dispatch, getState) => {
+    dispatch(actions._setTagViews(tag));
+    selectLayout(gridActions, getState, dispatch);
+  },
+  changeActiveTag: id => (dispatch, getState) => {
+    dispatch(actions._changeActiveTag(id));
+    selectLayout(gridActions, getState, dispatch);
+  },
+  deleteTag: id => (dispatch, getState) => {
+    dispatch(actions._deleteTag(id));
+    dispatch(gridActions.removeCfgId(id));
+    selectLayout(gridActions, getState, dispatch);
+  }
 };
 
 // 初始化state
@@ -38,16 +61,16 @@ export default function reducer(state = initialState, action) {
   let tagViews;
   switch (action.type) {
     case types.SET_TAGVIEWS:
-      const id = _.findLastKey(action.tag);
-      if (id === state.activeTagId) return state;
+      const { cfgId: id } = action.tag;
       tagViews = {
         byId: {
           ...state.tagViews.byId,
-          ...action.tag
+          [id]: action.tag
         },
-        ids: _.uniq([...state.tagViews.ids, id])
+        ids: [...state.tagViews.ids, id]
       };
       return { ...state, tagViews, activeTagId: id };
+
     case types.CHANGE_ACTIVE_TAG:
       return { ...state, activeTagId: action.id };
 

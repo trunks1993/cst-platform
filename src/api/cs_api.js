@@ -42,10 +42,13 @@ export function getSelectParent() {
   });
 }
 
-export function saveInfo(arr) {
+export function saveInfo(arr, cfgId) {
   return request({
     url: '/v1/cusFunctionInfo/saveInfo',
     method: 'post',
+    headers: {
+      cfgId
+    },
     data: arr
   });
 }
@@ -81,6 +84,18 @@ export function deleteConfig(id) {
     method: 'delete',
     params: {
       id
+    }
+  });
+}
+
+// GET /v1/cusFunctionInfo/selectRepeat
+export function selectRepeat(cfiName, cfiId) {
+  return request({
+    url: '/v1/cusFunctionInfo/selectRepeat',
+    method: 'get',
+    params: {
+      cfiName,
+      cfiId
     }
   });
 }

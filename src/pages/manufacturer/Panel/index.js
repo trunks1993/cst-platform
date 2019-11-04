@@ -8,18 +8,20 @@ import { actions as gridActions } from '@/redux/grid';
 import { actions as appActions } from '@/redux/app';
 
 import { deleteConfig } from '@/api/cs_api';
-import { tempArr } from '@/config';
 import { showConfirm } from '@/utils';
-import { types } from '@/utils/const';
-
+import { types, dragTypes } from '@/utils/const';
+import CstSelect from '@/components/CstSelect';
 import _ from 'lodash';
 
+// types
+import { DRAG_TYPE_ECHART } from '@/utils/const';
 const { Search } = Input;
 // eslint-disable-next-line complexity
-const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGroup, configGroupState, setVisibleIds, queryByConfigId }) => {
+const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, visibleIds, configGroup, isFetching, cfgIdsByPId, setVisibleIds, queryByConfigId }) => {
   const [visible1, setVisible1] = useState(false);
   const [visible4, setVisible4] = useState(false);
-  const [visible5, setVisible5] = useState(false);
+
+  const [dragModelsSel, setDragModelsSel] = useState(DRAG_TYPE_ECHART);
 
   useEffect(() => {
     // 查询配置信息
@@ -28,7 +30,7 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
 
   return (
     <div className="panel-box">
-      <div className="panel-box-item">
+      <div className="panel-box-item" style={{ height: '35%' }}>
         <div className="btn" onClick={() => setVisible1(!visible1)}>
           <span>工作台模板</span>
           <Icon style={{ marginLeft: '10px' }} type="double-left" />
@@ -45,18 +47,18 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
             onSearch={value => getConfigGroup(value)}
           />
           {
-            configGroupState.isFetching ? <Skeleton active /> : configGroupState.configGroup.map((group, index) => {
+            isFetching ? <Skeleton active /> : _.map(_.keys(cfgIdsByPId), id => {
               return (
-                <div key={index}>
-                  <div className="group-btn" onClick={() => setVisibleIds(group.cfgId)}>
-                    {group.cfgName}
+                <div key={id}>
+                  <div className="group-btn" onClick={() => setVisibleIds(id)}>
+                    {configGroup[id].cfgName}
                     <span className="group-btn-del" onClick={e => {
                       e.stopPropagation();
-                      showConfirm(`是否删除分组 ${group.cfgName}`, function() {
-                        deleteConfig(group.cfgId).then(res => {
+                      showConfirm(`是否删除分组 ${configGroup[id].cfgName}`, function() {
+                        deleteConfig(id).then(res => {
                           Message.success(res.msg);
                           // 删除分组打开的tags
-                          _.map(group.children, v => deleteTag(v.cfgId));
+                          _.map(cfgIdsByPId[id], id => deleteTag(id));
                           getConfigGroup('');
                         });
                       });
@@ -70,22 +72,21 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
                   <ul
                     className="group-list"
                     style={{
-                      paddingBottom: _.findIndex(configGroupState.visibleIds, id => id === group.cfgId) === -1 ? 0 : '10px',
-                      maxHeight: _.findIndex(configGroupState.visibleIds, id => id === group.cfgId) === -1 ? 0 : '1000px'
+                      paddingBottom: _.findIndex(visibleIds, cfgId => cfgId === id) === -1 ? 0 : '10px',
+                      maxHeight: _.findIndex(visibleIds, cfgId => cfgId === id) === -1 ? 0 : '1000px'
                     }}
                   >
                     {
                       // eslint-disable-next-line complexity
-                      _.map(group.children, child => (<li
-                        key={child.cfgId}
+                      _.map(cfgIdsByPId[id], cId => (<li
+                        key={cId}
                         onClick = {() => {
-                          if (activeTagId === child.cfgId) return;
-                          setTagViews({ [child.cfgId]: child });
-                          queryByConfigId(child.cfgId);
+                          if (activeTagId === cId) return;
+                          queryByConfigId(configGroup[cId]);
                         }}
-                        style={{ color: activeTagId === child.cfgId ? '#03AFFF' : null }}
+                        style={{ color: activeTagId === cId ? '#03AFFF' : null }}
                       >
-                        {child.cfgName}{types[child.cfgStatus]}
+                        {configGroup[cId].cfgName}{types[configGroup[cId].cfgStatus]}
                       </li>))
                     }
                   </ul>
@@ -95,8 +96,8 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
           }
         </div>
       </div>
-      <img style={{ margin: '10px 0' }} src={require('@/assets/images/l-panel.png')} alt="" />
-      <div className="panel-box-item">
+      <img style={{ margin: '10px 0', height: '10px' }} src={require('@/assets/images/l-panel.png')} alt="" />
+      <div className="panel-box-item" style={{ height: 'calc(65% - 30px)' }}>
         <div className="btn" onClick={() => setVisible4(!visible4)}>
           应用套件
           <Icon style={{ marginLeft: '10px' }} type="double-left" />
@@ -105,21 +106,14 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
           className="content"
           style={{
             paddingTop: visible4 ? 0 : '10px',
+            // overflow: visible4 ? 'hidden' : 'auto',
             maxHeight: visible4 ? 0 : '1000px'
           }}
         >
-          <div className="temp-btn" onClick={() => setVisible5(!visible5)}>
-            <span>大数据平台</span>
-            <span className="temp-btn-iconbox">
-              <Icon type="caret-down" />
-            </span>
-          </div>
-          <ul
-            className="temp-list"
-            style={{ maxHeight: visible5 ? 0 : '1000px' }}
-          >
+          <CstSelect options={[{ value: DRAG_TYPE_ECHART, label: '图表类型' }]} defaultValue={ DRAG_TYPE_ECHART } onChange={e => setDragModelsSel(e)} />
+          <ul className="temp-list">
             {
-              _.map(tempArr, (v, i) => (
+              _.map(dragTypes[dragModelsSel], (v, i) => (
                 // eslint-disable-next-line no-unused-expressions
                 <li
                   key={i}
@@ -143,9 +137,12 @@ const Panel = ({ setTempData, setTagViews, deleteTag, activeTagId, getConfigGrou
   );
 };
 
-const mapStateToProps = ({ configGroupState, appState, gridState }) => {
+const mapStateToProps = ({ configGroupState: { visibleIds, configGroup, isFetching, cfgIdsByPId }, appState, gridState }) => {
   return {
-    configGroupState,
+    visibleIds,
+    configGroup,
+    isFetching,
+    cfgIdsByPId,
     activeTagId: appState.activeTagId
   };
 };
@@ -155,7 +152,6 @@ const mapDispatchToProps = dispatch => {
     getConfigGroup: cfgName => dispatch(configGroupActions.getConfigGroup(cfgName)),
     setVisibleIds: id => dispatch(configGroupActions.setVisibleIds(id)),
     queryByConfigId: id => dispatch(gridActions.queryByConfigId(id)),
-    setTagViews: tag => dispatch(appActions.setTagViews(tag)),
     deleteTag: tag => dispatch(appActions.deleteTag(tag)),
   };
 };

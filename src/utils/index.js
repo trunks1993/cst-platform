@@ -3,8 +3,6 @@ import { Modal } from 'antd';
 
 const { confirm } = Modal;
 
-const Dashboard = loadable(() => import('@/pages/dashboard'));
-
 export function flatTree(tree, flatArr = []) {
   func(tree, flatArr);
   return flatArr;
@@ -33,5 +31,3 @@ export function showConfirm(title, success = function() {}, cancel = function() 
     },
   });
 }
-
-export default { Dashboard };

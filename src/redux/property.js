@@ -5,32 +5,35 @@ import { selectByDataSource } from '@/api/cs_api';
 export const types = {
   START_FETCH: 'property/START_FETCH',
   RECEIVE_DATA: 'property/RECEIVE_DATA',
+  CURRENT_VALIDATE: 'property/CURRENT_VALIDATE'
 };
 
 // action creators
 export const actions = {
   startFetch: () => ({ type: types.START_FETCH }),
   setData: data => ({ type: types.RECEIVE_DATA, data }),
-  setDsOptions: (cdsOdbcId, cdsOdbcType, cdsSystemId) => (dispatch, getState) => {
-    const key = `${cdsOdbcId}-${cdsOdbcType}-${cdsSystemId}`;
+  setDsOptions: (cdsChartId, cdsOdbcType, cdsSystemId) => (dispatch, getState) => {
+    const key = `${cdsChartId}-${cdsOdbcType}-${cdsSystemId}`;
     const { propertyState: { optionsKey } } = getState();
     // 如果存在key vlaue 则不请求
-    if (_.findIndex(optionsKey, key) !== -1) return;
+    if (_.findIndex(optionsKey, v => v === key) !== -1) return;
     dispatch(actions.startFetch());
-    return selectByDataSource(cdsOdbcId, cdsOdbcType, cdsSystemId).then(res => {
+    return selectByDataSource(cdsChartId, cdsOdbcType, cdsSystemId).then(res => {
       dispatch(actions.setData({
         [key]: res.data
       }));
     });
-  }
+  },
+  setCurrentValidate: fn => ({ type: types.CURRENT_VALIDATE, fn }),
 };
 
 // 初始化state
-// cdsOdbcId-cdsOdbcType-cdsSystemId : []
+// cdsChartId-cdsOdbcType-cdsSystemId : []
 const initialState = {
   isFetching: false,
   dsOptions: {},
-  optionsKey: []
+  optionsKey: [],
+  validateFields: function() {}
 };
 
 // reducer
@@ -44,8 +47,10 @@ export default function reducer(state = initialState, action) {
         ...state.dsOptions,
         ...action.data
       };
-      const optionsKey = _.concat(state.optionsKey, _.findLastKey(action.data));
+      const optionsKey = _.concat(state.optionsKey, _.findKey(action.data));
       return { ...state, isFetching: false, dsOptions, optionsKey };
+    case types.CURRENT_VALIDATE:
+      return { ...state, validateFields: action.fn };
     default: return state;
   }
 }

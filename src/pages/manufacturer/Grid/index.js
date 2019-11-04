@@ -1,5 +1,7 @@
 import React from 'react';
+// import RGL, { WidthProvider } from '@/components/Draggler';
 import RGL, { WidthProvider } from '@/components/Draggler';
+
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { actions as gridActions } from '@/redux/grid';
@@ -26,18 +28,14 @@ const ReactGridLayout = WidthProvider(RGL);
 //   return layouts[id];
 // };
 
-const Grid = ({ tempData, activeTagId, ids, currentData, addLayout, selectLayout, changeLayouts, activeLayId }) => {
+const Grid = ({ tempData, activeTagId, layIds, currentData, addLayout, selectLayout, changeLayouts, activeLayId }) => {
   const onDrop = e => {
     const layoutId = new Date().getTime() + '';
-    // selectLayout(layoutId);
 
-    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiDatasourceId, cfiId, cfiUpdateHz } = tempData;
+    const { cfiLayout, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiDatasourceId, cfiId, cfiUpdateHz, cdsOdbcType } = tempData;
 
     const data = {
-      currentData: {
-        [layoutId]: { cfiLayout: { ...e, ...cfiLayout, i: layoutId }, cfiType, cfiEvent, cfiName, cfiIsUpdate, cfiConfigId: activeTagId, cfiDatasourceId, cfiId, cfiUpdateHz },
-      },
-      cfiConfigId: activeTagId,
+      [layoutId]: { cfiLayout: { ...e, ...cfiLayout, i: layoutId }, cfiType, cfiEvent, cfiName, cfiIsUpdate, cdsOdbcType, cfiConfigId: activeTagId, cfiDatasourceId, cfiId, cfiUpdateHz },
     };
     addLayout(data);
   };
@@ -45,12 +43,13 @@ const Grid = ({ tempData, activeTagId, ids, currentData, addLayout, selectLayout
   // 如果布局变化有调用接口则需要函数节流防抖
   const onLayoutChange = e => {
     // 过滤掉正在拖拽时触发的bug
-    const index = _.findIndex(e, l => l.i === '__dropping-elem__');
-    if (index === -1) changeLayouts(e);
+    // const index = _.findIndex(e, l => l.i === '__dropping-elem__');
+    const cl = _.filter(e, item => typeof item.i * 1 === 'number');
+    changeLayouts(cl);
   };
 
   return (
-    <div className="manufacturer-grid-box">
+    <div className="manufacturer-grid-box" /* style={{ width: activeLayId ? '' : '100%' }}*/ >
       <ReactGridLayout
         className="cst-layout"
         cols={12}
@@ -60,12 +59,12 @@ const Grid = ({ tempData, activeTagId, ids, currentData, addLayout, selectLayout
         isDroppable={activeTagId !== ''}
       >
         {
-          _.map(ids, id => {
-            const layer = currentData[id];
-            const { cfiLayout } = layer;
+          _.map(layIds, id => {
+            const data = currentData[id];
+            const { cfiLayout } = data;
             return (
               <div key={id} data-grid={cfiLayout} style={{ overflow: 'hidden', border: id === activeLayId ? '2px solid #03ccff' : '' }} onClick={() => selectLayout(id)}>
-                <GridItem />
+                {id && <GridItem id={ id } />}
               </div>
             );
           })
@@ -76,13 +75,12 @@ const Grid = ({ tempData, activeTagId, ids, currentData, addLayout, selectLayout
 
 };
 
-const mapStateToProps = ({ gridState, appState }) => {
+const mapStateToProps = ({ gridState: { byConfigId, currentData, activeLayId }, appState: { activeTagId } }) => {
   return {
-    currentData: gridState.currentData,
-    // layIds: gridState.layIds,
-    activeLayId: gridState.activeLayId,
-    activeTagId: appState.activeTagId,
-    ids: gridState.byConfigId[appState.activeTagId] || []
+    currentData,
+    activeLayId,
+    activeTagId,
+    layIds: byConfigId[activeTagId] || []
   };
 };
 
