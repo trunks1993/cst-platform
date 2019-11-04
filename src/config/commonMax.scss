@@ -1,0 +1,152 @@
+$fullHeight: 100vh;
+// 头部变量设置
+$headerHight: 84px;
+$headerTitleSize: 34px;
+
+// 个性化工作台变量
+$panelWidth: 268px;
+$tempListWidth: 90px;
+$antdMenuSelectedColor: #0acbee;
+$customizeBlack: #131c2e;
+$customizeWhite: #fff;
+
+
+// 头部高度
+@function headerHight($n) {
+  @return $headerHight - $n;
+}
+// 头部标题文字大小
+@function headerTitleSize($n) {
+  @return $headerTitleSize - $n;
+}
+// 个性化工作台宽度
+@function panelWidth($n) {
+  @return $panelWidth - $n;
+}
+// 应用套件大数据平台宽度
+@function tempListWidth($n) {
+  @return $tempListWidth - $n;
+}
+@media screen and (max-device-width: 1600px) and (min-device-width: 1400px) {
+  .login-container-form {
+    transform: scale(0.8);
+  }
+  .property-panel {
+    padding: 40px 10px 20px 13px;
+  }
+  .ant-select-selection-selected-value {
+    font-size: 12px;
+  }
+  .property-content {
+    input {
+      font-size: 10px;
+    }
+  }
+  .scale {
+    transform: scale(0.9);
+    display: inline-block;
+  }
+  .ant-form-item-label {
+    width: 72px;
+  }
+  .tag-views-item {
+    transform: scale(0.8);
+  }
+  .ant-col-sm-16 {
+    width: 58%;
+  }
+  .app-container {
+  .header-container {
+    height: headerHight(10) !important;
+    &-title {
+      font-size: headerTitleSize(2) !important;
+      line-height: 62px !important;
+    }
+    .user-dropdown {
+      top: 19% !important;
+    }
+  }
+}
+  .main-container {
+    height: calc(100vh - #{headerHight(10)}) !important;
+    .dashboard-container-header-title {
+        width: 257px;
+        .label {
+            font-size: 20px;
+        }
+    }
+    .dashboard-container-header-btn {
+        width: calc(100% - 257px);
+    }
+    .dashboard-container-body-panel {
+      width: panelWidth(40);
+      .panel-box {
+        > img {
+          width: 100%;
+        }
+        .panel-box-item {
+          .btn {
+            padding-left: 5px;
+            
+          }
+          .content {
+            .temp-list {
+              li {
+                width: tempListWidth(20);
+              }
+            }
+          
+          }
+          .group-list {
+              li {
+                width: 164px;
+              }
+          }
+        }
+      }
+    }
+    .dashboard-container-body-content {
+        width: calc(100% - 228px);
+        padding: 0 22px 15px 0;
+        .manufacturer-grid-box {
+            width: calc(100% - 206px);
+        }
+        .property-panel {
+            width: 199px;
+            right: 20px;
+            .panel-box {
+                width: 200px;
+                .property-content-btn {
+                    width: 60px !important;
+                }
+            }
+            .property-panel-item {
+              img {
+                width: 100%;
+              }
+            }
+            .application-config {
+                width: 177px !important;
+                .radio-style {
+                    margin-right: -2px !important;
+                }
+            }
+            .property-container {
+                padding: 0 6px 0 14px;
+                .property-content {
+                    input {
+                        width: calc(100% - 60px) !important;
+                    }
+                    .select {
+                        width: calc(100% - 60px) !important;
+                    }
+                    .property-content-disable {
+                        width: calc(100% - 60px) !important;
+                    }
+                }
+            }
+        }
+    }
+  }
+}
+

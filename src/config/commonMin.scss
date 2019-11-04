@@ -1,0 +1,213 @@
+$fullHeight: 100vh;
+// 头部变量设置
+$headerHight: 84px;
+$headerTitleSize: 34px;
+// 个性化工作台变量
+$panelWidth: 268px;
+$tempListWidth: 90px;
+$antdMenuSelectedColor: #0acbee;
+$customizeBlack: #131c2e;
+$customizeWhite: #fff;
+
+
+// 头部高度
+@function headerHight($n) {
+  @return $headerHight - $n;
+}
+// 头部标题文字大小
+@function headerTitleSize($n) {
+  @return $headerTitleSize - $n;
+}
+// 个性化工作台宽度
+@function panelWidth($n) {
+  @return $panelWidth - $n;
+}
+// 应用套件大数据平台宽度
+@function tempListWidth($n) {
+  @return $tempListWidth - $n;
+}
+@media screen and (max-device-width: 1366px) {
+    .ant-form-item-label {
+      width: 60px;
+    }
+    .property-content {
+      input {
+        font-size: 10px;
+      }
+    }
+    .ant-col-sm-16 {
+      width: 56.6667% !important;
+    }
+    .scale {
+      transform:scale(0.8);
+      display: inline-block;
+    }
+    .react-grid-item {
+      .title-box {
+        line-height: 26px;
+      }
+    }
+    .temp-select-result {
+      span {
+        transform:scale(0.8);
+      }
+    }
+    .header-container-system {
+      transform: scale(0.8) !important;
+      top: -30% !important;
+    }
+    .property-content {
+      margin-bottom: 2px !important;
+    }
+    .application-config {
+      margin-top: 10px !important;
+    }
+    .echarts-for-react,
+    .equipment-content,
+    .ant-dropdown-menu,
+    .login-container-form,
+    .ant-select-selection-selected-value,
+    .tag-views-item {
+      transform:scale(0.8);
+    }
+    .ant-input::-webkit-input-placeholder {
+      transform:scale(0.75);
+    }
+    .ant-input::-webkit-input-value {
+      transform:scale(0.75);
+    }
+    .app-container {
+      .header-container {
+        height: headerHight(30) !important;
+        &-title {
+          font-size: headerTitleSize(12) !important;
+          line-height: 55px !important;
+        }
+        .user-dropdown {
+            top: -28% !important;
+            transform: scale(0.8) !important;
+        }
+      }
+    }
+      .main-container {
+        height: calc(100vh - #{headerHight(30)}) !important;
+        padding: 0 12px 12px !important;  
+        .dashboard-container-header {
+            height: 55px;
+            .btn-item {
+                width: 86px;
+                height: 32px;
+                background-size: 100% 100% !important;
+            }
+        }
+        .dashboard-container-body {
+          height: calc(100% - 55px);
+          .btn {
+              height: 34px !important;
+              font-size: 12px !important;
+              padding-left: 10px !important;
+              img {
+                width: 14px;
+              }
+          }
+        }
+        .dashboard-container-header-title {
+            width: 216px;
+            .label {
+                font-size: 16px;
+                top: 54%;
+                left: 48%;
+            }
+        }
+        .dashboard-container-header-btn {
+            width: calc(100% - 216px);
+        }
+        .dashboard-container-body-panel {
+          width: panelWidth(78);
+          padding: 30px 15px 28px 18px;
+          .panel-box {
+            > img {
+              width: 100%;
+            }
+            .panel-box-item {
+              .btn {
+                  height: 34px;
+                  font-size: 13px;
+              }
+              .content {
+                .temp-btn {
+                  font-size: 12px;
+                }
+                .group-btn {
+                  font-size: 12px;
+                }
+                .temp-list {
+                  li {
+                    width: tempListWidth(31);
+                    .title {
+                      transform:scale(0.8);
+                    }
+                  }
+                }
+               
+              }
+              .group-list {
+                font-size: 12px;
+                  li {
+                    width: 130px;
+                    height: 33px;
+                    line-height: 35px;
+                    padding-left: 12px;
+                  }
+              }
+            }
+          }
+        }
+        .dashboard-container-body-content {
+            width: calc(100% - 190px);
+            padding: 0 22px 15px 0;
+            .manufacturer-grid-box {
+                width: calc(100% - 180px);
+            }
+            .property-panel {
+                width: 172px;
+                right: 20px;
+                .panel-box {
+                    width: 175px;
+                    .property-content-btn {
+                        width: 55px !important;
+                    }
+                }
+                .application-config {
+                    width: 154px !important;
+                    height: 28px;
+                    padding: 5px 5px 5px 9px !important;
+                    .radio-style {
+                        margin-right: -2px !important;
+                    }
+                    .radio-title {
+                      transform:scale(0.8);
+                    }
+                    .ant-radio-group {
+                      transform:scale(0.8);
+                    }
+                }
+                .property-container {
+                    padding: 0 6px 0 14px;
+                    .property-content {
+                        input {
+                            width: calc(100% - 55px) !important;
+                        }
+                        .select {
+                            width: calc(100% - 55px) !important;
+                        }
+                        .property-content-disable {
+                            width: calc(100% - 55px) !important;
+                        }
+                    }
+                }
+            }
+        }
+      }
+    }
+  

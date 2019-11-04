@@ -12,7 +12,7 @@ const UserDropdown = ({ user, handleLoginOut }) => {
     <div>
       <a className="header-container-system" href="#" onclick={ () => {
         history.push('/platForm/config');
-      }}><img src={require('../../assets/images/system.png')} alt="" />系统设置</a>
+      }}><img src={require('../../assets/images/system.png')} alt="" /><span className="scale">系统设置</span></a>
       <Dropdown className="user-dropdown" overlay={
         <Menu onClick={({ item, key, keyPath, domEvent }) => {
           if (key === '0') {

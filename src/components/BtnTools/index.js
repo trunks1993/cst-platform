@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Button } from 'antd';
+import { Button,Icon } from 'antd';
 
 // const BtnItem = ({ icon, fn, label }) => {
 //   return (
@@ -10,7 +10,7 @@ import { Button } from 'antd';
 export default ({ btnList }) => {
   return (<ul>
     {
-      _.map(btnList, ({ icon, fn, label, disabled }, key) => <Button className="btn-item" key={key} disabled={disabled} icon={icon} onClick={fn}>{label}</Button>)
+      _.map(btnList, ({ icon, fn, label, disabled }, key) => <Button className="btn-item" key={key} disabled={disabled} onClick={fn}><span className="scale"><Icon type={icon} /> {label}</span></Button>)
     }
   </ul>);
 };

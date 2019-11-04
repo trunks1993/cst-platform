@@ -45,7 +45,7 @@
       transform: rotate(-180deg);
     }
 
-    &:nth-child(5) {
+    &:nth-child(7) {
       position: absolute;
       top: 50%;
       left: 0;
@@ -57,48 +57,30 @@
       right: 0;
       transform: translate(0, -50%) rotate(180deg);
     }
-    .title-box {
-        height: 30px;
-        line-height: 24px;
-        width: 360px;
-        max-width: 75%;
-        background: url(../assets/images/temp/bg-title.png);
-        background-size: 100% 100%;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, 0);
-        text-align: center;
-        font-size: 12px;
-        color: #fff;
-        font-weight: bolder;
-  }
-
-  .bg-eGauge {
-    width: 100%;
-    // height: 100%;;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .title-box {
-    height: 30px;
-    width: 360px;
-    max-width: 75%;
-    background: url(../assets/images/temp/bg-title.png);
-    background-size: 100% 100%;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    text-align: center;
-    font-size: 14px;
-    color: #fff;
-  }
 }
-
+.bg-eGauge {
+  width: 100%;
+  // height: 100%;;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.title-box {
+  height: 30px;
+  width: 360px;
+  max-width: 75%;
+  background: url(../assets/images/temp/bg-title.png);
+  background-size: 100% 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+}
 .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
   background: none;
 }
@@ -324,8 +306,8 @@
 
 // 单条进度条样式
 .crime-content {
-  padding: 50px 50px;
-  height: 92%;
+  padding: 12px 50px;
+  // height: 92%;
 
   .crime-content-pro {
     display: flex;

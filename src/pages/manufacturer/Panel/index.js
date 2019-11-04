@@ -32,7 +32,7 @@ const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, visibleIds
     <div className="panel-box">
       <div className="panel-box-item" style={{ height: '35%' }}>
         <div className="btn" onClick={() => setVisible1(!visible1)}>
-          <span>工作台模板</span>
+          <span className="scale">工作台模板</span>
           <Icon style={{ marginLeft: '10px' }} type="double-left" />
         </div>
         <div
@@ -51,7 +51,7 @@ const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, visibleIds
               return (
                 <div key={id}>
                   <div className="group-btn" onClick={() => setVisibleIds(id)}>
-                    {configGroup[id].cfgName}
+                    <span className="scale">{configGroup[id].cfgName}</span>
                     <span className="group-btn-del" onClick={e => {
                       e.stopPropagation();
                       showConfirm(`是否删除分组 ${configGroup[id].cfgName}`, function() {
@@ -86,7 +86,7 @@ const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, visibleIds
                         }}
                         style={{ color: activeTagId === cId ? '#03AFFF' : null }}
                       >
-                        {configGroup[cId].cfgName}{types[configGroup[cId].cfgStatus]}
+                        <span className="scale">{configGroup[cId].cfgName}{types[configGroup[cId].cfgStatus]}</span>
                       </li>))
                     }
                   </ul>
@@ -99,7 +99,7 @@ const Panel = ({ setTempData, deleteTag, activeTagId, getConfigGroup, visibleIds
       <img style={{ margin: '10px 0', height: '10px' }} src={require('@/assets/images/l-panel.png')} alt="" />
       <div className="panel-box-item" style={{ height: 'calc(65% - 30px)' }}>
         <div className="btn" onClick={() => setVisible4(!visible4)}>
-          应用套件
+          <span className="scale">应用套件</span>
           <Icon style={{ marginLeft: '10px' }} type="double-left" />
         </div>
         <div
