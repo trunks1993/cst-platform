@@ -24,8 +24,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build:user": "dotenv -e .env.user react-app-rewired build",
-    "build:cs": "dotenv -e .env.cs react-app-rewired build",
+    "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js --ext .jsx src/",
